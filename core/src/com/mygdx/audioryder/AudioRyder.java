@@ -45,9 +45,6 @@ public class AudioRyder extends Game {
 
 	public ArrayList<Note> notes = new ArrayList<Note>();
 
-	public Texture hit;
-	public Texture miss;
-	public Music mp3biisu;
 	FileHandle biisu;
 	public String[] noteArray;
 
@@ -75,8 +72,6 @@ public class AudioRyder extends Game {
 		setScreen(loadingScreen);
 
 		//load files
-		hit = new Texture("hit.png");
-		miss = new Texture("miss.png");
 		biisu = Gdx.files.internal("erika.txt");
 		text = new BitmapFont();
 
@@ -165,8 +160,6 @@ public class AudioRyder extends Game {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		hit.dispose();
-		miss.dispose();
 //	TEEMU	mp3biisu.dispose();
 
 	}

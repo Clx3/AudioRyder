@@ -3,7 +3,9 @@ package com.mygdx.audioryder.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.objects.GroundLine;
@@ -17,6 +19,11 @@ import com.mygdx.audioryder.objects.SpaceShip;
 public class GameScreen implements Screen {
 
     AudioRyder game;
+
+    Texture hit;
+    Texture miss;
+
+    Music currentSong;
 
     public GameScreen(AudioRyder game) {
         this.game = game;
@@ -32,8 +39,11 @@ public class GameScreen implements Screen {
         tempModel = game.assets.get("Pyramid_Animated.g3db");
         game.box = (tempModel);
 
-        game.mp3biisu = game.assets.get("erika.mp3");
-        game.mp3biisu.play();
+        currentSong = game.assets.get("erika.mp3");
+        currentSong.play();
+
+        hit = new Texture("hit.png");
+        miss = new Texture("miss.png");
     }
 
     @Override
@@ -83,7 +93,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        hit.dispose();
+        miss.dispose();
+        currentSong.dispose();
     }
 
    public void addBlocks(){
@@ -171,9 +183,9 @@ public class GameScreen implements Screen {
 
         game.hitOrMissTimer += Gdx.graphics.getDeltaTime();
         if (game.hitOrMiss && game.score > 0 && game.hitOrMissTimer < 0.5f) {
-            game.batch.draw(game.hit, 1.5f, 3f, 1f, 0.5f);
+            game.batch.draw(hit, 1.5f, 3f, 1f, 0.5f);
         } else if (!(game.hitOrMiss) && game.hitOrMissTimer < 0.5f) {
-            game.batch.draw(game.miss, 1.5f, 3f, 1f, 0.5f);
+            game.batch.draw(miss, 1.5f, 3f, 1f, 0.5f);
         }
 
         game.cam.setToOrtho(false,1000f,600f);
