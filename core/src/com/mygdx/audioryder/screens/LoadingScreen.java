@@ -17,6 +17,7 @@ public class LoadingScreen implements Screen {
 
     public LoadingScreen(AudioRyder game) {
         this.game = game;
+
     }
 
     @Override
@@ -25,6 +26,8 @@ public class LoadingScreen implements Screen {
         game.assets.load("Pyramid_Animated.g3db",Model.class);
         game.assets.load("Pyramid_Animated.g3db", Model.class);
         game.assets.load("erika.mp3", Music.class);
+        game.assets.load("Track_WIP_3_Lanes.g3db",Model.class);
+
     }
 
     @Override
@@ -37,14 +40,11 @@ public class LoadingScreen implements Screen {
             }
         }
 
-        game.batch.begin();
         game.cam.setToOrtho(false,500f,300f);
         game.batch.setProjectionMatrix(game.cam.combined);
         game.cam.update();
+        game.batch.begin();
         game.text.draw(game.batch, "Loading...", 230, 170);
-        game.cam.setToOrtho(false,10f,6f);
-        game.batch.setProjectionMatrix(game.cam.combined);
-        game.cam.update();
         game.batch.end();
     }
 

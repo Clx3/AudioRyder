@@ -35,6 +35,8 @@ public class AudioRyder extends Game {
 
 	public SpaceShip spaceShip;
 
+	public Model levelModel;
+
 	public OrthographicCamera cam;
 	public PerspectiveCamera cam3d;
 
@@ -111,9 +113,6 @@ public class AudioRyder extends Game {
 		batch = new SpriteBatch();
 
 		groundLines = new ArrayList<GroundLine>();
-		for(float i = -4f; i <= 4f;i+= 2.6666f){
-			groundLines.add(new GroundLine(i, groundLine));
-		}
 
 		//settings
 		noteSpeed = 3f;

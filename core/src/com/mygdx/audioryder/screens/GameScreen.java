@@ -25,6 +25,8 @@ public class GameScreen implements Screen {
 
     Music currentSong;
 
+    float levelTimer = 0f;
+
     public GameScreen(AudioRyder game) {
         this.game = game;
     }
@@ -38,6 +40,13 @@ public class GameScreen implements Screen {
 
         tempModel = game.assets.get("Pyramid_Animated.g3db");
         game.box = (tempModel);
+
+        tempModel = game.assets.get("Track_WIP_3_Lanes.g3db",Model.class);
+        game.levelModel = (tempModel);
+
+        for(float i = -15f; i > -392f; i -= 56f){
+            game.groundLines.add(new GroundLine(i,game.levelModel,game.noteSpeed));
+        }
 
         currentSong = game.assets.get("erika.mp3");
         currentSong.play();
@@ -63,8 +72,15 @@ public class GameScreen implements Screen {
             obj.render(game.modelBatch, game.environment);
         }
         for (GroundLine obj : game.groundLines){
+            obj.move3d();
             obj.render(game.modelBatch, game.environment);
         }
+        levelTimer += Gdx.graphics.getDeltaTime();
+        if(levelTimer > 56f / (game.noteSpeed * 10f)){
+            game.groundLines.add(new GroundLine(-336f,game.levelModel,game.noteSpeed));
+            levelTimer = 0f;
+        }
+
         game.spaceShip.draw3d(game.modelBatch, game.environment);
         game.modelBatch.end();
 
@@ -103,13 +119,13 @@ public class GameScreen implements Screen {
         if (game.songPointer < game.noteArray.length - 1 && Float.parseFloat(game.noteArray[game.songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / game.noteSpeed) + game.songOffset) {
             game.direction = game.noteArray[game.songPointer].replaceAll("[0-9]", "").charAt(1);
             if (game.direction == 'U') {
-                game.notes.add(new Note(1.45f, 0, game.box, game.noteSpeed));
+                game.notes.add(new Note(0f, 0, game.box, game.noteSpeed));
             } else if (game.direction == 'D') {
-                game.notes.add(new Note(1.40f, 2, game.box ,game.noteSpeed));
+                game.notes.add(new Note(0f, 2, game.box ,game.noteSpeed));
             } else if (game.direction == 'L') {
-                game.notes.add(new Note(-0.85f, 1, game.box ,game.noteSpeed));
+                game.notes.add(new Note(-4.5f, 1, game.box ,game.noteSpeed));
             } else if (game.direction == 'R') {
-                game.notes.add(new Note(3.75f, 3, game.box, game.noteSpeed));
+                game.notes.add(new Note(4.5f, 3, game.box, game.noteSpeed));
 
             }
             game.songPointer++;

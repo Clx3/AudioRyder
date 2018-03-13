@@ -50,10 +50,41 @@ public class SpaceShip extends GameObject {
     }
 
     public void move() {
-        keyboardInput();
+        //keyboardInput();
 
-        spaceShipModel.transform.setToTranslationAndScaling(getX(),-0.5f,0f,-1f,1f,-1f);
+        float accelX;
+        if(Gdx.input.getAccelerometerY() > 5f / sensitivity){
+            accelX = 5f;
+        } else if (Gdx.input.getAccelerometerY() < -5f / sensitivity) {
+            accelX = -5f;
+        } else {
+            accelX = Gdx.input.getAccelerometerY() * sensitivity;
+        }
+
+        latestMovement[0][moveAverageIndex] = accelX;
+        latestMovement[1][moveAverageIndex] = Gdx.input.getAccelerometerZ() / 4f;
+        if(moveAverageIndex < 9) {
+            moveAverageIndex++;
+        } else {
+            moveAverageIndex = 0;
+        }
+        float totalX = 0f;
+        float totalY = 0f;
+        for(int i = 0; i < 15; i++){
+            totalX = totalX + latestMovement[0][i];
+            totalY = totalY + latestMovement[1][i];
+        }
+        totalY = totalY / 15f;
+        totalX = totalX / 15f;
+
+
+        //pallo.transform.setToTranslation(x,0f,0f);
+
+        spaceShipModel.transform.setToTranslation(getX(),-0.5f,0f);
         spaceShipModel.calculateTransforms();
+
+        setX(totalX);
+        setY(totalY);
     }
 
     private void keyboardInput() {
