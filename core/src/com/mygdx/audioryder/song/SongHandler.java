@@ -14,6 +14,7 @@ public class SongHandler {
     public static Music currentSong;
     public static FileHandle currentNoteFile;
 
+    //123test
     public static void setupSong(AudioRyder game, Song song) {
         currentSong = game.assets.get(song.getSongFileString());
         currentNoteFile = song.getNoteFile();
