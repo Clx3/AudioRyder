@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.mygdx.audioryder.AudioRyder;
 
@@ -15,6 +18,11 @@ public class LoadingScreen implements Screen {
 
     AudioRyder game;
 
+    OrthographicCamera cam;
+    SpriteBatch batch;
+
+    BitmapFont text;
+
     public LoadingScreen(AudioRyder game) {
         this.game = game;
 
@@ -22,6 +30,13 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void show() {
+        cam = new OrthographicCamera();
+        cam.setToOrtho(false,500f,300f);
+
+        batch = new SpriteBatch();
+
+        text = new BitmapFont();
+
         game.assets.load("Spaceship_Animated_WIP.g3db",Model.class);
         game.assets.load("Pyramid_Animated.g3db",Model.class);
         game.assets.load("Pyramid_Animated.g3db", Model.class);
@@ -40,12 +55,11 @@ public class LoadingScreen implements Screen {
             }
         }
 
-        game.cam.setToOrtho(false,500f,300f);
-        game.batch.setProjectionMatrix(game.cam.combined);
-        game.cam.update();
-        game.batch.begin();
-        game.text.draw(game.batch, "Loading...", 230, 170);
-        game.batch.end();
+        batch.setProjectionMatrix(cam.combined);
+        cam.update();
+        batch.begin();
+        text.draw(batch, "Loading...", 230, 170);
+        batch.end();
     }
 
     @Override
@@ -70,6 +84,6 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
     }
 }

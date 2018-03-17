@@ -5,12 +5,19 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Note;
 import com.mygdx.audioryder.objects.SpaceShip;
+import com.mygdx.audioryder.song.Song;
+import com.mygdx.audioryder.song.SongHandler;
 
 /**
  * Created by Teemu on 1.3.2018.
@@ -20,6 +27,14 @@ public class GameScreen implements Screen {
 
     AudioRyder game;
 
+    OrthographicCamera cam;
+    PerspectiveCamera cam3d;
+
+    SpriteBatch batch;
+    ModelBatch modelBatch;
+
+    BitmapFont text;
+
     Texture hit;
     Texture miss;
 
@@ -27,12 +42,31 @@ public class GameScreen implements Screen {
 
     float levelTimer = 0f;
 
+    Song erikaSong;
+
+    /* Messy lets just use this temporarily: */
+    public String[] noteArray;
+
     public GameScreen(AudioRyder game) {
         this.game = game;
     }
 
     @Override
     public void show() {
+        //set cameras, batches and environment
+        cam3d = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam3d.position.set(0f,3f,3f);
+        cam3d.lookAt(0f,1f,0f);
+        cam3d.near = 0.1f;
+        cam3d.far = 300.0f;
+        cam = new OrthographicCamera();
+        cam.setToOrtho(false, 10f,6f);
+
+        modelBatch = new ModelBatch();
+        batch = new SpriteBatch();
+
+        text = new BitmapFont();
+
         Model tempModel;
 
         tempModel = game.assets.get("Spaceship_Animated_WIP.g3db");
@@ -48,8 +82,20 @@ public class GameScreen implements Screen {
             game.groundLines.add(new GroundLine(i,game.levelModel,game.noteSpeed));
         }
 
-        currentSong = game.assets.get("erika.mp3");
-        currentSong.play();
+        /* first prototype of using the new way of handling the levels aka "songs": */
+        erikaSong = new Song("erika.mp3", "erika.txt");
+
+        //Using the songhandler now, this will become usefull when we add multiple levels and
+        //a loading screen from main menu to game.
+        Song currentSong = erikaSong;
+        SongHandler.setupSong(game, currentSong);
+
+        //create array for notes
+        String noteData = SongHandler.currentNoteFile.readString();
+        noteArray = new String[noteData.split(" ").length - 1];
+        noteArray = noteData.split(" ");
+
+        SongHandler.currentSong.play();
 
         hit = new Texture("hit.png");
         miss = new Texture("miss.png");
@@ -65,15 +111,15 @@ public class GameScreen implements Screen {
         addBlocks();
         checkNoteHit();
         game.spaceShip.move();
-        game.cam3d.update();
-        game.modelBatch.begin(game.cam3d);
+        cam3d.update();
+        modelBatch.begin(cam3d);
         for (Note obj : game.notes) {
             obj.move3d();
-            obj.render(game.modelBatch, game.environment);
+            obj.render(modelBatch, game.environment);
         }
         for (GroundLine obj : game.groundLines){
             obj.move3d();
-            obj.render(game.modelBatch, game.environment);
+            obj.render(modelBatch, game.environment);
         }
         levelTimer += Gdx.graphics.getDeltaTime();
         if(levelTimer > 56f / (game.noteSpeed * 10f)){
@@ -81,8 +127,8 @@ public class GameScreen implements Screen {
             levelTimer = 0f;
         }
 
-        game.spaceShip.draw3d(game.modelBatch, game.environment);
-        game.modelBatch.end();
+        game.spaceShip.draw3d(modelBatch, game.environment);
+        modelBatch.end();
 
         drawTextAndSprites();
     }
@@ -109,15 +155,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        batch.dispose();
+        modelBatch.dispose();
         hit.dispose();
         miss.dispose();
         currentSong.dispose();
+        text.dispose();
     }
 
    public void addBlocks(){
        game.songTimer += Gdx.graphics.getDeltaTime();
-        if (game.songPointer < game.noteArray.length - 1 && Float.parseFloat(game.noteArray[game.songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / game.noteSpeed) + game.songOffset) {
-            game.direction = game.noteArray[game.songPointer].replaceAll("[0-9]", "").charAt(1);
+        if (game.songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[game.songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / game.noteSpeed) + game.songOffset) {
+            game.direction = noteArray[game.songPointer].replaceAll("[0-9]", "").charAt(1);
             if (game.direction == 'U') {
                 game.notes.add(new Note(0f, 0, game.box, game.noteSpeed));
             } else if (game.direction == 'D') {
@@ -191,32 +240,29 @@ public class GameScreen implements Screen {
     }
 
     public void drawTextAndSprites(){
-        game.batch.begin();
-        game.batch.setProjectionMatrix(game.cam.combined);
-
-        //tähti.move();
-        //tähti.draw(batch);
+        batch.begin();
+        batch.setProjectionMatrix(cam.combined);
 
         game.hitOrMissTimer += Gdx.graphics.getDeltaTime();
         if (game.hitOrMiss && game.score > 0 && game.hitOrMissTimer < 0.5f) {
-            game.batch.draw(hit, 1.5f, 3f, 1f, 0.5f);
+            batch.draw(hit, 1.5f, 3f, 1f, 0.5f);
         } else if (!(game.hitOrMiss) && game.hitOrMissTimer < 0.5f) {
-            game.batch.draw(miss, 1.5f, 3f, 1f, 0.5f);
+            batch.draw(miss, 1.5f, 3f, 1f, 0.5f);
         }
 
-        game.cam.setToOrtho(false,1000f,600f);
-        game.batch.setProjectionMatrix(game.cam.combined);
-        game.cam.update();
-        game.text.draw(game.batch, "Score :" + game.score, 750, 170);
-        game.text.draw(game.batch, "Streak :" + game.streak, 750, 190);
-        game.text.draw(game.batch, "Multiplier " + game.multiplier + "X", 750, 210);
-        game.text.draw(game.batch, "X: " + Gdx.input.getAccelerometerX(), 750, 230);
-        game.text.draw(game.batch, "Y: " + Gdx.input.getAccelerometerY(), 750, 250);
-        game.text.draw(game.batch, "Z: " + Gdx.input.getAccelerometerZ(), 750, 270);
-        game.cam.setToOrtho(false,10f,6f);
-        game.batch.setProjectionMatrix(game.cam.combined);
-        game.cam.update();
-        game.batch.end();
+        cam.setToOrtho(false,1000f,600f);
+        batch.setProjectionMatrix(cam.combined);
+        cam.update();
+        text.draw(batch, "Score :" + game.score, 750, 170);
+        text.draw(batch, "Streak :" + game.streak, 750, 190);
+        text.draw(batch, "Multiplier " + game.multiplier + "X", 750, 210);
+        text.draw(batch, "X: " + Gdx.input.getAccelerometerX(), 750, 230);
+        text.draw(batch, "Y: " + Gdx.input.getAccelerometerY(), 750, 250);
+        text.draw(batch, "Z: " + Gdx.input.getAccelerometerZ(), 750, 270);
+        cam.setToOrtho(false,10f,6f);
+        batch.setProjectionMatrix(cam.combined);
+        cam.update();
+        batch.end();
     }
 
     public void doneLoading(){

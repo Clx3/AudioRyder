@@ -50,7 +50,7 @@ public class SpaceShip extends GameObject {
     }
 
     public void move() {
-        //keyboardInput();
+        keyboardInput();
 
         float accelX;
         if(Gdx.input.getAccelerometerY() > 5f / sensitivity){
