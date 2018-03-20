@@ -33,6 +33,7 @@ public class Note extends GameObject {
         this.speed = speed;
         controller = new AnimationController(this.model);
         controller.setAnimation("Bend", -1);
+
     }
 
     public void render(ModelBatch modelBatch, Environment environment){

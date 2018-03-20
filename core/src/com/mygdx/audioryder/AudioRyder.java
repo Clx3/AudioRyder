@@ -29,6 +29,8 @@ import java.util.ArrayList;
 public class AudioRyder extends Game {
 
 	public AssetManager assets = new AssetManager();
+	public static final String MODELS_PATH = "models/";
+	public static final String SONGS_PATH = "songs/";
 
 	LoadingScreen loadingScreen;
 	public GameScreen gameScreen;
@@ -43,14 +45,12 @@ public class AudioRyder extends Game {
 
 	FileHandle biisu;
 
-	public int songPointer = 0;
 	public int score;
 	public int streak;
 	public int multiplier;
 	public float hitOrMissTimer;
 	public boolean hitOrMiss = true;
 
-	public char direction;
 	public Model box;
 	public Float songTimer = 0f;
 	public float songOffset;

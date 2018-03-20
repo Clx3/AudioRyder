@@ -44,9 +44,6 @@ public class GameScreen implements Screen {
 
     Song erikaSong;
 
-    /* Messy lets just use this temporarily: */
-    public String[] noteArray;
-
     public GameScreen(AudioRyder game) {
         this.game = game;
     }
@@ -69,13 +66,13 @@ public class GameScreen implements Screen {
 
         Model tempModel;
 
-        tempModel = game.assets.get("Spaceship_Animated_WIP.g3db");
+        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
         game.spaceShip = new SpaceShip(tempModel, 1f);
 
-        tempModel = game.assets.get("Pyramid_Animated.g3db");
+        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
         game.box = (tempModel);
 
-        tempModel = game.assets.get("Track_WIP_3_Lanes.g3db",Model.class);
+        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Track3Lanes.g3db",Model.class);
         game.levelModel = (tempModel);
 
         for(float i = -15f; i > -392f; i -= 56f){
@@ -89,12 +86,6 @@ public class GameScreen implements Screen {
         //a loading screen from main menu to game.
         Song currentSong = erikaSong;
         SongHandler.setupSong(game, currentSong);
-
-        //create array for notes
-        String noteData = SongHandler.currentNoteFile.readString();
-        noteArray = new String[noteData.split(" ").length - 1];
-        noteArray = noteData.split(" ");
-
         SongHandler.currentSong.play();
 
         hit = new Texture("hit.png");
@@ -108,7 +99,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        addBlocks();
+        SongHandler.addNotesToGame(game);
         checkNoteHit();
         game.spaceShip.move();
         cam3d.update();
@@ -163,22 +154,8 @@ public class GameScreen implements Screen {
         text.dispose();
     }
 
-   public void addBlocks(){
-       game.songTimer += Gdx.graphics.getDeltaTime();
-        if (game.songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[game.songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / game.noteSpeed) + game.songOffset) {
-            game.direction = noteArray[game.songPointer].replaceAll("[0-9]", "").charAt(1);
-            if (game.direction == 'U') {
-                game.notes.add(new Note(0f, 0, game.box, game.noteSpeed));
-            } else if (game.direction == 'D') {
-                game.notes.add(new Note(0f, 2, game.box ,game.noteSpeed));
-            } else if (game.direction == 'L') {
-                game.notes.add(new Note(-4.5f, 1, game.box ,game.noteSpeed));
-            } else if (game.direction == 'R') {
-                game.notes.add(new Note(4.5f, 3, game.box, game.noteSpeed));
+    private void addNotes() {
 
-            }
-            game.songPointer++;
-        }
     }
 
     public void checkNoteHit(){
@@ -263,15 +240,5 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(cam.combined);
         cam.update();
         batch.end();
-    }
-
-    public void doneLoading(){
-      /*  submarine = assets.get("Spaceship_Animated_WIP.g3db",Model.class);
-        mp3biisu = assets.get("erika.mp3",Music.class);
-        spaceShip = new SpaceShip(submarine, sensitivity);
-        loading = false;
-        mp3biisu.play();
-        songTimer = 0f;
-        //tähti = new Star(hit);*/
     }
 }

@@ -41,7 +41,7 @@ public class SpaceShip extends GameObject {
         spaceShipModel = new ModelInstance(model, 0f,0f,0f);
         this.sensitivity = sensitivity;
         controller = new AnimationController(spaceShipModel);
-        controller.setAnimation("Bend", -1);
+        controller.setAnimation("Float", -1);
     }
 
     public void draw3d(ModelBatch modelBatch, Environment environment){
@@ -77,8 +77,6 @@ public class SpaceShip extends GameObject {
         totalY = totalY / 15f;
         totalX = totalX / 15f;
 
-
-        //pallo.transform.setToTranslation(x,0f,0f);
 
         spaceShipModel.transform.setToTranslation(getX(),-0.5f,0f);
         spaceShipModel.calculateTransforms();

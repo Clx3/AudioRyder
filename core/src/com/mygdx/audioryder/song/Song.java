@@ -20,7 +20,7 @@ public class Song {
 
     public Song(String songFile, String noteFile) {
         this.songFileString = songFile;
-        this.noteFile = Gdx.files.internal(noteFile);
+        this.noteFile = Gdx.files.internal(AudioRyder.SONGS_PATH + noteFile);
     }
 
     //Temp thing (MAYBE) not sure if this is goiug to be needed:

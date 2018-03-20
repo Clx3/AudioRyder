@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.mygdx.audioryder.AudioRyder;
+import com.mygdx.audioryder.song.SongHandler;
 
 /**
  * Created by Teemu on 1.3.2018.
@@ -37,11 +38,10 @@ public class LoadingScreen implements Screen {
 
         text = new BitmapFont();
 
-        game.assets.load("Spaceship_Animated_WIP.g3db",Model.class);
-        game.assets.load("Pyramid_Animated.g3db",Model.class);
-        game.assets.load("Pyramid_Animated.g3db", Model.class);
-        game.assets.load("erika.mp3", Music.class);
-        game.assets.load("Track_WIP_3_Lanes.g3db",Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Spaceship.g3db",Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid.g3db",Model.class);
+        game.assets.load(AudioRyder.SONGS_PATH + "erika.mp3", Music.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Track3Lanes.g3db",Model.class);
 
     }
 
