@@ -39,9 +39,8 @@ public class AudioRyder extends Game {
 
 	public Model levelModel;
 
-	public Environment environment;
 
-	public ArrayList<Note> notes = new ArrayList<Note>();
+	public Environment environment;
 
 	FileHandle biisu;
 
@@ -87,7 +86,7 @@ public class AudioRyder extends Game {
 
 	@Override
 	public void dispose () {
-
+		spaceShip.dispose();
 	}
 
 }

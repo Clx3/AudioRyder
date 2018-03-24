@@ -29,19 +29,31 @@ public class SongHandler {
         noteArray = noteData.split(" ");
     }
 
+    static boolean noteAdded = false;
     public static void addNotesToGame(AudioRyder game) {
         char direction;
         game.songTimer += Gdx.graphics.getDeltaTime();
-        if (songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / game.noteSpeed) + game.songOffset) {
-            direction = noteArray[songPointer].replaceAll("[0-9]", "").charAt(1);
-            switch(direction) {
-                case 'U': game.notes.add(new Note(0f, 0, game.box, game.noteSpeed)); break;
-                case 'D': game.notes.add(new Note(0f, 2, game.box ,game.noteSpeed)); break;
-                case 'L': game.notes.add(new Note(-4.5f, 1, game.box ,game.noteSpeed)); break;
-                case 'R': game.notes.add(new Note(4.5f, 3, game.box, game.noteSpeed)); break;
+        //if(!noteAdded) {
+            if (songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / game.noteSpeed) + game.songOffset) {
+                direction = noteArray[songPointer].replaceAll("[0-9]", "").charAt(1);
+                switch (direction) {
+                    case 'U':
+                        game.gameScreen.notes.add(new Note(0f, 0, game.box, game.noteSpeed));
+                        break;
+                    case 'D':
+                        game.gameScreen.notes.add(new Note(0f, 2, game.box, game.noteSpeed));
+                        break;
+                    case 'L':
+                        game.gameScreen.notes.add(new Note(-4.5f, 1, game.box, game.noteSpeed));
+                        break;
+                    case 'R':
+                        game.gameScreen.notes.add(new Note(4.5f, 3, game.box, game.noteSpeed));
+                        break;
+                }
+                noteAdded = true;
+                songPointer++;
             }
-            songPointer++;
-        }
+        //}
     }
 
 }

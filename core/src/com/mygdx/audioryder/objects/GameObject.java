@@ -9,8 +9,9 @@ import com.badlogic.gdx.graphics.g3d.Model;
 
 public class GameObject {
 
-    private float x, y;
+    public boolean isActive;
 
+    private float x, y, z;
 
     public float getX() {
         return x;
@@ -26,5 +27,13 @@ public class GameObject {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
     }
 }

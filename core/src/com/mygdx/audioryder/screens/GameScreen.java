@@ -1,9 +1,9 @@
 package com.mygdx.audioryder.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -12,12 +12,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.bullet.Bullet;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Note;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.song.Song;
 import com.mygdx.audioryder.song.SongHandler;
+
+import java.util.ArrayList;
 
 /**
  * Created by Teemu on 1.3.2018.
@@ -27,8 +32,11 @@ public class GameScreen implements Screen {
 
     AudioRyder game;
 
+    public ArrayList<Note> notes = new ArrayList<Note>();
+    public ArrayList<Note> notesToRemove = new ArrayList<Note>();
+
     OrthographicCamera cam;
-    PerspectiveCamera cam3d;
+    PerspectiveCamera cam3D;
 
     SpriteBatch batch;
     ModelBatch modelBatch;
@@ -44,18 +52,22 @@ public class GameScreen implements Screen {
 
     Song erikaSong;
 
+    ShapeRenderer shapeRenderer;
+
     public GameScreen(AudioRyder game) {
         this.game = game;
     }
 
     @Override
     public void show() {
+        Bullet.init();
+
         //set cameras, batches and environment
-        cam3d = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam3d.position.set(0f,3f,3f);
-        cam3d.lookAt(0f,1f,0f);
-        cam3d.near = 0.1f;
-        cam3d.far = 300.0f;
+        cam3D = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam3D.position.set(0f,3f,3f);
+        cam3D.lookAt(0f,1f,0f);
+        cam3D.near = 0.1f;
+        cam3D.far = 300.0f;
         cam = new OrthographicCamera();
         cam.setToOrtho(false, 10f,6f);
 
@@ -67,7 +79,7 @@ public class GameScreen implements Screen {
         Model tempModel;
 
         tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
-        game.spaceShip = new SpaceShip(tempModel, 1f);
+        game.spaceShip = new SpaceShip(game, tempModel, 1f);
 
         tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
         game.box = (tempModel);
@@ -94,18 +106,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        System.out.println("GameSCreen");
+        //System.out.println("GameSCreen");
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         SongHandler.addNotesToGame(game);
-        checkNoteHit();
         game.spaceShip.move();
-        cam3d.update();
-        modelBatch.begin(cam3d);
-        for (Note obj : game.notes) {
-            obj.move3d();
+        cam3D.update();
+        modelBatch.begin(cam3D);
+        for (Note obj : notes) {
+            obj.move3d(game);
             obj.render(modelBatch, game.environment);
         }
         for (GroundLine obj : game.groundLines){
@@ -117,11 +128,16 @@ public class GameScreen implements Screen {
             game.groundLines.add(new GroundLine(-336f,game.levelModel,game.noteSpeed));
             levelTimer = 0f;
         }
-
         game.spaceShip.draw3d(modelBatch, game.environment);
         modelBatch.end();
-
+        drawBoundingBox(game.spaceShip.minPointBox, game.spaceShip.maxPointBox);
+        for (Note obj : notes) {
+            drawBoundingBox(obj.minPoint, obj.maxPoint);
+        }
         drawTextAndSprites();
+
+        notes.removeAll(notesToRemove);
+        notesToRemove.clear();
     }
 
     @Override
@@ -144,6 +160,26 @@ public class GameScreen implements Screen {
 
     }
 
+    public void drawBoundingBox(Vector3 vectorMin, Vector3 vectorMax) {
+
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(cam3D.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.BLACK);
+
+        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMin.z, vectorMax.x, vectorMin.y, vectorMin.z);
+        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMin.z, vectorMin.x, vectorMin.y, vectorMax.z);
+        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMax.z, vectorMax.x, vectorMin.y, vectorMax.z);
+        shapeRenderer.line(vectorMax.x, vectorMin.y, vectorMin.z, vectorMax.x, vectorMin.y, vectorMax.z);
+
+        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMin.z, vectorMax.x, vectorMax.y, vectorMin.z);
+        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMin.z, vectorMin.x, vectorMax.y, vectorMax.z);
+        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMax.z, vectorMax.x, vectorMax.y, vectorMax.z);
+        shapeRenderer.line(vectorMax.x, vectorMax.y, vectorMin.z, vectorMax.x, vectorMax.y, vectorMax.z);
+
+        shapeRenderer.end();
+    }
+
     @Override
     public void dispose() {
         batch.dispose();
@@ -152,68 +188,7 @@ public class GameScreen implements Screen {
         miss.dispose();
         currentSong.dispose();
         text.dispose();
-    }
-
-    private void addNotes() {
-
-    }
-
-    public void checkNoteHit(){
-        for(int i = game.notes.size() - 1; i >= 0; i--){
-            if(game.notes.get(i).getY() > -4f) {
-                if (game.notes.get(i).getY() > -2.8f) {
-                    game.notes.remove(i);
-                    game.streak = 0;
-                    game.hitOrMiss = false;
-                    game.hitOrMissTimer = 0;
-                    continue;
-                }
-
-                if (game.notes.get(i).getDirection() == 0 && (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_UP) ||
-                        (game.spaceShip.getX() < 1f && game.spaceShip.getX() > -1f))) {
-                    game.score = game.score + game.multiplier;
-                    game.streak++;
-                    game.notes.remove(i);
-                    game.hitOrMiss = true;
-                    game.hitOrMissTimer = 0;
-                    continue;
-                } else if (game.notes.get(i).getDirection() == 2 && (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_DOWN) ||
-                        (game.spaceShip.getX() > -1f && game.spaceShip.getX() < 1f))) {
-                    game.score = game.score + game.multiplier;
-                    game.streak++;
-                    game.notes.remove(i);
-                    game.hitOrMiss = true;
-                    game.hitOrMissTimer = 0;
-                    continue;
-                } else if (game.notes.get(i).getDirection() == 1 && (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_LEFT) ||
-                        game.spaceShip.getX() < -1.5f)) {
-                    game.score = game.score + game.multiplier;
-                    game.streak++;
-                    game.notes.remove(i);
-                    game.hitOrMiss = true;
-                    game.hitOrMissTimer = 0;
-                    continue;
-                } else if (game.notes.get(i).getDirection() == 3 && (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_RIGHT) ||
-                        game.spaceShip.getX() > 1.5f)) {
-                    game.score = game.score + game.multiplier;
-                    game.streak++;
-                    game.notes.remove(i);
-                    game.hitOrMiss = true;
-                    game.hitOrMissTimer = 0;
-                }
-            }
-
-            if (game.streak >= 30){
-                game.multiplier = 8;
-            } else if (game.streak >= 20){
-                game.multiplier = 4;
-            } else if(game.streak >= 10){
-                game.multiplier = 2;
-            } else if (game.streak < 10){
-                game.multiplier = 1;
-            }
-        }
-
+        shapeRenderer.dispose();
     }
 
     public void drawTextAndSprites(){
