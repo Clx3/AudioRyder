@@ -27,6 +27,7 @@ public class SongHandler {
         String noteData = currentNoteFile.readString();
         noteArray = new String[noteData.split(" ").length - 1];
         noteArray = noteData.split(" ");
+
     }
 
     static boolean noteAdded = false;

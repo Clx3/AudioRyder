@@ -1,9 +1,11 @@
 package com.mygdx.audioryder.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -31,10 +33,13 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(new InputAdapter());
+
         cam = new OrthographicCamera();
         cam.setToOrtho(false,500f,300f);
 
         batch = new SpriteBatch();
+        batch.setProjectionMatrix(cam.combined);
 
         text = new BitmapFont();
 
@@ -47,6 +52,9 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
         if(game.assets.update()) {
             System.out.println("LOL");
             if(Gdx.input.isTouched()) {
@@ -54,8 +62,6 @@ public class LoadingScreen implements Screen {
                 game.setScreen(game.gameScreen);
             }
         }
-
-        batch.setProjectionMatrix(cam.combined);
         cam.update();
         batch.begin();
         text.draw(batch, "Loading...", 230, 170);

@@ -8,8 +8,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "AudioRyder";
-		config.width = 1024;
-		config.height = 600;
+		config.width = AudioRyder.WINDOW_WIDTH;
+		config.height = AudioRyder.WINDOW_HEIGHT;
 		new LwjglApplication(new AudioRyder(), config);
 	}
 }

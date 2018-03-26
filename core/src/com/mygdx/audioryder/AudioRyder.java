@@ -1,39 +1,37 @@
 package com.mygdx.audioryder;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.mygdx.audioryder.objects.GroundLine;
-import com.mygdx.audioryder.objects.Note;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.screens.GameScreen;
 import com.mygdx.audioryder.screens.LoadingScreen;
+import com.mygdx.audioryder.screens.MainMenuScreen;
 
 import java.util.ArrayList;
 
 public class AudioRyder extends Game {
 
 	public AssetManager assets = new AssetManager();
+
 	public static final String MODELS_PATH = "models/";
 	public static final String SONGS_PATH = "songs/";
+	public static final String SPRITES_PATH = "sprites/";
 
-	LoadingScreen loadingScreen;
+	public static final int WINDOW_WIDTH = 1024;
+	public static final int WINDOW_HEIGHT = 600;
+
+	public OrthographicCamera orthoCamera;
+	public static final float ORTHOCAM_VIEWPORT_WIDTH = WINDOW_WIDTH;
+	public static final float ORTHOCAM_VIEWPORT_HEIGHT = WINDOW_HEIGHT;
+
+	public LoadingScreen loadingScreen;
 	public GameScreen gameScreen;
+	public MainMenuScreen mainMenuScreen;
 
 	public SpaceShip spaceShip;
 
@@ -41,8 +39,6 @@ public class AudioRyder extends Game {
 
 
 	public Environment environment;
-
-	FileHandle biisu;
 
 	public int score;
 	public int streak;
@@ -59,24 +55,27 @@ public class AudioRyder extends Game {
 
 	@Override
 	public void create () {
-		loadingScreen = new LoadingScreen(this);
-		setScreen(loadingScreen);
+        orthoCamera = new OrthographicCamera();
+        orthoCamera.setToOrtho(false, ORTHOCAM_VIEWPORT_WIDTH, ORTHOCAM_VIEWPORT_HEIGHT);
 
-		//set variables
-		score = 0;
-		multiplier = 1;
-		streak = 0;
-		hitOrMissTimer = 0f;
+        //set variables
+        score = 0;
+        multiplier = 1;
+        streak = 0;
+        hitOrMissTimer = 0f;
 
-		environment = new Environment();
-		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 2.0f));
+        environment = new Environment();
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 2.0f));
 
-		groundLines = new ArrayList<GroundLine>();
+        groundLines = new ArrayList<GroundLine>();
 
-		//settings
-		noteSpeed = 3f;
-		sensitivity = 1f;
-		songOffset = -0.1f;
+        //settings
+        noteSpeed = 3f;
+        sensitivity = 1f;
+        songOffset = -0.1f;
+
+		mainMenuScreen = new MainMenuScreen(this);
+		setScreen(mainMenuScreen);
 	}
 
 	@Override

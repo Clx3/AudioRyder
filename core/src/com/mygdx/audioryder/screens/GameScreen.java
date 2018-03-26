@@ -1,6 +1,7 @@
 package com.mygdx.audioryder.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -60,7 +61,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        Bullet.init();
+        Gdx.input.setInputProcessor(new InputAdapter());
 
         //set cameras, batches and environment
         cam3D = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
