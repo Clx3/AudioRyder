@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.screens.GameScreen;
@@ -28,6 +29,7 @@ public class AudioRyder extends Game {
 	public OrthographicCamera orthoCamera;
 	public static final float ORTHOCAM_VIEWPORT_WIDTH = WINDOW_WIDTH;
 	public static final float ORTHOCAM_VIEWPORT_HEIGHT = WINDOW_HEIGHT;
+	public Viewport viewport;
 
 	public LoadingScreen loadingScreen;
 	public GameScreen gameScreen;

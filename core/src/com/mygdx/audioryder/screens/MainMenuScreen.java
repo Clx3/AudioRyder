@@ -14,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
 
 /**
@@ -41,6 +44,8 @@ public class MainMenuScreen implements Screen {
     MenuButton exitButton;
     MenuButton returnButton;
 
+    private Viewport viewport;
+
     public MainMenuScreen(AudioRyder game) {
         this.game = game;
     }
@@ -67,6 +72,9 @@ public class MainMenuScreen implements Screen {
         testSkin = new Skin(Gdx.files.internal("skins/plain-james-ui.json"));
         testAtlas = new TextureAtlas("skins/plain-james-ui.atlas");
 
+        //testSkin = new Skin(Gdx.files.internal("skins/PlayButton.json"));
+        //testAtlas = new TextureAtlas("skins/PlayButton.atlas");
+
         Texture backgroundTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "menubackground.jpg"));
         TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
         background = new Image(backgroundRegion);
@@ -77,9 +85,14 @@ public class MainMenuScreen implements Screen {
         audioRyderText.setSize(750f, 200f);
         audioRyderText.setPosition(game.WINDOW_WIDTH / 2 - audioRyderText.getWidth() / 2, game.WINDOW_HEIGHT - audioRyderText.getHeight());
 
+        viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.orthoCamera);
+        viewport.apply();
+        batch.setProjectionMatrix(game.orthoCamera.combined);
+
         setupBackgroundStage();
         setupMainStage();
         setupSettingsStage();
+
         setCurrentStage(mainStage);
 
     }
@@ -90,7 +103,7 @@ public class MainMenuScreen implements Screen {
      * MainMenuScreen.
      */
     private void setupBackgroundStage() {
-        backgroundStage = new Stage();
+        backgroundStage = new Stage(viewport, batch);
 
         backgroundStage.addActor(background);
         backgroundStage.addActor(audioRyderText);
@@ -102,7 +115,7 @@ public class MainMenuScreen implements Screen {
      * only for readability purposes.
      */
     private void setupMainStage() {
-        mainStage = new Stage();
+        mainStage = new Stage(viewport, batch);
 
         Table mainMenuTable = new Table();
         mainMenuTable.setFillParent(true);
@@ -148,7 +161,7 @@ public class MainMenuScreen implements Screen {
      * only for readability purposes.
      */
     private void setupSettingsStage() {
-        settingsStage = new Stage();
+        settingsStage = new Stage(viewport, batch);
 
         /* Adding buttons: */
         returnButton = new MenuButton("Return", testSkin);
