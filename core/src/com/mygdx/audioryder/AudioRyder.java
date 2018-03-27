@@ -70,8 +70,8 @@ public class AudioRyder extends Game {
         groundLines = new ArrayList<GroundLine>();
 
         //settings
-        noteSpeed = 3f;
-        sensitivity = 1f;
+        noteSpeed = 1.5f;
+        sensitivity = 3f;
         songOffset = -0.1f;
 
 		mainMenuScreen = new MainMenuScreen(this);
