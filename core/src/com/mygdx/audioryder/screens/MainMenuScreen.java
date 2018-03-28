@@ -123,9 +123,9 @@ public class MainMenuScreen implements Screen {
         audioRyderText.setSize(750f, 200f);
         audioRyderText.setPosition(game.WINDOW_WIDTH / 2 - audioRyderText.getWidth() / 2, game.WINDOW_HEIGHT - audioRyderText.getHeight());
 
-        viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.orthoCamera);
+        viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
         viewport.apply();
-        batch.setProjectionMatrix(game.orthoCamera.combined);
+        batch.setProjectionMatrix(game.cam2D.combined);
 
         setupBackgroundStage();
         setupMainStage();

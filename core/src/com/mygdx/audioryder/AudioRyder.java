@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.objects.GroundLine;
+import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.screens.GameScreen;
 import com.mygdx.audioryder.screens.LevelLoadingScreen;
@@ -46,6 +47,10 @@ public class AudioRyder extends Game {
 	public SpaceShip spaceShip;
 
 	public Model levelModel;
+
+	public Model skyModel;
+
+	public Skydome skydome;
 
 
 	public Environment environment;

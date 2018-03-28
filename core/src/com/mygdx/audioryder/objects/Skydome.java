@@ -7,26 +7,28 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 /**
- * Created by Joonas on 25.2.2018.
+ * Created by Joonas on 28.3.2018.
  */
 
-public class GroundLine {
+public class Skydome{
+
     ModelInstance model;
-    public float y;
-    public float x;
+    float y;
+    float x;
     float speed;
-    public GroundLine(float i, Model model, float speed) {
-        this.model = new ModelInstance(model,i,-2f,-25f);
-        x = 0;
-        y = i;
-        this.speed = speed;
+    public Skydome(Model model) {
+        this.model = new ModelInstance(model,0f,0f,0f);
+        this.model.transform.setToTranslationAndScaling(0f,0f,0f,0.9f,0.9f,0.9f);
+        this.model.transform.rotate(1f,-1f,0f,-50f);
+        this.model.calculateTransforms();
     }
+
     public void render(ModelBatch modelBatch, Environment environment){
+        model.transform.rotate(1f,-1f,0f,0.7f * Gdx.graphics.getDeltaTime());
+        model.calculateTransforms();
         modelBatch.render(model,environment);
     }
     public void move3d() {
-        y += Gdx.graphics.getDeltaTime() * 10f * speed;
-        model.transform.setToTranslationAndScaling(x,-2f,y,1.6f,1f,1f);
         model.calculateTransforms();
 
     }

@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.bullet.Bullet;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Note;
+import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.song.Song;
 import com.mygdx.audioryder.song.SongHandler;
@@ -66,7 +67,7 @@ public class GameScreen implements Screen {
         cam3D.position.set(0f,3f,3f);
         cam3D.lookAt(0f,1f,0f);
         cam3D.near = 0.1f;
-        cam3D.far = 300.0f;
+        cam3D.far = 1000.0f;
         cam = new OrthographicCamera();
         cam.setToOrtho(false, 10f,6f);
 
@@ -83,11 +84,15 @@ public class GameScreen implements Screen {
         tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
         game.box = (tempModel);
 
-        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Track3Lanes.g3db",Model.class);
+        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Track.g3db",Model.class);
         game.levelModel = (tempModel);
 
-        for(float i = -15f; i > -392f; i -= 56f){
-            game.groundLines.add(new GroundLine(i,game.levelModel,game.noteSpeed));
+        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db",Model.class);
+        game.skyModel = (tempModel);
+        game.skydome = new Skydome(game.skyModel);
+
+        for(float i = -15f; i > -392f; i -= 17.9f){
+            game.groundLines.add(new GroundLine(i,game.levelModel,game.noteSpeed * 2.5f));
         }
 
         //Using the songhandler now, this will become usefull when we add multiple levels and
@@ -119,11 +124,12 @@ public class GameScreen implements Screen {
             obj.render(modelBatch, game.environment);
         }
         levelTimer += Gdx.graphics.getDeltaTime();
-        if(levelTimer > 56f / (game.noteSpeed * 10f)){
-            game.groundLines.add(new GroundLine(-336f,game.levelModel,game.noteSpeed));
-            levelTimer = 0f;
+        if(game.groundLines.get(0).y > 24f){
+            game.groundLines.add(new GroundLine((game.groundLines.get(game.groundLines.size() - 1).y) - 17.9f,game.levelModel,game.noteSpeed * 2.5f));
+            game.groundLines.remove(0);
         }
         game.spaceShip.draw3d(modelBatch, game.environment);
+        game.skydome.render(modelBatch, game.environment);
         modelBatch.end();
 
         /*drawBoundingBox(game.spaceShip.minPointBox, game.spaceShip.maxPointBox);
