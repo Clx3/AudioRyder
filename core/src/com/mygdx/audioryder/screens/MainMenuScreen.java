@@ -9,12 +9,17 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.audioryder.AudioRyder;
+import com.mygdx.audioryder.song.Song;
 
 /**
  * Created by Teemu on 17.3.2018.
@@ -24,9 +29,11 @@ public class MainMenuScreen implements Screen {
 
     AudioRyder game;
 
-    private Stage backgroundStage;
     private Stage currentStage;
+
+    private Stage backgroundStage;
     private Stage mainStage;
+    private Stage selectSongStage;
     private Stage settingsStage;
 
     SpriteBatch batch;
@@ -59,10 +66,41 @@ public class MainMenuScreen implements Screen {
 
     }
 
+    private static Song selectedSong;
+
+    class SongButton extends TextButton {
+
+        private Song song;
+
+        public SongButton(Song song, Skin skin) {
+            super(song.getName(), skin);
+            setSong(song);
+            setWidth(200f);
+            setHeight(70f);
+
+            addListener(new ClickListener() {
+               @Override
+                public void clicked(InputEvent event, float x, float y) {
+                   setChecked(true);
+                   game.currentSong = getSong();
+                   System.out.println(game.currentSong.getName());
+                }
+            });
+        }
+
+        public Song getSong() {
+            return song;
+        }
+
+        public void setSong(Song song) {
+            this.song = song;
+        }
+    }
+
     @Override
     public void show() {
         batch = new SpriteBatch();
-        batch.setProjectionMatrix(game.orthoCamera.combined);
+        batch.setProjectionMatrix(game.cam2D.combined);
 
         testSkin = new Skin(Gdx.files.internal("skins/plain-james-ui.json"));
         testAtlas = new TextureAtlas("skins/plain-james-ui.atlas");
@@ -79,6 +117,7 @@ public class MainMenuScreen implements Screen {
 
         setupBackgroundStage();
         setupMainStage();
+        setupSelectSongStage();
         setupSettingsStage();
         setCurrentStage(mainStage);
 
@@ -116,8 +155,9 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.loadingScreen = new LoadingScreen(game);
-                game.setScreen(game.loadingScreen);
+                //game.loadingScreen = new LoadingScreen(game);
+                //game.setScreen(game.loadingScreen);
+                setCurrentStage(selectSongStage);
             }
         });
         settingsButton.addListener(new ClickListener() {
@@ -140,6 +180,59 @@ public class MainMenuScreen implements Screen {
         mainMenuTable.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).pad(15f);;
 
         mainStage.addActor(mainMenuTable);
+    }
+
+    /**
+     * This method basically setups the backgroundStage
+     * which is used to draw the background of the
+     * MainMenuScreen.
+     */
+    private void setupSelectSongStage() {
+        selectSongStage = new Stage();
+
+        TextButton returnButton = new TextButton("Return", testSkin);
+        TextButton playButtonn = new TextButton("Play", testSkin);
+        HorizontalGroup playAndReturn = new HorizontalGroup();
+        playAndReturn.space(50f);
+        playAndReturn.addActor(returnButton);
+        playAndReturn.addActor(playButtonn);
+
+        SongButton song1 = new SongButton(game.erikaSong, testSkin);
+        SongButton song2 = new SongButton(game.nopeeHatane, testSkin);
+
+        ButtonGroup songButtonGroup = new ButtonGroup();
+        songButtonGroup.setUncheckLast(true);
+        songButtonGroup.setMaxCheckCount(1);
+        songButtonGroup.add(song1);
+        songButtonGroup.add(song2);
+
+        VerticalGroup songs = new VerticalGroup();
+        songs.addActor(song1);
+        songs.addActor(song2);
+
+        ScrollPane songsPane = new ScrollPane(songs, testSkin);
+        songsPane.setSize(200f, 100f);
+
+        float tableWidth = 400;
+        float tableHeight = 300;
+        Table songTable = new Table();
+        songTable.setSize(tableWidth, tableHeight);
+        songTable.debug();
+        songTable.setPosition(game.WINDOW_WIDTH / 2 - tableWidth / 2, game.WINDOW_HEIGHT / 2 - tableHeight / 2);
+        songTable.add(songsPane).row();
+        songTable.add(playAndReturn);
+
+        selectSongStage.addActor(songTable);
+
+        /* Adding listeners for return and play: */
+        playButtonn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.levelLoadingScreen = new LevelLoadingScreen(game, game.currentSong);
+                game.setScreen(game.levelLoadingScreen);
+            }
+        });
+
     }
 
     /**

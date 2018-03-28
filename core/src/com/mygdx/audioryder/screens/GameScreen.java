@@ -51,8 +51,6 @@ public class GameScreen implements Screen {
 
     float levelTimer = 0f;
 
-    Song erikaSong;
-
     ShapeRenderer shapeRenderer;
 
     public GameScreen(AudioRyder game) {
@@ -92,13 +90,9 @@ public class GameScreen implements Screen {
             game.groundLines.add(new GroundLine(i,game.levelModel,game.noteSpeed));
         }
 
-        /* first prototype of using the new way of handling the levels aka "songs": */
-        erikaSong = new Song("erika.mp3", "erika.txt");
-
         //Using the songhandler now, this will become usefull when we add multiple levels and
         //a loading screen from main menu to game.
-        Song currentSong = erikaSong;
-        SongHandler.setupSong(game, currentSong);
+        SongHandler.setupSong(game, game.currentSong);
         SongHandler.currentSong.play();
 
         hit = new Texture("hit.png");

@@ -3,7 +3,6 @@ package com.mygdx.audioryder.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,42 +10,29 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.mygdx.audioryder.AudioRyder;
-import com.mygdx.audioryder.song.SongHandler;
+import com.mygdx.audioryder.song.Song;
 
 /**
- * Created by Teemu on 1.3.2018.
+ * Created by Teemu on 28.3.2018.
  */
 
-public class LoadingScreen implements Screen {
+public class LevelLoadingScreen implements Screen {
 
     AudioRyder game;
+    Song songToBeLoaded;
 
-    OrthographicCamera cam;
-    SpriteBatch batch;
-
-    BitmapFont text;
-
-    public LoadingScreen(AudioRyder game) {
+    public LevelLoadingScreen(AudioRyder game, Song songToBeLoaded) {
         this.game = game;
-
+        this.songToBeLoaded = songToBeLoaded;
     }
-
     @Override
     public void show() {
         Gdx.input.setInputProcessor(new InputAdapter());
 
-        cam = new OrthographicCamera();
-        cam.setToOrtho(false,500f,300f);
+        game.cam2D.setToOrtho(false,500f,300f);
+        game.batch.setProjectionMatrix(game.cam2D.combined);
 
-        batch = new SpriteBatch();
-        batch.setProjectionMatrix(cam.combined);
-
-        text = new BitmapFont();
-
-        game.assets.load(AudioRyder.MODELS_PATH + "Spaceship.g3db",Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid.g3db",Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Track3Lanes.g3db",Model.class);
-
+        game.assets.load(AudioRyder.SONGS_PATH + songToBeLoaded.getSongFileString(), Music.class);
     }
 
     @Override
@@ -57,14 +43,14 @@ public class LoadingScreen implements Screen {
         if(game.assets.update()) {
             System.out.println("LOL");
             if(Gdx.input.isTouched()) {
-                game.mainMenuScreen = new MainMenuScreen(game);
-                game.setScreen(game.mainMenuScreen);
+                game.gameScreen = new GameScreen(game);
+                game.setScreen(game.gameScreen);
             }
         }
-        cam.update();
-        batch.begin();
-        text.draw(batch, "Loading...", 230, 170);
-        batch.end();
+        game.cam2D.update();
+        game.batch.begin();
+        game.font.draw(game.batch, "Loading...", 230, 170);
+        game.batch.end();
     }
 
     @Override
@@ -89,6 +75,6 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
+
     }
 }

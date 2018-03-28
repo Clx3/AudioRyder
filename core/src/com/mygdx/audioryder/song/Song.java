@@ -11,6 +11,8 @@ import com.mygdx.audioryder.AudioRyder;
 
 public class Song {
 
+    private String name;
+
     private String songFileString;
     private String noteFileString;
 
@@ -18,7 +20,8 @@ public class Song {
 
     private FileHandle noteFile;
 
-    public Song(String songFile, String noteFile) {
+    public Song(String name, String songFile, String noteFile) {
+        this.name = name;
         this.songFileString = songFile;
         this.noteFile = Gdx.files.internal(AudioRyder.SONGS_PATH + noteFile);
     }
@@ -28,6 +31,14 @@ public class Song {
     /*public void loadSong(AudioRyder game) {
         soundFile = game.assets.get(getSongFileString());
     }*/
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public FileHandle getNoteFile() {
         return noteFile;
