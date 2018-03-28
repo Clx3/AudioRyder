@@ -10,8 +10,16 @@ import com.badlogic.gdx.graphics.g3d.Model;
 public class GameObject {
 
     public boolean isActive;
-
     private float x, y, z;
+
+    // TODO:
+    //public abstract void renderAndUpdate();
+
+    public void setPosition(float x, float y, float z) {
+        setX(x);
+        setY(y);
+        setZ(z);
+    }
 
     public float getX() {
         return x;

@@ -10,18 +10,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.bullet.Bullet;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Note;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
-import com.mygdx.audioryder.song.Song;
 import com.mygdx.audioryder.song.SongHandler;
 
 import java.util.ArrayList;
@@ -37,13 +34,13 @@ public class GameScreen implements Screen {
     public ArrayList<Note> notes = new ArrayList<Note>();
     public ArrayList<Note> notesToRemove = new ArrayList<Note>();
 
-    OrthographicCamera cam;
+    public ArrayList<GroundLine> groundLines = new ArrayList<GroundLine>();
+
     PerspectiveCamera cam3D;
 
-    SpriteBatch batch;
     ModelBatch modelBatch;
 
-    BitmapFont text;
+    BitmapFont font;
 
     Texture hit;
     Texture miss;
@@ -68,13 +65,11 @@ public class GameScreen implements Screen {
         cam3D.lookAt(0f,1f,0f);
         cam3D.near = 0.1f;
         cam3D.far = 1000.0f;
-        cam = new OrthographicCamera();
-        cam.setToOrtho(false, 10f,6f);
+        game.cam2D.setToOrtho(false, 10f,6f);
 
         modelBatch = new ModelBatch();
-        batch = new SpriteBatch();
 
-        text = new BitmapFont();
+        font = game.font;
 
         Model tempModel;
 
@@ -91,9 +86,11 @@ public class GameScreen implements Screen {
         game.skyModel = (tempModel);
         game.skydome = new Skydome(game.skyModel);
 
-        for(float i = -15f; i > -392f; i -= 17.9f){
-            game.groundLines.add(new GroundLine(i,game.levelModel,game.noteSpeed * 2.5f));
-        }
+        //for(float x = -15f; x > -392f; x -= 17.9f){
+            groundLines.add(new GroundLine(game.levelModel, 0, -2f, 2f,game.noteSpeed * 2.5f));
+        //groundLines.add(new GroundLine(game.levelModel, 0, -2f, -100f,game.noteSpeed * 2.5f));
+            //groundLines.add(new GroundLine(game.levelModel, 0, -2f, 2f - 17.9f * 3,game.noteSpeed * 2.5f));
+        //}
 
         //Using the songhandler now, this will become usefull when we add multiple levels and
         //a loading screen from main menu to game.
@@ -119,26 +116,25 @@ public class GameScreen implements Screen {
             obj.move3d(game);
             obj.render(modelBatch, game.environment);
         }
-        for (GroundLine obj : game.groundLines){
+        for (GroundLine obj : groundLines){
             obj.move3d();
             obj.render(modelBatch, game.environment);
         }
         levelTimer += Gdx.graphics.getDeltaTime();
-        if(game.groundLines.get(0).y > 24f){
-            game.groundLines.add(new GroundLine((game.groundLines.get(game.groundLines.size() - 1).y) - 17.9f,game.levelModel,game.noteSpeed * 2.5f));
-            game.groundLines.remove(0);
+
+        /* Spawning and removing the groundlines: */
+        if(groundLines.get(groundLines.size()-1).getZ() > -100f) {
+            groundLines.add(new GroundLine(game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, game.noteSpeed * 2.5f));
         }
+        if(groundLines.get(0).getZ() > 20) {
+            groundLines.remove(0);
+        }
+
         game.spaceShip.draw3d(modelBatch, game.environment);
         game.skydome.render(modelBatch, game.environment);
         modelBatch.end();
 
-        /*drawBoundingBox(game.spaceShip.minPointBox, game.spaceShip.maxPointBox);
-        for (Note obj : notes) {
-            drawBoundingBox(obj.minPoint, obj.maxPoint);
-        }*/
-
         drawTextAndSprites();
-
         notes.removeAll(notesToRemove);
         notesToRemove.clear();
     }
@@ -185,38 +181,36 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
         modelBatch.dispose();
         hit.dispose();
         miss.dispose();
         currentSong.dispose();
-        text.dispose();
         shapeRenderer.dispose();
     }
 
     public void drawTextAndSprites(){
-        batch.begin();
-        batch.setProjectionMatrix(cam.combined);
+        game.batch.begin();
+        game.batch.setProjectionMatrix(game.cam2D.combined);
 
         game.hitOrMissTimer += Gdx.graphics.getDeltaTime();
         if (game.hitOrMiss && game.score > 0 && game.hitOrMissTimer < 0.5f) {
-            batch.draw(hit, 1.5f, 3f, 1f, 0.5f);
+            game.batch.draw(hit, 1.5f, 3f, 1f, 0.5f);
         } else if (!(game.hitOrMiss) && game.hitOrMissTimer < 0.5f) {
-            batch.draw(miss, 1.5f, 3f, 1f, 0.5f);
+            game.batch.draw(miss, 1.5f, 3f, 1f, 0.5f);
         }
 
-        cam.setToOrtho(false,1000f,600f);
-        batch.setProjectionMatrix(cam.combined);
-        cam.update();
-        text.draw(batch, "Score :" + game.score, 750, 170);
-        text.draw(batch, "Streak :" + game.streak, 750, 190);
-        text.draw(batch, "Multiplier " + game.multiplier + "X", 750, 210);
-        text.draw(batch, "X: " + Gdx.input.getAccelerometerX(), 750, 230);
-        text.draw(batch, "Y: " + Gdx.input.getAccelerometerY(), 750, 250);
-        text.draw(batch, "Z: " + Gdx.input.getAccelerometerZ(), 750, 270);
-        cam.setToOrtho(false,10f,6f);
-        batch.setProjectionMatrix(cam.combined);
-        cam.update();
-        batch.end();
+        game.cam2D.setToOrtho(false,1000f,600f);
+        game.batch.setProjectionMatrix(game.cam2D.combined);
+        game.cam2D.update();
+        font.draw(game.batch, "Score :" + game.score, 750, 170);
+        font.draw(game.batch, "Streak :" + game.streak, 750, 190);
+        font.draw(game.batch, "Multiplier " + game.multiplier + "X", 750, 210);
+        font.draw(game.batch, "X: " + Gdx.input.getAccelerometerX(), 750, 230);
+        font.draw(game.batch, "Y: " + Gdx.input.getAccelerometerY(), 750, 250);
+        font.draw(game.batch, "Z: " + Gdx.input.getAccelerometerZ(), 750, 270);
+        font.draw(game.batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 750, 290);
+        game.cam2D.setToOrtho(false,10f,6f);
+        game.cam2D.update();
+        game.batch.end();
     }
 }

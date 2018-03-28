@@ -196,9 +196,9 @@ public class MainMenuScreen implements Screen {
     }
 
     /**
-     * This method basically setups the backgroundStage
-     * which is used to draw the background of the
-     * MainMenuScreen.
+     * This method setups the selectSongStage
+     * that contains a list of the Songs of the game
+     * that can be selected and played from here.
      */
     private void setupSelectSongStage() {
         selectSongStage = new Stage();
@@ -246,6 +246,13 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setCurrentStage(mainStage);
+            }
+        });
+
     }
 
     /**
@@ -288,7 +295,7 @@ public class MainMenuScreen implements Screen {
 
         backgroundStage.draw();
 
-        currentStage.act();
+        currentStage.act(Gdx.graphics.getDeltaTime());
         currentStage.draw();
     }
 

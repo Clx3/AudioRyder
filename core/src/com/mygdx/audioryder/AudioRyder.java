@@ -52,7 +52,6 @@ public class AudioRyder extends Game {
 
 	public Skydome skydome;
 
-
 	public Environment environment;
 
 	public int score;
@@ -64,7 +63,6 @@ public class AudioRyder extends Game {
 	public Model box;
 	public Float songTimer = 0f;
 	public float songOffset;
-	public ArrayList<GroundLine> groundLines;
 	public float noteSpeed;
 	float sensitivity;
 
@@ -93,8 +91,6 @@ public class AudioRyder extends Game {
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 2.0f));
-
-        groundLines = new ArrayList<GroundLine>();
 
         //settings
         noteSpeed = 1.5f;

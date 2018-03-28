@@ -21,11 +21,6 @@ public class LoadingScreen implements Screen {
 
     AudioRyder game;
 
-    OrthographicCamera cam;
-    SpriteBatch batch;
-
-    BitmapFont text;
-
     public LoadingScreen(AudioRyder game) {
         this.game = game;
 
@@ -35,13 +30,8 @@ public class LoadingScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(new InputAdapter());
 
-        cam = new OrthographicCamera();
-        cam.setToOrtho(false,500f,300f);
-
-        batch = new SpriteBatch();
-        batch.setProjectionMatrix(cam.combined);
-
-        text = new BitmapFont();
+        game.cam2D.setToOrtho(false,500f,300f);
+        game.batch.setProjectionMatrix(game.cam2D.combined);
 
         game.assets.load(AudioRyder.MODELS_PATH + "Spaceship.g3db",Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Pyramid.g3db",Model.class);
@@ -62,10 +52,10 @@ public class LoadingScreen implements Screen {
                 game.setScreen(game.mainMenuScreen);
             }
         }
-        cam.update();
-        batch.begin();
-        text.draw(batch, "Loading...", 230, 170);
-        batch.end();
+        game.cam2D.update();
+        game.batch.begin();
+        game.font.draw(game.batch, "Loading...", 230, 170);
+        game.batch.end();
     }
 
     @Override
@@ -90,6 +80,5 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
     }
 }

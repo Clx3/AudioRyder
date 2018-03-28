@@ -77,9 +77,9 @@ public class SpaceShip extends GameObject {
     }
 
     public void move() {
-        //keyboardInput();
+        keyboardInput();
 
-        float accelX;
+        /*float accelX;
         if(Gdx.input.getAccelerometerY() > 5f / sensitivity){
             accelX = 5f;
         } else if (Gdx.input.getAccelerometerY() < -5f / sensitivity) {
@@ -109,7 +109,7 @@ public class SpaceShip extends GameObject {
 
         minPointBox.x = getX() - 1f;
         maxPointBox.x = getX() + 1f;
-        collisionBox.set(minPointBox, maxPointBox);
+        collisionBox.set(minPointBox, maxPointBox);*/
 
         spaceShipModel.transform.setToTranslation(getX(),getY(),getZ());
         checkCollisions();

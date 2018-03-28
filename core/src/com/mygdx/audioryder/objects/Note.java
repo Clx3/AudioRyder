@@ -74,8 +74,6 @@ public class Note extends GameObject {
             game.hitOrMissTimer = 0f;
         }
 
-
-
     }
 
     public int getDirection() {
