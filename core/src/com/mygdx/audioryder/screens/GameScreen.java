@@ -78,7 +78,7 @@ public class GameScreen implements Screen {
         Model tempModel;
 
         tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
-        game.spaceShip = new SpaceShip(game, tempModel, 1f);
+        game.spaceShip = new SpaceShip(game, tempModel, 2f);
 
         tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
         game.box = (tempModel);
@@ -125,10 +125,12 @@ public class GameScreen implements Screen {
         }
         game.spaceShip.draw3d(modelBatch, game.environment);
         modelBatch.end();
-        drawBoundingBox(game.spaceShip.minPointBox, game.spaceShip.maxPointBox);
+
+        /*drawBoundingBox(game.spaceShip.minPointBox, game.spaceShip.maxPointBox);
         for (Note obj : notes) {
             drawBoundingBox(obj.minPoint, obj.maxPoint);
-        }
+        }*/
+
         drawTextAndSprites();
 
         notes.removeAll(notesToRemove);

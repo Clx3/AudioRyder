@@ -35,7 +35,7 @@ public class Note extends GameObject {
         direction = i2;
         setX(x);
         setY(-1.0f);
-        setZ(-54f);
+        setZ(-50f);
 
         this.noteModel = new ModelInstance(model,getX(),getY(),getZ());
 
@@ -66,8 +66,15 @@ public class Note extends GameObject {
 
         collisionBox.set(minPoint, maxPoint);
 
-        if(getZ() >= 0)
+        if(getZ() >= 0) {
             game.gameScreen.notesToRemove.add(this);
+            game.streak = 0;
+            game.multiplier = 1;
+            game.hitOrMiss = false;
+            game.hitOrMissTimer = 0f;
+        }
+
+
 
     }
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.screens.GameScreen;
@@ -32,6 +33,7 @@ public class AudioRyder extends Game {
 	public OrthographicCamera cam2D;
 	public static final float ORTHOCAM_VIEWPORT_WIDTH = WINDOW_WIDTH;
 	public static final float ORTHOCAM_VIEWPORT_HEIGHT = WINDOW_HEIGHT;
+	public Viewport viewport;
 
 	public SpriteBatch batch;
 	public BitmapFont font;
@@ -90,8 +92,8 @@ public class AudioRyder extends Game {
         groundLines = new ArrayList<GroundLine>();
 
         //settings
-        noteSpeed = 3f;
-        sensitivity = 1f;
+        noteSpeed = 1.5f;
+        sensitivity = 3f;
         songOffset = -0.1f;
 
 		loadingScreen = new LoadingScreen(this);

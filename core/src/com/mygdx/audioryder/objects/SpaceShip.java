@@ -77,9 +77,9 @@ public class SpaceShip extends GameObject {
     }
 
     public void move() {
-        keyboardInput();
+        //keyboardInput();
 
-        /*float accelX;
+        float accelX;
         if(Gdx.input.getAccelerometerY() > 5f / sensitivity){
             accelX = 5f;
         } else if (Gdx.input.getAccelerometerY() < -5f / sensitivity) {
@@ -104,8 +104,12 @@ public class SpaceShip extends GameObject {
         totalY = totalY / 15f;
         totalX = totalX / 15f;
 
-        setX(getX() + totalX);
-        setY(-0.5f);*/
+        setX(totalX);
+        setY(-0.5f);
+
+        minPointBox.x = getX() - 1f;
+        maxPointBox.x = getX() + 1f;
+        collisionBox.set(minPointBox, maxPointBox);
 
         spaceShipModel.transform.setToTranslation(getX(),getY(),getZ());
         checkCollisions();
@@ -139,7 +143,8 @@ public class SpaceShip extends GameObject {
                 System.out.println("HITS");
                 game.score++;
                 game.hitOrMiss = true;
-                game.hitOrMissTimer = 1;
+                game.hitOrMissTimer = 0f;
+                game.streak++;
             }
         }
     }
