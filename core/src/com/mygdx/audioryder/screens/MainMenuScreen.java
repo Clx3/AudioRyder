@@ -228,7 +228,7 @@ public class MainMenuScreen implements Screen {
         Table songTable = new Table(testSkin);
          songTable.setSize(500f, 500f);
         songTable.debug();
-        songTable.setPosition(game.WINDOW_WIDTH / 2 - songTable.getWidth() / 2, game.WINDOW_HEIGHT / 2);
+        songTable.setPosition(game.WINDOW_WIDTH / 2 - songTable.getWidth() / 2, game.WINDOW_HEIGHT / 2 - songTable.getHeight() / 2);
         songTable.add(songsPane).row();
         songTable.add(playAndReturn);
 
