@@ -123,7 +123,7 @@ public class GameScreen implements Screen {
         levelTimer += Gdx.graphics.getDeltaTime();
 
         /* Spawning and removing the groundlines: */
-        if(groundLines.get(groundLines.size()-1).getZ() > -100f) {
+        if(groundLines.get(groundLines.size()-1).getZ() > -200f) {
             groundLines.add(new GroundLine(game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, game.noteSpeed * 2.5f));
         }
         if(groundLines.get(0).getZ() > 20) {

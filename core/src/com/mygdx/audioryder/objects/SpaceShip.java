@@ -27,6 +27,8 @@ public class SpaceShip extends GameObject {
     public Vector3 minPointBox;
     public Vector3 maxPointBox;
 
+    int rollingAverageCount;
+
     Texture img;
     int moveAverageIndex;
     float[][] latestMovement;
@@ -37,10 +39,11 @@ public class SpaceShip extends GameObject {
 
     public SpaceShip(AudioRyder game, Model model, float sensitivity){
         this.game = game;
+        rollingAverageCount = 20;
         moveAverageIndex = 0;
-        latestMovement = new float[2][15];
+        latestMovement = new float[2][rollingAverageCount];
         for(int i = 0; i < 2; i++){
-            for(int j = 0; j < 15; j++){
+            for(int j = 0; j < rollingAverageCount; j++){
                 latestMovement[i][j] = 0f;
             }
         }
@@ -79,37 +82,37 @@ public class SpaceShip extends GameObject {
     public void move() {
         keyboardInput();
 
-        /*float accelX;
-        if(Gdx.input.getAccelerometerY() > 5f / sensitivity){
-            accelX = 5f;
-        } else if (Gdx.input.getAccelerometerY() < -5f / sensitivity) {
-            accelX = -5f;
+        float accelX;
+        if(Gdx.input.getAccelerometerY() > 4f / sensitivity){
+            accelX = 4f;
+        } else if (Gdx.input.getAccelerometerY() < -4f / sensitivity) {
+            accelX = -4f;
         } else {
             accelX = Gdx.input.getAccelerometerY() * sensitivity;
         }
 
         latestMovement[0][moveAverageIndex] = accelX;
         latestMovement[1][moveAverageIndex] = Gdx.input.getAccelerometerZ() / 4f;
-        if(moveAverageIndex < 9) {
+        if(moveAverageIndex < rollingAverageCount - 1) {
             moveAverageIndex++;
         } else {
             moveAverageIndex = 0;
         }
         float totalX = 0f;
         float totalY = 0f;
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < rollingAverageCount; i++){
             totalX = totalX + latestMovement[0][i];
             totalY = totalY + latestMovement[1][i];
         }
-        totalY = totalY / 15f;
-        totalX = totalX / 15f;
+        totalY = totalY / rollingAverageCount;
+        totalX = totalX / rollingAverageCount;
 
         setX(totalX);
         setY(-0.5f);
 
         minPointBox.x = getX() - 1f;
         maxPointBox.x = getX() + 1f;
-        collisionBox.set(minPointBox, maxPointBox);*/
+        collisionBox.set(minPointBox, maxPointBox);
 
         spaceShipModel.transform.setToTranslation(getX(),getY(),getZ());
         checkCollisions();
