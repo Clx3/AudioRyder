@@ -46,11 +46,9 @@ public class LoadingScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         if(game.assets.update()) {
-            System.out.println("LOL");
-            if(Gdx.input.isTouched()) {
-                game.mainMenuScreen = new MainMenuScreen(game);
-                game.setScreen(game.mainMenuScreen);
-            }
+            game.mainMenuScreen = new MainMenuScreen(game);
+            game.setScreen(game.mainMenuScreen);
+
         }
         game.cam2D.update();
         game.batch.begin();
