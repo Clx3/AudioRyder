@@ -37,11 +37,8 @@ public class LevelLoadingScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         if(game.assets.update()) {
-            System.out.println("LOL");
-            if(Gdx.input.isTouched()) {
-                game.gameScreen = new GameScreen(game);
-                game.setScreen(game.gameScreen);
-            }
+            game.gameScreen = new GameScreen(game);
+            game.setScreen(game.gameScreen);
         }
         game.cam2D.update();
         game.batch.begin();
