@@ -39,7 +39,6 @@ public class MainMenuScreen implements Screen {
     private Stage selectSongStage;
     private Stage settingsStage;
 
-    SpriteBatch batch;
     Skin testSkin;
     TextureAtlas testAtlas;
 
@@ -104,11 +103,14 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        batch = new SpriteBatch();
-        batch.setProjectionMatrix(game.cam2D.combined);
+        game.cam2D.setToOrtho(false, game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
+        game.batch.setProjectionMatrix(game.cam2D.combined);
 
         testSkin = new Skin(Gdx.files.internal("skins/plain-james-ui.json"));
         testAtlas = new TextureAtlas("skins/plain-james-ui.atlas");
+
+        viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
+        viewport.apply();
 
         //testSkin = new Skin(Gdx.files.internal("skins/PlayButton.json"));
         //testAtlas = new TextureAtlas("skins/PlayButton.atlas");
@@ -123,9 +125,6 @@ public class MainMenuScreen implements Screen {
         audioRyderText.setSize(750f, 200f);
         audioRyderText.setPosition(game.WINDOW_WIDTH / 2 - audioRyderText.getWidth() / 2, game.WINDOW_HEIGHT - audioRyderText.getHeight());
 
-        viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
-        viewport.apply();
-        batch.setProjectionMatrix(game.cam2D.combined);
 
         setupBackgroundStage();
         setupMainStage();
@@ -142,7 +141,7 @@ public class MainMenuScreen implements Screen {
      * MainMenuScreen.
      */
     private void setupBackgroundStage() {
-        backgroundStage = new Stage(viewport, batch);
+        backgroundStage = new Stage(viewport, game.batch);
 
         backgroundStage.addActor(background);
         backgroundStage.addActor(audioRyderText);
@@ -154,7 +153,7 @@ public class MainMenuScreen implements Screen {
      * only for readability purposes.
      */
     private void setupMainStage() {
-        mainStage = new Stage(viewport, batch);
+        mainStage = new Stage(viewport, game.batch);
 
         Table mainMenuTable = new Table();
         mainMenuTable.setFillParent(true);
@@ -201,7 +200,7 @@ public class MainMenuScreen implements Screen {
      * that can be selected and played from here.
      */
     private void setupSelectSongStage() {
-        selectSongStage = new Stage();
+        selectSongStage = new Stage(viewport, game.batch);
 
         TextButton returnButton = new TextButton("Return", testSkin);
         TextButton playButtonn = new TextButton("Play", testSkin);
@@ -224,14 +223,12 @@ public class MainMenuScreen implements Screen {
         songs.addActor(song2);
 
         ScrollPane songsPane = new ScrollPane(songs, testSkin);
-        songsPane.setSize(200f, 100f);
+        //songsPane.setSize(200f, 100f);
 
-        float tableWidth = 400;
-        float tableHeight = 300;
-        Table songTable = new Table();
-        songTable.setSize(tableWidth, tableHeight);
+        Table songTable = new Table(testSkin);
+         songTable.setSize(500f, 500f);
         songTable.debug();
-        songTable.setPosition(game.WINDOW_WIDTH / 2 - tableWidth / 2, game.WINDOW_HEIGHT / 2 - tableHeight / 2);
+        songTable.setPosition(game.WINDOW_WIDTH / 2 - songTable.getWidth() / 2, game.WINDOW_HEIGHT / 2);
         songTable.add(songsPane).row();
         songTable.add(playAndReturn);
 
@@ -261,7 +258,7 @@ public class MainMenuScreen implements Screen {
      * only for readability purposes.
      */
     private void setupSettingsStage() {
-        settingsStage = new Stage(viewport, batch);
+        settingsStage = new Stage(viewport, game.batch);
 
         /* Adding buttons: */
         returnButton = new MenuButton("Return", testSkin);
@@ -321,6 +318,5 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
     }
 }
