@@ -36,8 +36,10 @@ public class SpaceShip extends GameObject {
     AnimationController controller;
 
     private float speed = 14f;
+    private float velocityY = -5f;
 
     public SpaceShip(AudioRyder game, Model model, float sensitivity){
+        super(game);
         this.game = game;
         rollingAverageCount = 20;
         moveAverageIndex = 0;
@@ -74,14 +76,8 @@ public class SpaceShip extends GameObject {
 
     }
 
-    public void draw3d(ModelBatch modelBatch, Environment environment){
-        controller.update(Gdx.graphics.getDeltaTime());
-        modelBatch.render(spaceShipModel, environment);
-    }
-
-    public void move() {
-        keyboardInput();
-
+    @Override
+    public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
         float accelX;
         if(Gdx.input.getAccelerometerY() > 4f / sensitivity){
             accelX = 4f;
@@ -110,38 +106,40 @@ public class SpaceShip extends GameObject {
         setX(totalX);
         setY(-0.5f);
 
+        keyboardInput();
         minPointBox.x = getX() - 1f;
         maxPointBox.x = getX() + 1f;
         collisionBox.set(minPointBox, maxPointBox);
 
+
         spaceShipModel.transform.setToTranslation(getX(),getY(),getZ());
+
+
         checkCollisions();
 
-
+        controller.update(Gdx.graphics.getDeltaTime());
+        modelBatch.render(spaceShipModel, environment);
     }
 
     private void keyboardInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if (getX() <= 4f) {
-                setX(getX() + speed * Gdx.graphics.getDeltaTime());
-                minPointBox.x += speed * Gdx.graphics.getDeltaTime();
-                maxPointBox.x += speed * Gdx.graphics.getDeltaTime();
-                //setX(getX() + 3f);
-                collisionBox.set(minPointBox, maxPointBox);
-        }
+            setX(4);
+
         } else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            if(getX() >= -4f) {
-                minPointBox.x -= speed * Gdx.graphics.getDeltaTime();
-                maxPointBox.x -= speed * Gdx.graphics.getDeltaTime();
-                setX(getX() - speed * Gdx.graphics.getDeltaTime());
-                collisionBox.set(minPointBox, maxPointBox);
-            }
+
+            setX(-4);
+
         }
+    }
+
+    private void jump() {
+
     }
 
     public void checkCollisions(){
         for(Note note: game.gameScreen.notes) {
-            if(collisionBox.intersects(note.collisionBox)) {
+            if(collisionBox.intersects(note.collisionBox) && note.isActive()) {
+                note.setActive(false);
                 game.gameScreen.notesToRemove.add(note);
                 System.out.println("HITS");
                 game.score++;

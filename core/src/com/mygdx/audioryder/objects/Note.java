@@ -16,6 +16,8 @@ import com.mygdx.audioryder.AudioRyder;
 
 public class Note extends GameObject {
 
+    AudioRyder game;
+
     ModelInstance noteModel;
 
     public BoundingBox collisionBox;
@@ -31,7 +33,9 @@ public class Note extends GameObject {
     float speed;
     AnimationController controller;
 
-    public Note(float x, int i2, Model model, float speed) {
+    public Note(AudioRyder game, float x, int i2, Model model, float speed) {
+        super(game);
+        this.game = game;
         direction = i2;
         setX(x);
         setY(-1.0f);
@@ -50,13 +54,12 @@ public class Note extends GameObject {
 
     }
 
-    public void render(ModelBatch modelBatch, Environment environment){
+    float moveSpeed;
+    @Override
+    public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
         controller.update(Gdx.graphics.getDeltaTime());
         modelBatch.render(noteModel, environment);
-    }
 
-    float moveSpeed;
-    public void move3d(AudioRyder game) {
         moveSpeed = Gdx.graphics.getDeltaTime() * 10f * speed;
         setZ(getZ() + moveSpeed);
 
@@ -67,13 +70,13 @@ public class Note extends GameObject {
         collisionBox.set(minPoint, maxPoint);
 
         if(getZ() >= 0) {
+            setActive(false);
             game.gameScreen.notesToRemove.add(this);
             game.streak = 0;
             game.multiplier = 1;
             game.hitOrMiss = false;
             game.hitOrMissTimer = 0f;
         }
-
     }
 
     public int getDirection() {

@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.audioryder.AudioRyder;
+import com.mygdx.audioryder.objects.GameObject;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Note;
 import com.mygdx.audioryder.objects.Skydome;
@@ -30,6 +31,9 @@ import java.util.ArrayList;
 public class GameScreen implements Screen {
 
     AudioRyder game;
+
+    public ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
+    public ArrayList<GameObject> gameObjectsToRemove = new ArrayList<GameObject>();
 
     public ArrayList<Note> notes = new ArrayList<Note>();
     public ArrayList<Note> notesToRemove = new ArrayList<Note>();
@@ -84,10 +88,10 @@ public class GameScreen implements Screen {
 
         tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db",Model.class);
         game.skyModel = (tempModel);
-        game.skydome = new Skydome(game.skyModel);
+        game.skydome = new Skydome(game, game.skyModel);
 
         //for(float x = -15f; x > -392f; x -= 17.9f){
-            groundLines.add(new GroundLine(game.levelModel, 0, -2f, 2f,game.noteSpeed * 2.5f));
+            groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, 2f,game.noteSpeed * 2.5f));
         //groundLines.add(new GroundLine(game.levelModel, 0, -2f, -100f,game.noteSpeed * 2.5f));
             //groundLines.add(new GroundLine(game.levelModel, 0, -2f, 2f - 17.9f * 3,game.noteSpeed * 2.5f));
         //}
@@ -109,32 +113,33 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         SongHandler.addNotesToGame(game);
-        game.spaceShip.move();
+
+
         cam3D.update();
         modelBatch.begin(cam3D);
-        for (Note obj : notes) {
-            obj.move3d(game);
-            obj.render(modelBatch, game.environment);
+        for(GameObject object : gameObjects) {
+            if(object.isActive())
+                object.renderAndUpdate(modelBatch, game.environment);
+            else
+                gameObjectsToRemove.add(object);
         }
-        for (GroundLine obj : groundLines){
-            obj.move3d();
-            obj.render(modelBatch, game.environment);
-        }
+        modelBatch.end();
         levelTimer += Gdx.graphics.getDeltaTime();
 
         /* Spawning and removing the groundlines: */
         if(groundLines.get(groundLines.size()-1).getZ() > -200f) {
-            groundLines.add(new GroundLine(game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, game.noteSpeed * 2.5f));
+            groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, game.noteSpeed * 2.5f));
         }
         if(groundLines.get(0).getZ() > 20) {
+            groundLines.get(0).setActive(false);
             groundLines.remove(0);
         }
 
-        game.spaceShip.draw3d(modelBatch, game.environment);
-        game.skydome.render(modelBatch, game.environment);
-        modelBatch.end();
-
         drawTextAndSprites();
+
+        gameObjects.removeAll(gameObjectsToRemove);
+        gameObjectsToRemove.clear();
+
         notes.removeAll(notesToRemove);
         notesToRemove.clear();
     }

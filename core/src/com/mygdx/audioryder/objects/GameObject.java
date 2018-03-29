@@ -1,24 +1,39 @@
 package com.mygdx.audioryder.objects;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.mygdx.audioryder.AudioRyder;
 
 /**
  * Created by Teemu on 1.3.2018.
  */
 
-public class GameObject {
+public abstract class GameObject {
 
-    public boolean isActive;
+    private boolean isActive;
     private float x, y, z;
 
-    // TODO:
-    //public abstract void renderAndUpdate();
+    public GameObject(AudioRyder game) {
+        setActive(true);
+        game.gameScreen.gameObjects.add(this);
+    }
+
+    public abstract void renderAndUpdate(ModelBatch modelBatch, Environment environment);
 
     public void setPosition(float x, float y, float z) {
         setX(x);
         setY(y);
         setZ(z);
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public float getX() {

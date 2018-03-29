@@ -39,16 +39,16 @@ public class SongHandler {
                 direction = noteArray[songPointer].replaceAll("[0-9]", "").charAt(1);
                 switch (direction) {
                     case 'U':
-                        game.gameScreen.notes.add(new Note(0f, 0, game.box, game.noteSpeed));
+                        game.gameScreen.notes.add(new Note(game, 0f, 0, game.box, game.noteSpeed));
                         break;
                     case 'D':
-                        game.gameScreen.notes.add(new Note(0f, 2, game.box, game.noteSpeed));
+                        game.gameScreen.notes.add(new Note(game, 0f, 2, game.box, game.noteSpeed));
                         break;
                     case 'L':
-                        game.gameScreen.notes.add(new Note(-4.5f, 1, game.box, game.noteSpeed));
+                        game.gameScreen.notes.add(new Note(game, -4.5f, 1, game.box, game.noteSpeed));
                         break;
                     case 'R':
-                        game.gameScreen.notes.add(new Note(4.5f, 3, game.box, game.noteSpeed));
+                        game.gameScreen.notes.add(new Note(game, 4.5f, 3, game.box, game.noteSpeed));
                         break;
                 }
                 noteAdded = true;
