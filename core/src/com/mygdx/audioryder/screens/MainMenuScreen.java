@@ -263,8 +263,9 @@ public class MainMenuScreen implements Screen {
      */
 
     public class SensitivitySlider extends Slider{
+        String direction;
 
-        public SensitivitySlider(boolean vertical, Skin skin, float min, float max){
+        public SensitivitySlider(boolean vertical, Skin skin, float min, float max, String direction){
             super(min,max,0.5f, vertical, skin);
             this.addListener(new ChangeListener() {
                 @Override
@@ -279,36 +280,41 @@ public class MainMenuScreen implements Screen {
                 setWidth(250f);
                 setHeight(20f);
             }
+            this.direction = direction;
 
         }
         public void setSensitivity(){
-            if(getValue() > 0) {
-                game.sensitivity = getValue();
-            } else {
-                game.sensitivity = getValue() * -1f;
+            if(direction.equals("left")){
+                game.sensitivityLeft = getValue() * -1;
+            } else if(direction.equals("down")){
+                game.sensitivityDown = getValue() * -1;
+            } else if(direction.equals("right")){
+                game.sensitivityRight = getValue();
+            } else if(direction.equals("up")){
+                game.sensitivityUp = getValue();
             }
         }
     }
 
     private void setupSettingsStage() {
         settingsStage = new Stage(viewport, game.batch);
-        SensitivitySlider left = new SensitivitySlider(false, testSkin, -4f,-1f);
+        SensitivitySlider left = new SensitivitySlider(false, testSkin, -4f,-1f, "left");
         left.setPosition(100f,290f);
-        SensitivitySlider bottom = new SensitivitySlider(true, testSkin, -4f, -1f);
-        bottom.setPosition(360f,280f - bottom.getHeight());
-        SensitivitySlider right = new SensitivitySlider(false, testSkin, 1f,4f);
+        SensitivitySlider down = new SensitivitySlider(true, testSkin, -4f, -1f,"down");
+        down.setPosition(360f,280f - down.getHeight());
+        SensitivitySlider right = new SensitivitySlider(false, testSkin, 1f,4f,"right");
         right.setPosition(390f,290f);
-        SensitivitySlider up = new SensitivitySlider(true, testSkin, 1f, 4f);
+        SensitivitySlider up = new SensitivitySlider(true, testSkin, 1f, 4f,"up");
         up.setPosition(360f,320f);
 
-        left.setValue(game.sensitivity * -1f);
-        bottom.setValue(game.sensitivity * -1f);
-        right.setValue(game.sensitivity);
-        up.setValue(game.sensitivity);
+        left.setValue(game.sensitivityLeft * -1f);
+        down.setValue(game.sensitivityDown * -1f);
+        right.setValue(game.sensitivityRight);
+        up.setValue(game.sensitivityUp);
 
 
         settingsStage.addActor(left);
-        settingsStage.addActor(bottom);
+        settingsStage.addActor(down);
         settingsStage.addActor(right);
         settingsStage.addActor(up);
 
@@ -343,7 +349,10 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
         backgroundStage.draw();
-        System.out.println(game.sensitivity);
+        System.out.println("down: "+game.sensitivityDown);
+        System.out.println("up: "+game.sensitivityUp);
+        System.out.println("left: "+game.sensitivityLeft);
+        System.out.println("right: "+game.sensitivityRight);
         currentStage.act(Gdx.graphics.getDeltaTime());
         currentStage.draw();
     }

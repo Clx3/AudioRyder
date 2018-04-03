@@ -38,7 +38,7 @@ public class SpaceShip extends GameObject {
     private float speed = 14f;
     private float velocityY = -5f;
 
-    public SpaceShip(AudioRyder game, Model model, float sensitivity){
+    public SpaceShip(AudioRyder game, Model model){
         super(game);
         this.game = game;
         rollingAverageCount = 20;
@@ -78,26 +78,26 @@ public class SpaceShip extends GameObject {
 
     @Override
     public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
-        float accelX;
-        float accelY;
-        if(Gdx.input.getAccelerometerY() > 4f / game.sensitivity){
+        float accelX = 0f;
+        float accelY = 0f;
+        if(Gdx.input.getAccelerometerY() > 4f / game.sensitivityRight){
             accelX = 4f;
-        } else if (Gdx.input.getAccelerometerY() < -4f / game.sensitivity) {
+        } else if (Gdx.input.getAccelerometerY() < -4f / game.sensitivityLeft) {
             accelX = -4f;
-        } else if (Gdx.input.getAccelerometerY() < 0.8f / game.sensitivity && Gdx.input.getAccelerometerY() > -0.8f / game.sensitivity) {
+        } else if (Gdx.input.getAccelerometerY() < 0.8f / game.sensitivityRight && Gdx.input.getAccelerometerY() > -0.8f / game.sensitivityLeft) {
             accelX = -0f;
-        } else {
-            accelX = Gdx.input.getAccelerometerY() * game.sensitivity;
+        } else if (Gdx.input.getAccelerometerY() > 0.8f / game.sensitivityRight) {
+            accelX = Gdx.input.getAccelerometerY() * game.sensitivityRight;
+        } else if (Gdx.input.getAccelerometerY() < -0.8f / game.sensitivityLeft){
+            accelX = Gdx.input.getAccelerometerY() * game.sensitivityLeft;
         }
 
-        if(Gdx.input.getAccelerometerZ() > 2f / (game.sensitivityY)){
+        if(Gdx.input.getAccelerometerZ() > 2f / (game.sensitivityDown)){
             accelY = -2f;
-        } else if (Gdx.input.getAccelerometerZ() < -2f / (game.sensitivityY)) {
+        } else if (Gdx.input.getAccelerometerZ() < -2f / (game.sensitivityUp)) {
             accelY = 0f;
-        } else if (Gdx.input.getAccelerometerZ() < 2f / (game.sensitivityY) && Gdx.input.getAccelerometerY() > -2f / (game.sensitivityY)) {
+        } else if (Gdx.input.getAccelerometerZ() < 2f / (game.sensitivityDown) && Gdx.input.getAccelerometerY() > -2f / (game.sensitivityUp)) {
             accelY = -1f;
-        } else {
-            accelY = Gdx.input.getAccelerometerZ() * -(game.sensitivityY);
         }
 
         latestMovement[0][moveAverageIndex] = accelX;
@@ -109,6 +109,7 @@ public class SpaceShip extends GameObject {
         }
         float totalX = 0f;
         float totalY = 0f;
+        //FIXME: Y AKSELI PÄIN VITTUA!!
         for(int i = 0; i < rollingAverageCount; i++){
             totalX = totalX + latestMovement[0][i];
             totalY = (totalY + latestMovement[1][i] + 2f);
