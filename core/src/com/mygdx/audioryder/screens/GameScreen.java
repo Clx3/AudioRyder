@@ -78,7 +78,7 @@ public class GameScreen implements Screen {
         Model tempModel;
 
         tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
-        game.spaceShip = new SpaceShip(game, tempModel, 2f);
+        game.spaceShip = new SpaceShip(game, tempModel, game.sensitivity);
 
         tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
         game.box = (tempModel);

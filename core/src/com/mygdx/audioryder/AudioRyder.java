@@ -64,7 +64,8 @@ public class AudioRyder extends Game {
 	public Float songTimer = 0f;
 	public float songOffset;
 	public float noteSpeed;
-	float sensitivity;
+	public float sensitivity;
+	public float sensitivityY;
 
 	public Song currentSong;
 
@@ -94,7 +95,8 @@ public class AudioRyder extends Game {
 
         //settings
         noteSpeed = 1.5f;
-        sensitivity = 3f;
+        sensitivity = 1f;
+        sensitivityY = 1f;
         songOffset = -0.1f;
 
 		loadingScreen = new LoadingScreen(this);

@@ -7,16 +7,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -257,8 +261,56 @@ public class MainMenuScreen implements Screen {
      * of the menu. This is made
      * only for readability purposes.
      */
+
+    public class SensitivitySlider extends Slider{
+
+        public SensitivitySlider(boolean vertical, Skin skin, float min, float max){
+            super(min,max,0.5f, vertical, skin);
+            this.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    setSensitivity();
+                }
+            });
+            if(vertical){
+                setWidth(20f);
+                setHeight(250f);
+            } else {
+                setWidth(250f);
+                setHeight(20f);
+            }
+
+        }
+        public void setSensitivity(){
+            if(getValue() > 0) {
+                game.sensitivity = getValue();
+            } else {
+                game.sensitivity = getValue() * -1f;
+            }
+        }
+    }
+
     private void setupSettingsStage() {
         settingsStage = new Stage(viewport, game.batch);
+        SensitivitySlider left = new SensitivitySlider(false, testSkin, -4f,-1f);
+        left.setPosition(100f,290f);
+        SensitivitySlider bottom = new SensitivitySlider(true, testSkin, -4f, -1f);
+        bottom.setPosition(360f,280f - bottom.getHeight());
+        SensitivitySlider right = new SensitivitySlider(false, testSkin, 1f,4f);
+        right.setPosition(390f,290f);
+        SensitivitySlider up = new SensitivitySlider(true, testSkin, 1f, 4f);
+        up.setPosition(360f,320f);
+
+        left.setValue(game.sensitivity * -1f);
+        bottom.setValue(game.sensitivity * -1f);
+        right.setValue(game.sensitivity);
+        up.setValue(game.sensitivity);
+
+
+        settingsStage.addActor(left);
+        settingsStage.addActor(bottom);
+        settingsStage.addActor(right);
+        settingsStage.addActor(up);
 
         /* Adding buttons: */
         returnButton = new MenuButton("Return", testSkin);
@@ -291,7 +343,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
         backgroundStage.draw();
-
+        System.out.println(game.sensitivity);
         currentStage.act(Gdx.graphics.getDeltaTime());
         currentStage.draw();
     }

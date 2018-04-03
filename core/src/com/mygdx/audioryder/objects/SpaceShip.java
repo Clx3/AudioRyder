@@ -79,16 +79,29 @@ public class SpaceShip extends GameObject {
     @Override
     public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
         float accelX;
-        if(Gdx.input.getAccelerometerY() > 4f / sensitivity){
+        float accelY;
+        if(Gdx.input.getAccelerometerY() > 4f / game.sensitivity){
             accelX = 4f;
-        } else if (Gdx.input.getAccelerometerY() < -4f / sensitivity) {
+        } else if (Gdx.input.getAccelerometerY() < -4f / game.sensitivity) {
             accelX = -4f;
+        } else if (Gdx.input.getAccelerometerY() < 0.8f / game.sensitivity && Gdx.input.getAccelerometerY() > -0.8f / game.sensitivity) {
+            accelX = -0f;
         } else {
-            accelX = Gdx.input.getAccelerometerY() * sensitivity;
+            accelX = Gdx.input.getAccelerometerY() * game.sensitivity;
+        }
+
+        if(Gdx.input.getAccelerometerZ() > 2f / (game.sensitivityY)){
+            accelY = -2f;
+        } else if (Gdx.input.getAccelerometerZ() < -2f / (game.sensitivityY)) {
+            accelY = 0f;
+        } else if (Gdx.input.getAccelerometerZ() < 2f / (game.sensitivityY) && Gdx.input.getAccelerometerY() > -2f / (game.sensitivityY)) {
+            accelY = -1f;
+        } else {
+            accelY = Gdx.input.getAccelerometerZ() * -(game.sensitivityY);
         }
 
         latestMovement[0][moveAverageIndex] = accelX;
-        latestMovement[1][moveAverageIndex] = Gdx.input.getAccelerometerZ() / 4f;
+        latestMovement[1][moveAverageIndex] = accelY;
         if(moveAverageIndex < rollingAverageCount - 1) {
             moveAverageIndex++;
         } else {
@@ -98,17 +111,19 @@ public class SpaceShip extends GameObject {
         float totalY = 0f;
         for(int i = 0; i < rollingAverageCount; i++){
             totalX = totalX + latestMovement[0][i];
-            totalY = totalY + latestMovement[1][i];
+            totalY = (totalY + latestMovement[1][i] + 2f);
         }
         totalY = totalY / rollingAverageCount;
         totalX = totalX / rollingAverageCount;
 
         setX(totalX);
-        setY(-0.5f);
+        setY(totalY);
 
         keyboardInput();
         minPointBox.x = getX() - 1f;
+        minPointBox.y = getY() - 1f;
         maxPointBox.x = getX() + 1f;
+        maxPointBox.y = getY() + 1f;
         collisionBox.set(minPointBox, maxPointBox);
 
 
