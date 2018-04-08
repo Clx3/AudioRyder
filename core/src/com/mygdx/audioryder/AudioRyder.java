@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
+import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.screens.GameScreen;
 import com.mygdx.audioryder.screens.LevelLoadingScreen;
 import com.mygdx.audioryder.screens.LoadingScreen;
@@ -19,6 +20,7 @@ import com.mygdx.audioryder.screens.MainMenuScreen;
 import com.mygdx.audioryder.song.Song;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AudioRyder extends Game {
 
@@ -76,6 +78,9 @@ public class AudioRyder extends Game {
 
 	@Override
 	public void create () {
+		Properties.currentLocale = Properties.localeEN;
+		Properties.updateProperties();
+
         cam2D = new OrthographicCamera();
         cam2D.setToOrtho(false, ORTHOCAM_VIEWPORT_WIDTH, ORTHOCAM_VIEWPORT_HEIGHT);
 

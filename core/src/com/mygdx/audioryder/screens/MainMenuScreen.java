@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -26,7 +27,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
+import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.song.Song;
+
+import java.util.Locale;
 
 /**
  * Created by Teemu on 17.3.2018.
@@ -68,7 +72,7 @@ public class MainMenuScreen implements Screen {
 
         public MenuButton(String text, Skin skin) {
             super(text, skin);
-            setWidth(200f);
+            setWidth(230f);
             setHeight(70f);
         }
 
@@ -81,10 +85,10 @@ public class MainMenuScreen implements Screen {
         private Song song;
 
         public SongButton(Song song, Skin skin) {
-            super(song.getName(), skin);
+            super(song.getName(), skin, "songbutton");
             setSong(song);
-            setWidth(200f);
-            setHeight(70f);
+            setWidth(230f);
+            setHeight(60f);
 
             addListener(new ClickListener() {
                @Override
@@ -110,8 +114,11 @@ public class MainMenuScreen implements Screen {
         game.cam2D.setToOrtho(false, game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
         game.batch.setProjectionMatrix(game.cam2D.combined);
 
-        testSkin = new Skin(Gdx.files.internal("skins/plain-james-ui.json"));
-        testAtlas = new TextureAtlas("skins/plain-james-ui.atlas");
+        //testSkin = new Skin(Gdx.files.internal("skins/plain-james-ui.json"));
+        //testAtlas = new TextureAtlas("skins/plain-james-ui.atlas");
+
+        testSkin = new Skin(Gdx.files.internal("skins/jarno/AudioRyderUI.json"));
+        testAtlas = new TextureAtlas("skins/jarno/AudioRyderUI.atlas");
 
         viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
         viewport.apply();
@@ -163,9 +170,14 @@ public class MainMenuScreen implements Screen {
         mainMenuTable.setFillParent(true);
 
         /* Creating the buttons: */
-        playButton = new MenuButton("Play", testSkin);
-        settingsButton = new MenuButton("Settings", testSkin);
-        exitButton = new MenuButton("Exit", testSkin);
+        playButton = new MenuButton(Properties.playText, testSkin);
+        settingsButton = new MenuButton(Properties.settingsText, testSkin);
+        exitButton = new MenuButton(Properties.exitText, testSkin);
+
+        ImageButton changeLanguangeButton = new ImageButton(testSkin, "flag");
+        changeLanguangeButton.setSize(50f,50f);
+        changeLanguangeButton.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - changeLanguangeButton.getWidth() / 2, 50f);
+        changeLanguangeButton.setChecked(true);
 
         /* Adding listeners: */
         playButton.addListener(new ClickListener() {
@@ -173,12 +185,14 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 //game.loadingScreen = new LoadingScreen(game);
                 //game.setScreen(game.loadingScreen);
+                playButton.setChecked(false);
                 setCurrentStage(selectSongStage);
             }
         });
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                settingsButton.setChecked(false);
                 setCurrentStage(settingsStage);
             }
         });
@@ -188,12 +202,26 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
+        changeLanguangeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(Properties.currentLocale == Properties.localeEN) {
+                    Properties.currentLocale = Properties.localeFI;
+                } else {
+                    Properties.currentLocale = Properties.localeEN;
+                }
+                Properties.updateProperties();
+                updateButtonTexts();
+            }
+        });
 
         mainMenuTable.add(playButton).size(playButton.getWidth(), playButton.getHeight()).pad(15f);
         mainMenuTable.row();
-        mainMenuTable.add(settingsButton).size(settingsButton.getWidth(), settingsButton.getHeight()).pad(15f);;
+        mainMenuTable.add(settingsButton).size(settingsButton.getWidth(), settingsButton.getHeight()).pad(15f);
         mainMenuTable.row();
-        mainMenuTable.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).pad(15f);;
+        mainMenuTable.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).pad(15f);
+
+        mainStage.addActor(changeLanguangeButton);
 
         mainStage.addActor(mainMenuTable);
     }
@@ -206,10 +234,11 @@ public class MainMenuScreen implements Screen {
     private void setupSelectSongStage() {
         selectSongStage = new Stage(viewport, game.batch);
 
-        TextButton returnButton = new TextButton("Return", testSkin);
-        TextButton playButtonn = new TextButton("Play", testSkin);
+        //final TextButton returnButton = new TextButton(Properties.returnText, testSkin);
+        final TextButton playButtonn = new TextButton(Properties.playText, testSkin);
         HorizontalGroup playAndReturn = new HorizontalGroup();
         playAndReturn.space(50f);
+        returnButton = new MenuButton(Properties.returnText, testSkin);
         playAndReturn.addActor(returnButton);
         playAndReturn.addActor(playButtonn);
 
@@ -227,10 +256,9 @@ public class MainMenuScreen implements Screen {
         songs.addActor(song2);
 
         ScrollPane songsPane = new ScrollPane(songs, testSkin);
-        //songsPane.setSize(200f, 100f);
 
         Table songTable = new Table(testSkin);
-         songTable.setSize(500f, 500f);
+        songTable.setSize(500f, 500f);
         songTable.debug();
         songTable.setPosition(game.WINDOW_WIDTH / 2 - songTable.getWidth() / 2, game.WINDOW_HEIGHT / 2 - songTable.getHeight() / 2);
         songTable.add(songsPane).row();
@@ -238,10 +266,15 @@ public class MainMenuScreen implements Screen {
 
         selectSongStage.addActor(songTable);
 
+        //Initializing the game.currentSong to the first song in the songlist.
+        song1.setChecked(true);
+        game.currentSong = song1.getSong();
+
         /* Adding listeners for return and play: */
         playButtonn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                playButtonn.setChecked(false);
                 game.levelLoadingScreen = new LevelLoadingScreen(game, game.currentSong);
                 game.setScreen(game.levelLoadingScreen);
             }
@@ -250,6 +283,7 @@ public class MainMenuScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                returnButton.setChecked(false);
                 setCurrentStage(mainStage);
             }
         });
@@ -319,17 +353,29 @@ public class MainMenuScreen implements Screen {
         settingsStage.addActor(up);
 
         /* Adding buttons: */
-        returnButton = new MenuButton("Return", testSkin);
+        returnButton = new MenuButton(Properties.returnText, testSkin);
 
         /* Adding listeners: */
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                returnButton.setChecked(false);
                 setCurrentStage(mainStage);
             }
         });
 
         settingsStage.addActor(returnButton);
+    }
+
+    private void addActorToStage(Actor actor, Stage stage) {
+        stage.addActor(actor);
+    }
+
+    private void updateButtonTexts() {
+        playButton.setText(Properties.playText);
+        settingsButton.setText(Properties.settingsText);
+        exitButton.setText(Properties.exitText);
+        returnButton.setText(Properties.returnText);
     }
 
     /**
@@ -349,10 +395,10 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
         backgroundStage.draw();
-        System.out.println("down: "+game.sensitivityDown);
+        /*System.out.println("down: "+game.sensitivityDown);
         System.out.println("up: "+game.sensitivityUp);
         System.out.println("left: "+game.sensitivityLeft);
-        System.out.println("right: "+game.sensitivityRight);
+        System.out.println("right: "+game.sensitivityRight);*/
         currentStage.act(Gdx.graphics.getDeltaTime());
         currentStage.draw();
     }
