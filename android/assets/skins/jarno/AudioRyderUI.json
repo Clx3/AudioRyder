@@ -1,0 +1,327 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	conthrax: {
+		file: conthrax.fnt
+	}
+	font: {
+		file: font-export.fnt
+	}
+	forvertz: {
+		file: forvertz.fnt
+	}
+	nasalization: {
+		file: nasalization.fnt
+	}
+	title: {
+		file: font-title-export.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	black: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+	gray: {
+		r: 0.68333334
+		g: 0.68333334
+		b: 0.68333334
+		a: 1
+	}
+	RGBA_0_127_165_255: {
+		r: 0.5921569
+		g: 0.8907099
+		b: 0.9803922
+		a: 1
+	}
+	RGBA_104_169_255_255: {
+		r: 0.41000003
+		g: 0.66366714
+		b: 1
+		a: 1
+	}
+	RGBA_169_0_168_255: {
+		r: 0.66666657
+		g: 0.0022223592
+		b: 0.66264373
+		a: 1
+	}
+	RGBA_243_91_218_255: {
+		r: 0.95333314
+		g: 0.35908896
+		b: 0.8549196
+		a: 1
+	}
+	white: {
+		r: 1
+		g: 1
+		b: 1
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+	round-dark-gray: {
+		name: round-white
+		color: {
+			r: 0.22
+			g: 0.22
+			b: 0.22
+			a: 1
+		}
+	}
+	round-light-gray: {
+		name: round-white
+		color: {
+			r: 0.86333334
+			g: 0.86333334
+			b: 0.86333334
+			a: 1
+		}
+	}
+	round-gray-small: {
+		name: round-white-small
+		color: {
+			r: 0.4633333
+			g: 0.4633333
+			b: 0.4633333
+			a: 1
+		}
+	}
+	round-black-small: {
+		name: round-white-small
+		color: {
+			r: 0
+			g: 0
+			b: 0
+			a: 1
+		}
+	}
+	gray: {
+		name: white
+		color: {
+			r: 0.59
+			g: 0.59
+			b: 0.59
+			a: 1
+		}
+	}
+	round-blue: {
+		name: round-gray
+		color: RGBA_0_127_165_255
+	}
+	round-dark-blue: {
+		name: round-gray
+		color: RGBA_104_169_255_255
+	}
+	round-blue2: {
+		name: round-gray
+		color: {
+			r: 0
+			g: 0.99666667
+			b: 0.988361
+			a: 1
+		}
+	}
+	SongButtondown: {
+		name: SongButton
+		color: {
+			r: 0.8099998
+			g: 0.8099998
+			b: 0.8099998
+			a: 1
+		}
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: round-gray
+		down: round-dark-gray
+		over: round-light-gray
+	}
+	toggle: {
+		up: round-gray
+		down: round-dark-gray
+		over: round-light-gray
+		checked: round-dark-gray
+		checkedOver: round-light-gray
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+	default: {
+		checkboxOn: checkbox-on
+		checkboxOff: checkbox
+		font: forvertz
+		fontColor: black
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+	default: {
+		up: round-gray
+		down: round-dark-gray
+		over: round-light-gray
+	}
+	toggle: {
+		up: round-gray
+		down: round-dark-gray
+		over: round-light-gray
+		checked: round-dark-gray
+		checkedOver: round-light-gray
+	}
+	flag: {
+		imageUp: Finland-icon
+		imageChecked: United-Kingdom-icon
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+	default: {
+		font: forvertz
+		up: round-gray
+		down: round-dark-gray
+		over: round-light-gray
+	}
+	toggle: {
+		font: font
+		fontColor: black
+		up: round-gray
+		down: round-dark-gray
+		over: round-light-gray
+		checked: round-dark-gray
+		checkedOver: round-light-gray
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: forvertz
+		fontColor: black
+	}
+	title: {
+		font: title
+		fontColor: black
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+	default: {
+		font: forvertz
+		fontColorSelected: RGBA_169_0_168_255
+		fontColorUnselected: RGBA_243_91_218_255
+		selection: List
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+	default-horizontal: {
+		background: progress-bar
+		knobBefore: progress-bar-fill
+	}
+	default-vertical: {
+		background: progress-bar
+		knobBefore: progress-bar-fill-vert
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+	default: {
+		background: List
+		hScroll: round-black-small
+		hScrollKnob: round-gray-small
+		vScroll: round-black-small
+		vScrollKnob: round-gray-small
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+	default: {
+		font: forvertz
+		fontColor: black
+		scrollStyle: default
+		listStyle: default
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+	default-horizontal: {
+		background: slider-horizontal
+		knob: slider-knob
+	}
+	default-vertical: {
+		background: slider-vertical
+		knob: slider-knob
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
+	default-horizontal: {
+		handle: horizontal-split-pane
+	}
+	default-vertical: {
+		handle: vertical-split-pane
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: forvertz
+		fontColor: black
+		up: ButtonUp
+		down: ButtonDown
+		checked: ButtonDown
+	}
+	toggle: {
+		font: font
+		fontColor: black
+		up: round-gray
+		down: round-dark-gray
+		over: round-light-gray
+		checked: round-dark-gray
+		checkedOver: round-light-gray
+	}
+	special: {
+		font: title
+		fontColor: black
+		up: round-gray
+		down: round-dark-gray
+		over: round-light-gray
+	}
+	songbutton: {
+		font: conthrax
+		fontColor: black
+		up: SongButton
+		checked: SongButtondown
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+	default: {
+		font: forvertz
+		fontColor: RGBA_169_0_168_255
+		background: ButtonUp
+		cursor: cursor
+		selection: gray
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+	default: {
+		label: default
+		background: round-white
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
+	default: {
+		background: touchpad
+		knob: touchpad-knob
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
+	default: {
+		plus: plus
+		minus: minus
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+	default: {
+		background: window
+		titleFont: forvertz
+		titleFontColor: black
+	}
+	dialog: {
+		background: window
+		titleFont: font
+		titleFontColor: black
+		stageBackground: white
+	}
+}
+}
