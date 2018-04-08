@@ -155,7 +155,7 @@ public class MainMenuScreen implements Screen {
         backgroundStage = new Stage(viewport, game.batch);
 
         backgroundStage.addActor(background);
-        backgroundStage.addActor(audioRyderText);
+
     }
 
     /**
@@ -222,7 +222,7 @@ public class MainMenuScreen implements Screen {
         mainMenuTable.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).pad(15f);
 
         mainStage.addActor(changeLanguangeButton);
-
+        mainStage.addActor(audioRyderText);
         mainStage.addActor(mainMenuTable);
     }
 
@@ -244,16 +244,19 @@ public class MainMenuScreen implements Screen {
 
         SongButton song1 = new SongButton(game.erikaSong, testSkin);
         SongButton song2 = new SongButton(game.nopeeHatane, testSkin);
+        SongButton song3 = new SongButton(game.chinese, testSkin);
 
         ButtonGroup songButtonGroup = new ButtonGroup();
         songButtonGroup.setUncheckLast(true);
         songButtonGroup.setMaxCheckCount(1);
         songButtonGroup.add(song1);
         songButtonGroup.add(song2);
+        songButtonGroup.add(song3);
 
         VerticalGroup songs = new VerticalGroup();
         songs.addActor(song1);
         songs.addActor(song2);
+        songs.addActor(song3);
 
         ScrollPane songsPane = new ScrollPane(songs, testSkin);
 

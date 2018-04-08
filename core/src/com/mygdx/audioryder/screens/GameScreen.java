@@ -103,6 +103,7 @@ public class GameScreen implements Screen {
 
         hit = new Texture("hit.png");
         miss = new Texture("miss.png");
+
     }
 
     @Override
@@ -142,6 +143,11 @@ public class GameScreen implements Screen {
 
         notes.removeAll(notesToRemove);
         notesToRemove.clear();
+
+        if(!(SongHandler.currentSong.isPlaying())){
+            game.setScreen(game.mainMenuScreen);
+        }
+
     }
 
     @Override
@@ -161,6 +167,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void hide() {
+        levelTimer = 0f;
+        game.songTimer = 0f;
 
     }
 

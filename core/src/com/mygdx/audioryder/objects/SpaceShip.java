@@ -109,7 +109,9 @@ public class SpaceShip extends GameObject {
         }
         float totalX = 0f;
         float totalY = 0f;
+
         //FIXME: Y AKSELI PÄIN VITTUA!!
+
         for(int i = 0; i < rollingAverageCount; i++){
             totalX = totalX + latestMovement[0][i];
             totalY = (totalY + latestMovement[1][i] + 2f);
