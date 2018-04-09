@@ -21,6 +21,8 @@ public class Properties {
     public static String settingsText;
     public static String exitText;
     public static String returnText;
+    public static String sensitivityText;
+    public static String sensitivityText2;
 
     public static void updateProperties() {
         I18NBundle myBundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), currentLocale);
@@ -29,6 +31,8 @@ public class Properties {
         settingsText = myBundle.get("settingsText");
         exitText = myBundle.get("exitText");
         returnText = myBundle.get("returnText");
+        sensitivityText = myBundle.get("sensitivityText");
+        sensitivityText2 = myBundle.get("sensitivityText2");
     }
 
 }

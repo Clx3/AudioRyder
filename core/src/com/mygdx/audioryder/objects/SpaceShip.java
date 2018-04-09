@@ -84,22 +84,22 @@ public class SpaceShip extends GameObject {
             accelX = 4f;
         } else if (Gdx.input.getAccelerometerY() - game.xCalib < -4f / game.sensitivityLeft) {
             accelX = -4f;
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib < 0.8f / game.sensitivityRight && Gdx.input.getAccelerometerY() - game.xCalib > -0.8f / game.sensitivityLeft) {
+        } else if (Gdx.input.getAccelerometerY() - game.xCalib < 1f / game.sensitivityRight && Gdx.input.getAccelerometerY() - game.xCalib > -1f / game.sensitivityLeft) {
             accelX = -0f;
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib > 0.8f / game.sensitivityRight) {
-            accelX = Gdx.input.getAccelerometerY() * game.sensitivityRight;
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib < -0.8f / game.sensitivityLeft){
-            accelX = Gdx.input.getAccelerometerY() * game.sensitivityLeft;
+        } else if (Gdx.input.getAccelerometerY() - game.xCalib > 1f / game.sensitivityRight) {
+            accelX = (Gdx.input.getAccelerometerY() - game.xCalib)* game.sensitivityRight;
+        } else if (Gdx.input.getAccelerometerY() - game.xCalib < -1f / game.sensitivityLeft){
+            accelX = (Gdx.input.getAccelerometerY()  - game.xCalib )* game.sensitivityLeft;
         }
-
+        /*
         if(Gdx.input.getAccelerometerZ() - game.yCalib > 2f / (game.sensitivityDown)){
-            accelY = -2f;
-        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < -2f / (game.sensitivityUp)) {
             accelY = 0f;
+        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < -2f / (game.sensitivityUp)) {
+            accelY = 2f;
         } else if (Gdx.input.getAccelerometerZ() - game.yCalib < 2f / (game.sensitivityDown) && Gdx.input.getAccelerometerZ() - game.yCalib > -2f / (game.sensitivityUp)) {
-            accelY = -1f;
+            accelY = 1f;
         }
-
+        */
         latestMovement[0][moveAverageIndex] = accelX;
         latestMovement[1][moveAverageIndex] = accelY;
         if(moveAverageIndex < rollingAverageCount - 1) {
@@ -114,7 +114,7 @@ public class SpaceShip extends GameObject {
 
         for(int i = 0; i < rollingAverageCount; i++){
             totalX = totalX + latestMovement[0][i];
-            totalY = (totalY + latestMovement[1][i] + 2f);
+            totalY = (totalY + latestMovement[1][i]);
         }
         totalY = totalY / rollingAverageCount;
         totalX = totalX / rollingAverageCount;

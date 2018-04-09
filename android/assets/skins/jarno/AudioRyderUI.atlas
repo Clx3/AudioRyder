@@ -39,28 +39,28 @@ filter: Linear,Linear
 repeat: none
 Finland-icon
   rotate: false
-  xy: 303, 242
+  xy: 1, 111
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 Finland-icon-down
   rotate: false
-  xy: 74, 141
+  xy: 369, 242
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 United-Kingdom-down
   rotate: false
-  xy: 581, 540
+  xy: 1, 45
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 United-Kingdom-icon
   rotate: false
-  xy: 1, 48
+  xy: 588, 540
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -109,7 +109,7 @@ checkbox-on
   index: -1
 cursor
   rotate: false
-  xy: 67, 105
+  xy: 778, 861
   size: 4, 7
   split: 1, 1, 2, 2
   pad: 0, 0, 0, 0
@@ -149,21 +149,21 @@ list
   index: -1
 minus
   rotate: false
-  xy: 422, 293
+  xy: 483, 293
   size: 12, 13
   orig: 12, 13
   offset: 0, 0
   index: -1
 plus
   rotate: false
-  xy: 140, 144
+  xy: 88, 192
   size: 12, 13
   orig: 12, 13
   offset: 0, 0
   index: -1
 progress-bar
   rotate: false
-  xy: 140, 159
+  xy: 435, 260
   size: 46, 46
   split: 10, 10, 10, 10
   pad: 6, 6, 6, 6
@@ -172,44 +172,35 @@ progress-bar
   index: -1
 progress-bar-fill
   rotate: false
-  xy: 45, 12
+  xy: 991, 931
   size: 1, 34
   orig: 1, 34
   offset: 0, 0
   index: -1
 progress-bar-fill-vert
   rotate: false
-  xy: 1, 1
+  xy: 778, 870
   size: 34, 1
   orig: 34, 1
   offset: 0, 0
   index: -1
 radio
   rotate: false
-  xy: 74, 123
+  xy: 707, 588
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 radio-on
   rotate: false
-  xy: 369, 248
+  xy: 435, 242
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 round-gray
   rotate: false
-  xy: 1, 4
-  size: 42, 42
-  split: 13, 13, 13, 13
-  pad: 9, 9, 5, 5
-  orig: 42, 42
-  offset: 0, 0
-  index: -1
-round-gray
-  rotate: false
-  xy: 1, 4
+  xy: 1, 1
   size: 42, 42
   split: 13, 13, 13, 13
   pad: 9, 9, 5, 5
@@ -218,16 +209,7 @@ round-gray
   index: -1
 round-white
   rotate: false
-  xy: 647, 562
-  size: 42, 42
-  split: 13, 13, 13, 13
-  pad: 9, 9, 5, 5
-  orig: 42, 42
-  offset: 0, 0
-  index: -1
-round-white
-  rotate: false
-  xy: 647, 562
+  xy: 45, 1
   size: 42, 42
   split: 13, 13, 13, 13
   pad: 9, 9, 5, 5
@@ -236,16 +218,7 @@ round-white
   index: -1
 round-white-small
   rotate: false
-  xy: 778, 847
-  size: 24, 24
-  split: 10, 10, 10, 10
-  pad: 10, 10, 2, 2
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-round-white-small
-  rotate: false
-  xy: 778, 847
+  xy: 303, 216
   size: 24, 24
   split: 10, 10, 10, 10
   pad: 10, 10, 2, 2
@@ -254,7 +227,7 @@ round-white-small
   index: -1
 selectbox
   rotate: false
-  xy: 369, 266
+  xy: 654, 564
   size: 51, 40
   split: 2, 31, 2, 27
   pad: 2, 35, 2, 2
@@ -272,7 +245,7 @@ selection
   index: -1
 slider-horizontal
   rotate: false
-  xy: 303, 230
+  xy: 654, 552
   size: 20, 10
   split: 4, 4, 4, 4
   pad: 1, 2, 2, 2
@@ -281,14 +254,14 @@ slider-horizontal
   index: -1
 slider-knob
   rotate: false
-  xy: 515, 514
+  xy: 588, 514
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 slider-vertical
   rotate: false
-  xy: 188, 185
+  xy: 67, 155
   size: 9, 20
   split: 4, 3, 3, 3
   pad: 3, 3, 2, 2
@@ -312,7 +285,7 @@ touchpad
   index: -1
 touchpad-knob
   rotate: false
-  xy: 515, 540
+  xy: 303, 242
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -328,24 +301,31 @@ vertical-split-pane
   index: -1
 white
   rotate: false
-  xy: 37, 1
-  size: 1, 1
-  orig: 1, 1
-  offset: 0, 0
-  index: -1
-white
-  rotate: false
-  xy: 37, 1
+  xy: 1014, 1011
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 window
   rotate: false
-  xy: 1, 114
+  xy: 515, 513
   size: 71, 91
   split: 15, 15, 35, 15
   pad: 9, 10, 37, 5
   orig: 71, 91
+  offset: 0, 0
+  index: -1
+slider-blue-horizontal
+  rotate: false
+  xy: 1, 177
+  size: 85, 28
+  orig: 85, 28
+  offset: 0, 0
+  index: -1
+slider-blue-vertical
+  rotate: false
+  xy: 961, 880
+  size: 28, 85
+  orig: 28, 85
   offset: 0, 0
   index: -1

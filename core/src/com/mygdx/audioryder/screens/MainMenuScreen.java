@@ -2,6 +2,7 @@ package com.mygdx.audioryder.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -57,6 +59,13 @@ public class MainMenuScreen implements Screen {
     MenuButton settingsButton;
     MenuButton exitButton;
     MenuButton returnButton;
+    Label sensitivityText;
+    Label sensitivityText2;
+    Label leftSensText;
+    Label rightSensText;
+    Label downSensText;
+    Label upSensText;
+
 
     private Viewport viewport;
 
@@ -318,9 +327,9 @@ public class MainMenuScreen implements Screen {
             });
             if(vertical){
                 setWidth(20f);
-                setHeight(250f);
+                setHeight(230f);
             } else {
-                setWidth(250f);
+                setWidth(230f);
                 setHeight(20f);
             }
             this.direction = direction;
@@ -336,30 +345,64 @@ public class MainMenuScreen implements Screen {
             } else if(direction.equals("up")){
                 game.sensitivityUp = getValue();
             }
+            MainMenuScreen.this.updateButtonTexts();
+
         }
     }
 
     private void setupSettingsStage() {
         settingsStage = new Stage(viewport, game.batch);
+
+        sensitivityText = new Label(Properties.sensitivityText, testSkin, "forvertz", Color.WHITE);
+        sensitivityText.setAlignment(1);
+        sensitivityText.setSize(150f,50f);
+        sensitivityText.setPosition(80f,520f);
+
+        sensitivityText2 = new Label(Properties.sensitivityText2, testSkin, "conthrax", Color.WHITE);
+        sensitivityText2.setAlignment(1);
+        sensitivityText2.setFontScale(0.7f);
+        sensitivityText2.setSize(150f,50f);
+        sensitivityText2.setPosition(80f,490f - sensitivityText2.getHeight());
+
+
+
+        leftSensText = new Label(game.sensitivityLeft + "", testSkin, "forvertz", Color.WHITE);
+        leftSensText.setPosition(100f,315f);
+        rightSensText = new Label(game.sensitivityRight + "", testSkin, "forvertz", Color.WHITE);
+        rightSensText.setPosition(540f,315f);
+        downSensText = new Label(game.sensitivityDown + "", testSkin, "forvertz", Color.WHITE);
+        downSensText.setPosition(360f,130f);
+        upSensText = new Label(game.sensitivityUp + "", testSkin, "forvertz", Color.WHITE);
+        upSensText.setPosition(360f,500f);
+
+
+        settingsStage.addActor(sensitivityText);
+        settingsStage.addActor(sensitivityText2);
+        settingsStage.addActor(leftSensText);
+        settingsStage.addActor(downSensText);
+        settingsStage.addActor(rightSensText);
+        settingsStage.addActor(upSensText);
+
         SensitivitySlider left = new SensitivitySlider(false, testSkin, -4f,-1f, "left");
-        left.setPosition(100f,290f);
+        left.setPosition(90f,290f);
         SensitivitySlider down = new SensitivitySlider(true, testSkin, -4f, -1f,"down");
-        down.setPosition(360f,280f - down.getHeight());
+        down.setPosition(330f,280f - down.getHeight());
         SensitivitySlider right = new SensitivitySlider(false, testSkin, 1f,4f,"right");
-        right.setPosition(390f,290f);
+        right.setPosition(360f,290f);
         SensitivitySlider up = new SensitivitySlider(true, testSkin, 1f, 4f,"up");
-        up.setPosition(360f,320f);
+        up.setPosition(330f,320f);
 
         left.setValue(game.sensitivityLeft * -1f);
         down.setValue(game.sensitivityDown * -1f);
         right.setValue(game.sensitivityRight);
         up.setValue(game.sensitivityUp);
 
-
         settingsStage.addActor(left);
         settingsStage.addActor(down);
         settingsStage.addActor(right);
         settingsStage.addActor(up);
+
+
 
         /* Adding buttons: */
         returnButton = new MenuButton(Properties.returnText, testSkin);
@@ -380,11 +423,19 @@ public class MainMenuScreen implements Screen {
         stage.addActor(actor);
     }
 
-    private void updateButtonTexts() {
+    public void updateButtonTexts() {
         playButton.setText(Properties.playText);
         settingsButton.setText(Properties.settingsText);
         exitButton.setText(Properties.exitText);
         returnButton.setText(Properties.returnText);
+        sensitivityText.setText(Properties.sensitivityText);
+        sensitivityText2.setText(Properties.sensitivityText2);
+        leftSensText.setText(game.sensitivityLeft + "");
+        rightSensText.setText(game.sensitivityRight + "");
+        upSensText.setText(game.sensitivityUp + "");
+        downSensText.setText(game.sensitivityDown + "");
+
+
     }
 
     /**

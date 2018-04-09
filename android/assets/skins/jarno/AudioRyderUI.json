@@ -237,11 +237,11 @@ com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
 	default-horizontal: {
-		background: slider-horizontal
+		background: slider-blue-horizontal
 		knob: slider-knob
 	}
 	default-vertical: {
-		background: slider-vertical
+		background: slider-blue-vertical
 		knob: slider-knob
 	}
 }
