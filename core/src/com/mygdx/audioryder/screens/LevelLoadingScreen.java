@@ -29,6 +29,8 @@ public class LevelLoadingScreen implements Screen {
         game.batch.setProjectionMatrix(game.cam2D.combined);
 
         game.assets.load(AudioRyder.SONGS_PATH + songToBeLoaded.getSongFileString(), Music.class);
+        game.xCalib = Gdx.input.getAccelerometerY();
+        game.yCalib = Gdx.input.getAccelerometerZ();
     }
 
     @Override

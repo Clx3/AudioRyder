@@ -80,23 +80,23 @@ public class SpaceShip extends GameObject {
     public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
         float accelX = 0f;
         float accelY = 0f;
-        if(Gdx.input.getAccelerometerY() > 4f / game.sensitivityRight){
+        if(Gdx.input.getAccelerometerY() - game.xCalib > 4f / game.sensitivityRight){
             accelX = 4f;
-        } else if (Gdx.input.getAccelerometerY() < -4f / game.sensitivityLeft) {
+        } else if (Gdx.input.getAccelerometerY() - game.xCalib < -4f / game.sensitivityLeft) {
             accelX = -4f;
-        } else if (Gdx.input.getAccelerometerY() < 0.8f / game.sensitivityRight && Gdx.input.getAccelerometerY() > -0.8f / game.sensitivityLeft) {
+        } else if (Gdx.input.getAccelerometerY() - game.xCalib < 0.8f / game.sensitivityRight && Gdx.input.getAccelerometerY() - game.xCalib > -0.8f / game.sensitivityLeft) {
             accelX = -0f;
-        } else if (Gdx.input.getAccelerometerY() > 0.8f / game.sensitivityRight) {
+        } else if (Gdx.input.getAccelerometerY() - game.xCalib > 0.8f / game.sensitivityRight) {
             accelX = Gdx.input.getAccelerometerY() * game.sensitivityRight;
-        } else if (Gdx.input.getAccelerometerY() < -0.8f / game.sensitivityLeft){
+        } else if (Gdx.input.getAccelerometerY() - game.xCalib < -0.8f / game.sensitivityLeft){
             accelX = Gdx.input.getAccelerometerY() * game.sensitivityLeft;
         }
 
-        if(Gdx.input.getAccelerometerZ() > 2f / (game.sensitivityDown)){
+        if(Gdx.input.getAccelerometerZ() - game.yCalib > 2f / (game.sensitivityDown)){
             accelY = -2f;
-        } else if (Gdx.input.getAccelerometerZ() < -2f / (game.sensitivityUp)) {
+        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < -2f / (game.sensitivityUp)) {
             accelY = 0f;
-        } else if (Gdx.input.getAccelerometerZ() < 2f / (game.sensitivityDown) && Gdx.input.getAccelerometerY() > -2f / (game.sensitivityUp)) {
+        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < 2f / (game.sensitivityDown) && Gdx.input.getAccelerometerZ() - game.yCalib > -2f / (game.sensitivityUp)) {
             accelY = -1f;
         }
 
