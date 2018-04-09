@@ -245,6 +245,8 @@ public class MainMenuScreen implements Screen {
         SongButton song1 = new SongButton(game.erikaSong, testSkin);
         SongButton song2 = new SongButton(game.nopeeHatane, testSkin);
         SongButton song3 = new SongButton(game.chinese, testSkin);
+        SongButton song4 = new SongButton(game.reverie, testSkin);
+        SongButton song5 = new SongButton(game.zzz, testSkin);
 
         ButtonGroup songButtonGroup = new ButtonGroup();
         songButtonGroup.setUncheckLast(true);
@@ -252,11 +254,15 @@ public class MainMenuScreen implements Screen {
         songButtonGroup.add(song1);
         songButtonGroup.add(song2);
         songButtonGroup.add(song3);
+        songButtonGroup.add(song4);
+        songButtonGroup.add(song5);
 
         VerticalGroup songs = new VerticalGroup();
         songs.addActor(song1);
         songs.addActor(song2);
         songs.addActor(song3);
+        songs.addActor(song4);
+        songs.addActor(song5);
 
         ScrollPane songsPane = new ScrollPane(songs, testSkin);
 

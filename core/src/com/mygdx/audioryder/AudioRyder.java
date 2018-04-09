@@ -78,6 +78,8 @@ public class AudioRyder extends Game {
 	public Song erikaSong;
 	public Song nopeeHatane;
 	public Song chinese;
+	public Song reverie;
+	public Song zzz;
 
 	@Override
 	public void create () {
@@ -94,6 +96,8 @@ public class AudioRyder extends Game {
 		erikaSong = new Song("Marssilaulu","erika.mp3", "erika.txt");
 		nopeeHatane = new Song("Nopee hatanen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt");
 		chinese = new Song("Chinese Song","chinese.mp3","chinese.txt");
+        reverie = new Song("Reverie","reverie.mp3","reverie.txt");
+        zzz = new Song("Z Z Z","zzz.mp3","zzz.txt");
 
         //set variables
         score = 0;
