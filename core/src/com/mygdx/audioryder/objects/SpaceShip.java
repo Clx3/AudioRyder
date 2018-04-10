@@ -81,25 +81,21 @@ public class SpaceShip extends GameObject {
         float accelX = 0f;
         float accelY = 0f;
         if(Gdx.input.getAccelerometerY() - game.xCalib > 4f / game.sensitivityRight){
-            accelX = 4f;
+            accelX = 4.5f;
         } else if (Gdx.input.getAccelerometerY() - game.xCalib < -4f / game.sensitivityLeft) {
-            accelX = -4f;
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib < 1f / game.sensitivityRight && Gdx.input.getAccelerometerY() - game.xCalib > -1f / game.sensitivityLeft) {
+            accelX = -4.5f;
+        } else if (Gdx.input.getAccelerometerY() - game.xCalib < 2f / game.sensitivityRight && Gdx.input.getAccelerometerY() - game.xCalib > -2f / game.sensitivityLeft) {
             accelX = -0f;
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib > 1f / game.sensitivityRight) {
-            accelX = (Gdx.input.getAccelerometerY() - game.xCalib)* game.sensitivityRight;
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib < -1f / game.sensitivityLeft){
-            accelX = (Gdx.input.getAccelerometerY()  - game.xCalib )* game.sensitivityLeft;
         }
-        /*
-        if(Gdx.input.getAccelerometerZ() - game.yCalib > 2f / (game.sensitivityDown)){
+
+        if(Gdx.input.getAccelerometerZ() - game.yCalib > 4f / (game.sensitivityDown)){
             accelY = 0f;
-        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < -2f / (game.sensitivityUp)) {
+        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < -4f / (game.sensitivityUp)) {
             accelY = 2f;
-        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < 2f / (game.sensitivityDown) && Gdx.input.getAccelerometerZ() - game.yCalib > -2f / (game.sensitivityUp)) {
+        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < 4f / (game.sensitivityDown) && Gdx.input.getAccelerometerZ() - game.yCalib > -4f / (game.sensitivityUp)) {
             accelY = 1f;
         }
-        */
+
         latestMovement[0][moveAverageIndex] = accelX;
         latestMovement[1][moveAverageIndex] = accelY;
         if(moveAverageIndex < rollingAverageCount - 1) {

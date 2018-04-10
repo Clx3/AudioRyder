@@ -115,8 +115,10 @@ public class GameScreen implements Screen {
 
         SongHandler.addNotesToGame(game);
 
-
+        cam3D.position.set(game.spaceShip.getX(),2f + game.spaceShip.getY(),4f);
+        cam3D.lookAt(game.spaceShip.getX(),game.spaceShip.getY(),game.spaceShip.getZ());
         cam3D.update();
+
         modelBatch.begin(cam3D);
         for(GameObject object : gameObjects) {
             if(object.isActive())
@@ -140,6 +142,8 @@ public class GameScreen implements Screen {
 
         gameObjects.removeAll(gameObjectsToRemove);
         gameObjectsToRemove.clear();
+
+
 
         notes.removeAll(notesToRemove);
         notesToRemove.clear();
