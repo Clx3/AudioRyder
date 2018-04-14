@@ -140,11 +140,13 @@ public class GameScreen implements Screen {
     }
 
     private void setupGameOverlay() {
-        gameOverlay = new Stage(viewport,game.batch);
+        gameOverlay = new Stage(viewport, game.batch);
 
+
+        //FIXME: MENI RIKKI, KORJAA JOSKUS
         final TextButton pauseButton = new TextButton("Pause",testSkin);
         pauseButton.setSize(150f,50f);
-        pauseButton.setPosition(viewport.getScreenWidth() - pauseButton.getWidth() - 10f,viewport.getScreenHeight() - pauseButton.getHeight() - 10f);
+        pauseButton.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH - pauseButton.getWidth() - 10f,game.ORTHOCAM_VIEWPORT_HEIGHT - pauseButton.getHeight() - 10f);
         pauseButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -271,7 +273,7 @@ public class GameScreen implements Screen {
                 groundLines.remove(0);
             }
 
-            drawTextAndSprites();
+            //drawTextAndSprites();
 
             gameObjects.removeAll(gameObjectsToRemove);
             gameObjectsToRemove.clear();
@@ -355,9 +357,9 @@ public class GameScreen implements Screen {
     public void drawTextAndSprites(){
         game.batch.begin();
 
-        game.cam2D.setToOrtho(false,10f,6f);
+        /*game.cam2D.setToOrtho(false,10f,6f);
         game.batch.setProjectionMatrix(game.cam2D.combined);
-        game.cam2D.update();
+        game.cam2D.update();*/
         game.hitOrMissTimer += Gdx.graphics.getDeltaTime();
         if (game.hitOrMiss && game.score > 0 && game.hitOrMissTimer < 0.5f) {
             game.batch.draw(hit, 1.5f, 3f, 1f, 0.5f);
@@ -365,9 +367,9 @@ public class GameScreen implements Screen {
             game.batch.draw(miss, 1.5f, 3f, 1f, 0.5f);
         }
 
-        game.cam2D.setToOrtho(false,viewport.getScreenWidth(),viewport.getScreenHeight());
+        /*game.cam2D.setToOrtho(false,game.ORTHOCAM_VIEWPORT_WIDTH,game.ORTHOCAM_VIEWPORT_HEIGHT);
         game.batch.setProjectionMatrix(game.cam2D.combined);
-        game.cam2D.update();
+        game.cam2D.update();*/
         font.draw(game.batch, "Score :" + game.score, 750, 170);
         font.draw(game.batch, "Streak :" + game.streak, 750, 190);
         font.draw(game.batch, "Multiplier " + game.multiplier + "X", 750, 210);
