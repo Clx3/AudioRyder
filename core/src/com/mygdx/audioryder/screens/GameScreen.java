@@ -14,6 +14,14 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.objects.GameObject;
 import com.mygdx.audioryder.objects.GroundLine;
@@ -52,6 +60,18 @@ public class GameScreen implements Screen {
     Music currentSong;
 
     float levelTimer = 0f;
+    boolean GAME_PAUSED;
+
+    Stage pauseStage;
+    Stage gameOverlay;
+    Viewport viewport;
+    Skin testSkin;
+
+    TextButton continueGame;
+    TextButton settings;
+    TextButton restart;
+    TextButton exit;
+    Table pauseMenuTable;
 
     ShapeRenderer shapeRenderer;
 
@@ -61,48 +81,159 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(new InputAdapter());
+        if(!(game.GAME_IS_ON)) {
+            Gdx.input.setInputProcessor(new InputAdapter());
 
-        //set cameras, batches and environment
-        cam3D = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam3D.position.set(0f,3f,3f);
-        cam3D.lookAt(0f,1f,0f);
-        cam3D.near = 0.1f;
-        cam3D.far = 1000.0f;
-        game.cam2D.setToOrtho(false, 10f,6f);
+            //set cameras, batches and environment
+            cam3D = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            cam3D.position.set(0f, 3f, 3f);
+            cam3D.lookAt(0f, 1f, 0f);
+            cam3D.near = 0.1f;
+            cam3D.far = 1000.0f;
+            //game.cam2D.setToOrtho(false, 10f,6f);
 
-        modelBatch = new ModelBatch();
+            modelBatch = new ModelBatch();
 
-        font = game.font;
+            font = game.font;
 
-        Model tempModel;
+            Model tempModel;
 
-        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
-        game.spaceShip = new SpaceShip(game, tempModel);
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
+            game.spaceShip = new SpaceShip(game, tempModel);
 
-        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
-        game.box = (tempModel);
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
+            game.box = (tempModel);
 
-        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Track.g3db",Model.class);
-        game.levelModel = (tempModel);
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Track.g3db", Model.class);
+            game.levelModel = (tempModel);
 
-        tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db",Model.class);
-        game.skyModel = (tempModel);
-        game.skydome = new Skydome(game, game.skyModel);
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
+            game.skyModel = (tempModel);
+            game.skydome = new Skydome(game, game.skyModel);
 
-        //for(float x = -15f; x > -392f; x -= 17.9f){
-            groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, 2f,game.noteSpeed * 2.5f));
-        //groundLines.add(new GroundLine(game.levelModel, 0, -2f, -100f,game.noteSpeed * 2.5f));
+            //for(float x = -15f; x > -392f; x -= 17.9f){
+            groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, 2f, game.noteSpeed * 2.5f));
+            //groundLines.add(new GroundLine(game.levelModel, 0, -2f, -100f,game.noteSpeed * 2.5f));
             //groundLines.add(new GroundLine(game.levelModel, 0, -2f, 2f - 17.9f * 3,game.noteSpeed * 2.5f));
-        //}
+            //}
 
-        //Using the songhandler now, this will become usefull when we add multiple levels and
-        //a loading screen from main menu to game.
-        SongHandler.setupSong(game, game.currentSong);
-        SongHandler.currentSong.play();
+            //Using the songhandler now, this will become usefull when we add multiple levels and
+            //a loading screen from main menu to game.
+            SongHandler.setupSong(game, game.currentSong);
+            SongHandler.currentSong.play();
 
-        hit = new Texture("hit.png");
-        miss = new Texture("miss.png");
+            hit = new Texture("hit.png");
+            miss = new Texture("miss.png");
+
+            viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
+            viewport.apply();
+
+            testSkin = game.mainMenuScreen.testSkin;
+
+            setupPauseStage();
+            setupGameOverlay();
+            GAME_PAUSED = false;
+            game.GAME_IS_ON = true;
+        }
+
+
+    }
+
+    private void setupGameOverlay() {
+        gameOverlay = new Stage(viewport,game.batch);
+
+        final TextButton pauseButton = new TextButton("Pause",testSkin);
+        pauseButton.setSize(150f,50f);
+        pauseButton.setPosition(viewport.getScreenWidth() - pauseButton.getWidth() - 10f,viewport.getScreenHeight() - pauseButton.getHeight() - 10f);
+        pauseButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                GAME_PAUSED = true;
+                pauseButton.setChecked(false);
+                SongHandler.currentSong.pause();
+            }
+        });
+        gameOverlay.addActor(pauseButton);
+        Gdx.input.setInputProcessor(gameOverlay);
+    }
+
+    private void setupPauseStage() {
+
+        pauseStage = new Stage(viewport, game.batch);
+
+
+        pauseMenuTable = new Table();
+        pauseMenuTable.setFillParent(true);
+
+
+        continueGame = new TextButton("Continue",testSkin);
+        continueGame.setSize(260f,80f);
+        settings = new TextButton("settings",testSkin);
+        settings.setSize(260f,80f);
+        restart = new TextButton("restart",testSkin);
+        restart.setSize(260f,80f);
+        exit = new TextButton("exit",testSkin);
+        exit.setSize(260f,80f);
+
+        continueGame.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y) {
+                GAME_PAUSED = false;
+                Gdx.input.setInputProcessor(gameOverlay);
+                continueGame.setChecked(false);
+                SongHandler.currentSong.play();
+            }
+        });
+
+        settings.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                settings.setChecked(false);
+                SongHandler.currentSong.pause();
+                game.setScreen(game.mainMenuScreen);
+                game.mainMenuScreen.currentStage = game.mainMenuScreen.settingsStage;
+                Gdx.input.setInputProcessor(game.mainMenuScreen.currentStage);
+            }
+        });
+
+        restart.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                for(Note note : notes){
+                    note.setActive(false);
+                    notesToRemove.add(note);
+                    gameObjectsToRemove.add(note);
+                }
+                gameObjects.removeAll(gameObjectsToRemove);
+                gameObjectsToRemove.clear();
+                notes.removeAll(notesToRemove);
+                notesToRemove.clear();
+                game.songTimer = 0f;
+                SongHandler.setupSong(game,game.currentSong);
+                Gdx.input.setInputProcessor(gameOverlay);
+                SongHandler.currentSong.play();
+                GAME_PAUSED = false;
+            }
+        });
+
+        exit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                dispose();
+                game.setScreen(game.mainMenuScreen);
+                game.GAME_IS_ON = false;
+            }
+        });
+
+
+        pauseMenuTable.add(continueGame).size(continueGame.getWidth(),continueGame.getHeight()).pad(15f);
+        pauseMenuTable.row();
+        pauseMenuTable.add(settings).size(settings.getWidth(),settings.getHeight()).pad(15f);
+        pauseMenuTable.row();
+        pauseMenuTable.add(restart).size(restart.getWidth(),restart.getHeight()).pad(15f);
+        pauseMenuTable.row();
+        pauseMenuTable.add(exit).size(exit.getWidth(),exit.getHeight()).pad(15f);
+
+        pauseStage.addActor(pauseMenuTable);
 
     }
 
@@ -110,46 +241,58 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         //System.out.println("GameSCreen");
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        if(!(GAME_PAUSED)) {
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        SongHandler.addNotesToGame(game);
+            SongHandler.addNotesToGame(game);
 
-        cam3D.position.set(game.spaceShip.getX(),2f + game.spaceShip.getY(),4f);
-        cam3D.lookAt(game.spaceShip.getX(),game.spaceShip.getY(),game.spaceShip.getZ());
-        cam3D.update();
+            cam3D.position.set(game.spaceShip.getX(), 2f + game.spaceShip.getY(), 4f);
+            cam3D.lookAt(game.spaceShip.getX(), game.spaceShip.getY(), game.spaceShip.getZ());
+            cam3D.update();
 
-        modelBatch.begin(cam3D);
-        for(GameObject object : gameObjects) {
-            if(object.isActive())
-                object.renderAndUpdate(modelBatch, game.environment);
-            else
-                gameObjectsToRemove.add(object);
-        }
-        modelBatch.end();
-        levelTimer += Gdx.graphics.getDeltaTime();
+            modelBatch.begin(cam3D);
+            for (GameObject object : gameObjects) {
+                if (object.isActive())
+                    object.renderAndUpdate(modelBatch, game.environment);
+                else
+                    gameObjectsToRemove.add(object);
+            }
+            modelBatch.end();
+            levelTimer += Gdx.graphics.getDeltaTime();
+
 
         /* Spawning and removing the groundlines: */
-        if(groundLines.get(groundLines.size()-1).getZ() > -200f) {
-            groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, game.noteSpeed * 2.5f));
+            if (groundLines.get(groundLines.size() - 1).getZ() > -200f) {
+                groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, game.noteSpeed * 2.5f));
+            }
+            if (groundLines.get(0).getZ() > 20) {
+                groundLines.get(0).setActive(false);
+                groundLines.remove(0);
+            }
+
+            drawTextAndSprites();
+
+            gameObjects.removeAll(gameObjectsToRemove);
+            gameObjectsToRemove.clear();
+
+
+            notes.removeAll(notesToRemove);
+            notesToRemove.clear();
+
+            //Overlay:
+            gameOverlay.act();
+            gameOverlay.draw();
+
+            if (!(SongHandler.currentSong.isPlaying())) {
+                game.GAME_IS_ON = false;
+                game.setScreen(game.mainMenuScreen);
+                dispose();
+            }
         }
-        if(groundLines.get(0).getZ() > 20) {
-            groundLines.get(0).setActive(false);
-            groundLines.remove(0);
-        }
-
-        drawTextAndSprites();
-
-        gameObjects.removeAll(gameObjectsToRemove);
-        gameObjectsToRemove.clear();
-
-
-
-        notes.removeAll(notesToRemove);
-        notesToRemove.clear();
-
-        if(!(SongHandler.currentSong.isPlaying())){
-            game.setScreen(game.mainMenuScreen);
+        if(GAME_PAUSED){
+            Gdx.input.setInputProcessor(pauseStage);
+            pause();
         }
 
     }
@@ -161,18 +304,20 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        Gdx.gl.glClearColor( 0, 0, 0, 1 );
+        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
+        pauseStage.act(Gdx.graphics.getDeltaTime());
+        pauseStage.draw();
     }
 
     @Override
     public void resume() {
-
+        GAME_PAUSED = true;
     }
 
     @Override
     public void hide() {
-        levelTimer = 0f;
-        game.songTimer = 0f;
+
 
     }
 
@@ -198,17 +343,21 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        modelBatch.dispose();
+        /*modelBatch.dispose();
         hit.dispose();
         miss.dispose();
         currentSong.dispose();
-        shapeRenderer.dispose();
+        shapeRenderer.dispose();*/
+        levelTimer = 0f;
+        game.songTimer = 0f;
     }
 
     public void drawTextAndSprites(){
         game.batch.begin();
-        game.batch.setProjectionMatrix(game.cam2D.combined);
 
+        game.cam2D.setToOrtho(false,10f,6f);
+        game.batch.setProjectionMatrix(game.cam2D.combined);
+        game.cam2D.update();
         game.hitOrMissTimer += Gdx.graphics.getDeltaTime();
         if (game.hitOrMiss && game.score > 0 && game.hitOrMissTimer < 0.5f) {
             game.batch.draw(hit, 1.5f, 3f, 1f, 0.5f);
@@ -216,7 +365,7 @@ public class GameScreen implements Screen {
             game.batch.draw(miss, 1.5f, 3f, 1f, 0.5f);
         }
 
-        game.cam2D.setToOrtho(false,1000f,600f);
+        game.cam2D.setToOrtho(false,viewport.getScreenWidth(),viewport.getScreenHeight());
         game.batch.setProjectionMatrix(game.cam2D.combined);
         game.cam2D.update();
         font.draw(game.batch, "Score :" + game.score, 750, 170);
@@ -226,8 +375,8 @@ public class GameScreen implements Screen {
         font.draw(game.batch, "Y: " + Gdx.input.getAccelerometerY(), 750, 250);
         font.draw(game.batch, "Z: " + Gdx.input.getAccelerometerZ(), 750, 270);
         font.draw(game.batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 750, 290);
-        game.cam2D.setToOrtho(false,10f,6f);
-        game.cam2D.update();
+
+
         game.batch.end();
     }
 }

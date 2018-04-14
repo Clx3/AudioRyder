@@ -42,12 +42,12 @@ public class MainMenuScreen implements Screen {
 
     AudioRyder game;
 
-    private Stage currentStage;
+     Stage currentStage;
 
     private Stage backgroundStage;
     private Stage mainStage;
     private Stage selectSongStage;
-    private Stage settingsStage;
+    Stage settingsStage;
 
     Skin testSkin;
     TextureAtlas testAtlas;
@@ -71,6 +71,37 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(AudioRyder game) {
         this.game = game;
+
+        game.cam2D.setToOrtho(false, game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
+        game.batch.setProjectionMatrix(game.cam2D.combined);
+
+        //testSkin = new Skin(Gdx.files.internal("skins/plain-james-ui.json"));
+        //testAtlas = new TextureAtlas("skins/plain-james-ui.atlas");
+
+        testSkin = new Skin(Gdx.files.internal("skins/jarno/AudioRyderUI.json"));
+        testAtlas = new TextureAtlas("skins/jarno/AudioRyderUI.atlas");
+
+        viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
+        viewport.apply();
+
+        //testSkin = new Skin(Gdx.files.internal("skins/PlayButton.json"));
+        //testAtlas = new TextureAtlas("skins/PlayButton.atlas");
+
+        Texture backgroundTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "menubackground.jpg"));
+        TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
+        background = new Image(backgroundRegion);
+
+        Texture audioRyderTextTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "audioryder.png"));
+        TextureRegion audioRyderTextRegion = new TextureRegion(audioRyderTextTexture);
+        audioRyderText = new Image(audioRyderTextRegion);
+        audioRyderText.setSize(750f, 200f);
+        audioRyderText.setPosition(game.WINDOW_WIDTH / 2 - audioRyderText.getWidth() / 2, game.WINDOW_HEIGHT - audioRyderText.getHeight());
+
+
+        setupBackgroundStage();
+        setupMainStage();
+        setupSelectSongStage();
+        setupSettingsStage();
     }
 
     /**
@@ -120,36 +151,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        game.cam2D.setToOrtho(false, game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
-        game.batch.setProjectionMatrix(game.cam2D.combined);
 
-        //testSkin = new Skin(Gdx.files.internal("skins/plain-james-ui.json"));
-        //testAtlas = new TextureAtlas("skins/plain-james-ui.atlas");
-
-        testSkin = new Skin(Gdx.files.internal("skins/jarno/AudioRyderUI.json"));
-        testAtlas = new TextureAtlas("skins/jarno/AudioRyderUI.atlas");
-
-        viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
-        viewport.apply();
-
-        //testSkin = new Skin(Gdx.files.internal("skins/PlayButton.json"));
-        //testAtlas = new TextureAtlas("skins/PlayButton.atlas");
-
-        Texture backgroundTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "menubackground.jpg"));
-        TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
-        background = new Image(backgroundRegion);
-
-        Texture audioRyderTextTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "audioryder.png"));
-        TextureRegion audioRyderTextRegion = new TextureRegion(audioRyderTextTexture);
-        audioRyderText = new Image(audioRyderTextRegion);
-        audioRyderText.setSize(750f, 200f);
-        audioRyderText.setPosition(game.WINDOW_WIDTH / 2 - audioRyderText.getWidth() / 2, game.WINDOW_HEIGHT - audioRyderText.getHeight());
-
-
-        setupBackgroundStage();
-        setupMainStage();
-        setupSelectSongStage();
-        setupSettingsStage();
 
         setCurrentStage(mainStage);
 
@@ -411,8 +413,13 @@ public class MainMenuScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                returnButton.setChecked(false);
-                setCurrentStage(mainStage);
+                if(game.GAME_IS_ON) {
+                    returnButton.setChecked(false);
+                    game.setScreen(game.gameScreen);
+                } else {
+                    returnButton.setChecked(false);
+                    setCurrentStage(mainStage);
+                }
             }
         });
 

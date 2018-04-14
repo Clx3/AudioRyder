@@ -119,10 +119,13 @@ public class SpaceShip extends GameObject {
         setY(totalY);
 
         keyboardInput();
-        minPointBox.x = getX() - 1f;
+
+        minPointBox = new Vector3(getX() - collisionBox.getWidth() / 2, getY(), getZ() + collisionBox.getHeight() / 2);
+        maxPointBox = new Vector3(getX() + collisionBox.getWidth() / 2, getY() + collisionBox.getDepth(), getZ() - collisionBox.getHeight() / 2);
+        /*minPointBox.x = getX() - 1f;
         minPointBox.y = getY() - 1f;
         maxPointBox.x = getX() + 1f;
-        maxPointBox.y = getY() + 1f;
+        maxPointBox.y = getY() + 1f;*/
         collisionBox.set(minPointBox, maxPointBox);
 
 

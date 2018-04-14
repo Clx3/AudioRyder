@@ -22,6 +22,7 @@ public class SongHandler {
     public static void setupSong(AudioRyder game, Song song) {
         songPointer = 0;
         currentSong = game.assets.get(AudioRyder.SONGS_PATH + song.getSongFileString());
+        currentSong.stop();
         currentNoteFile = song.getNoteFile();
 
         String noteData = currentNoteFile.readString();

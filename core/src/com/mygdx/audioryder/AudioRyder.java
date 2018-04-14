@@ -61,6 +61,7 @@ public class AudioRyder extends Game {
 	public int multiplier;
 	public float hitOrMissTimer;
 	public boolean hitOrMiss = true;
+	public boolean GAME_IS_ON = false;
 
 	public Model box;
 	public Float songTimer = 0f;
