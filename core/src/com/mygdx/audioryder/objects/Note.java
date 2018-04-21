@@ -33,13 +33,13 @@ public class Note extends GameObject {
     float speed;
     AnimationController controller;
 
-    public Note(AudioRyder game, float x, float y, float z, Model model, float speed) {
+    public Note(AudioRyder game, float x, int i2, Model model, float speed) {
         super(game);
         this.game = game;
-
+        direction = i2;
         setX(x);
-        setY(y);
-        setZ(z);
+        setY(-1.0f);
+        setZ(-50f);
 
         this.noteModel = new ModelInstance(model,getX(),getY(),getZ());
 
@@ -77,5 +77,13 @@ public class Note extends GameObject {
             game.hitOrMiss = false;
             game.hitOrMissTimer = 0f;
         }
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
 }

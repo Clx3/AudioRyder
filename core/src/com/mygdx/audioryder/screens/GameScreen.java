@@ -34,6 +34,7 @@ import com.mygdx.audioryder.song.SongHandler;
 
 import java.util.ArrayList;
 
+
 /**
  * Created by Teemu on 1.3.2018.
  */
@@ -74,6 +75,7 @@ public class GameScreen implements Screen {
     TextButton restart;
     TextButton exit;
     Table pauseMenuTable;
+    Label score;
 
     ShapeRenderer shapeRenderer;
 
@@ -106,7 +108,7 @@ public class GameScreen implements Screen {
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
             game.box = (tempModel);
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Track.g3db", Model.class);
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
             game.levelModel = (tempModel);
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
@@ -141,7 +143,6 @@ public class GameScreen implements Screen {
 
     }
 
-    Label score;
     private void setupGameOverlay() {
         gameOverlay = new Stage(viewport, game.batch);
 
@@ -221,6 +222,7 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(gameOverlay);
                 SongHandler.currentSong.play();
                 GAME_PAUSED = false;
+                restart.setChecked(false);
             }
         });
 
@@ -229,6 +231,7 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
                 game.setScreen(game.mainMenuScreen);
+                exit.setChecked(false);
                 game.GAME_IS_ON = false;
             }
         });
@@ -290,8 +293,10 @@ public class GameScreen implements Screen {
             notesToRemove.clear();
 
             //Overlay:
+            score.setText("Score \n" + game.score);
             gameOverlay.act();
             gameOverlay.draw();
+
 
             if (!(SongHandler.currentSong.isPlaying())) {
                 game.GAME_IS_ON = false;

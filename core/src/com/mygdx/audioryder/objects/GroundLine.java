@@ -21,6 +21,7 @@ public class GroundLine extends GameObject {
         setPosition(x, y, z);
         this.model = new ModelInstance(model, getX(),getY(),getZ());
         this.speed = speed;
+
     }
 
     @Override
@@ -31,5 +32,25 @@ public class GroundLine extends GameObject {
         model.transform.setToTranslationAndScaling(getX(),getY(), getZ(),1.6f,1f,1f);
         model.calculateTransforms();
     }
+
+    /* Mieleni oli täynnä vittua kun luin tämän ja tähän liitetyt jutut :--D:*/
+
+    /*
+    public GroundLine(float i, Model model, float speed) {
+        this.model = new ModelInstance(model,i,-2f,-25f);
+        x = 0;
+        y = i;
+        this.speed = speed;
+    }
+    public void render(ModelBatch modelBatch, Environment environment){
+        modelBatch.render(model,environment);
+    }
+    public void move3d() {
+        y += Gdx.graphics.getDeltaTime() * 10f * speed;
+        model.transform.setToTranslationAndScaling(x,-2f,y,1.6f,1f,1f);
+        model.calculateTransforms();
+
+    }
+     */
 
 }
