@@ -430,6 +430,12 @@ public class MainMenuScreen implements Screen {
         stage.addActor(actor);
     }
 
+
+    /**
+     * This method is used to update the Strings
+     * that are shown on the buttons if the user
+     * changes the language.
+     */
     public void updateButtonTexts() {
         playButton.setText(Properties.playText);
         settingsButton.setText(Properties.settingsText);
