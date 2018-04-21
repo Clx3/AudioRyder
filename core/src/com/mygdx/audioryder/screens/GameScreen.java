@@ -293,7 +293,7 @@ public class GameScreen implements Screen {
             notesToRemove.clear();
 
             //Overlay:
-            score.setText("Score \n" + game.score);
+            score.setText(Properties.scoreText + "\n" + game.score);
             gameOverlay.act();
             gameOverlay.draw();
 
