@@ -258,6 +258,7 @@ public class MainMenuScreen implements Screen {
         SongButton song3 = new SongButton(game.chinese, testSkin);
         SongButton song4 = new SongButton(game.reverie, testSkin);
         SongButton song5 = new SongButton(game.zzz, testSkin);
+        SongButton song6 = new SongButton(game.heatenings, testSkin);
 
         ButtonGroup songButtonGroup = new ButtonGroup();
         songButtonGroup.setUncheckLast(true);
@@ -267,6 +268,7 @@ public class MainMenuScreen implements Screen {
         songButtonGroup.add(song3);
         songButtonGroup.add(song4);
         songButtonGroup.add(song5);
+        songButtonGroup.add(song6);
 
         VerticalGroup songs = new VerticalGroup();
         songs.addActor(song1);
@@ -274,6 +276,7 @@ public class MainMenuScreen implements Screen {
         songs.addActor(song3);
         songs.addActor(song4);
         songs.addActor(song5);
+        songs.addActor(song6);
 
         ScrollPane songsPane = new ScrollPane(songs, testSkin);
 
@@ -366,8 +369,6 @@ public class MainMenuScreen implements Screen {
         sensitivityText2.setSize(150f,50f);
         sensitivityText2.setPosition(80f,490f - sensitivityText2.getHeight());
 
-
-
         leftSensText = new Label(game.sensitivityLeft + "", testSkin, "forvertz", Color.WHITE);
         leftSensText.setPosition(100f,315f);
         rightSensText = new Label(game.sensitivityRight + "", testSkin, "forvertz", Color.WHITE);
@@ -404,8 +405,6 @@ public class MainMenuScreen implements Screen {
         settingsStage.addActor(right);
         settingsStage.addActor(up);
 
-
-
         /* Adding buttons: */
         returnButton = new MenuButton(Properties.returnText, testSkin);
 
@@ -430,6 +429,12 @@ public class MainMenuScreen implements Screen {
         stage.addActor(actor);
     }
 
+
+    /**
+     * This method is used to update the Strings
+     * that are shown on the buttons if the user
+     * changes the language.
+     */
     public void updateButtonTexts() {
         playButton.setText(Properties.playText);
         settingsButton.setText(Properties.settingsText);
@@ -441,8 +446,6 @@ public class MainMenuScreen implements Screen {
         rightSensText.setText(game.sensitivityRight + "");
         upSensText.setText(game.sensitivityUp + "");
         downSensText.setText(game.sensitivityDown + "");
-
-
     }
 
     /**
@@ -492,5 +495,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+
     }
 }
