@@ -360,7 +360,7 @@ public class MainMenuScreen implements Screen {
         sensitivityText.setSize(150f,50f);
         sensitivityText.setPosition(80f,520f);
 
-        sensitivityText2 = new Label(Properties.sensitivityText2, testSkin, "conthrax", Color.WHITE);
+        sensitivityText2 = new Label(Properties.sensitivityText2, testSkin, "nasalization", Color.WHITE);
         sensitivityText2.setAlignment(1);
         sensitivityText2.setFontScale(0.7f);
         sensitivityText2.setSize(150f,50f);

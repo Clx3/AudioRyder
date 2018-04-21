@@ -45,7 +45,7 @@ public class Note extends GameObject {
 
         this.speed = speed;
         controller = new AnimationController(this.noteModel);
-        controller.setAnimation("Bend", -1);
+        controller.setAnimation("RotateScale", -1);
 
         collisionBox = new BoundingBox();
         minPoint = new Vector3(getX() - collisionboxWidth/2, getY(), getZ() - collisionboxDepth);

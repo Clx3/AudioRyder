@@ -2,12 +2,16 @@ package com.mygdx.audioryder;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.BaseLight;
+import com.badlogic.gdx.graphics.g3d.environment.PointLight;
+import com.badlogic.gdx.graphics.g3d.environment.SpotLight;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Skydome;
@@ -55,6 +59,9 @@ public class AudioRyder extends Game {
 	public Skydome skydome;
 
 	public Environment environment;
+    public PointLight light;
+    public PointLight light2;
+
 
 	public int score;
 	public int streak;
@@ -108,6 +115,17 @@ public class AudioRyder extends Game {
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 2.0f));
+        light = new PointLight();
+        light.setIntensity(5000f);
+        light.setColor(Color.WHITE);
+        light.setPosition(0f,70f,-25f);
+        environment.add(light);
+        light2 = new PointLight();
+        light2.setIntensity(5000f);
+        light2.setColor(Color.WHITE);
+        light2.setPosition(0f,70f,-150f);
+        environment.add(light2);
+
 
         //settings
         noteSpeed = 1.5f;
@@ -119,6 +137,8 @@ public class AudioRyder extends Game {
 
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
+
+
 	}
 
 	@Override

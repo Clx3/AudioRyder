@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -28,9 +29,11 @@ import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Note;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
+import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.song.SongHandler;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by Teemu on 1.3.2018.
@@ -72,6 +75,7 @@ public class GameScreen implements Screen {
     TextButton restart;
     TextButton exit;
     Table pauseMenuTable;
+    Label score;
 
     ShapeRenderer shapeRenderer;
 
@@ -104,7 +108,7 @@ public class GameScreen implements Screen {
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
             game.box = (tempModel);
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Track.g3db", Model.class);
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
             game.levelModel = (tempModel);
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
@@ -156,6 +160,10 @@ public class GameScreen implements Screen {
             }
         });
         gameOverlay.addActor(pauseButton);
+        score = new Label(Properties.scoreText + "\n" + game.score,testSkin,"nasalization",Color.WHITE);
+        score.setAlignment(1);
+        score.setPosition((game.ORTHOCAM_VIEWPORT_WIDTH / 2f) - (score.getWidth() / 2),(game.ORTHOCAM_VIEWPORT_HEIGHT) - (score.getHeight()) - 10f);
+        gameOverlay.addActor(score);
         Gdx.input.setInputProcessor(gameOverlay);
     }
 
@@ -214,6 +222,7 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(gameOverlay);
                 SongHandler.currentSong.play();
                 GAME_PAUSED = false;
+                restart.setChecked(false);
             }
         });
 
@@ -222,6 +231,7 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
                 game.setScreen(game.mainMenuScreen);
+                exit.setChecked(false);
                 game.GAME_IS_ON = false;
             }
         });
@@ -283,8 +293,10 @@ public class GameScreen implements Screen {
             notesToRemove.clear();
 
             //Overlay:
+            score.setText("Score \n" + game.score);
             gameOverlay.act();
             gameOverlay.draw();
+
 
             if (!(SongHandler.currentSong.isPlaying())) {
                 game.GAME_IS_ON = false;
