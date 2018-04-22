@@ -252,7 +252,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //System.out.println("GameSCreen");
+        //FIXME: testaus printtausta :--D moro teme :--D
+        System.out.println(game.xCalib + "    " + game.yCalib);
 
         if(!(GAME_PAUSED)) {
             Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -284,7 +285,7 @@ public class GameScreen implements Screen {
                 groundLines.remove(0);
             }
 
-            //drawTextAndSprites();
+            drawTextAndSprites();
 
             gameObjects.removeAll(gameObjectsToRemove);
             gameObjectsToRemove.clear();
@@ -301,8 +302,10 @@ public class GameScreen implements Screen {
 
             if (!(SongHandler.currentSong.isPlaying())) {
                 game.GAME_IS_ON = false;
-                game.setScreen(game.mainMenuScreen);
                 dispose();
+                SongHandler.currentSong.stop();
+                game.endScreen = new EndScreen(game,game.score, game.currentSong);
+                game.setScreen(game.endScreen);
             }
         }
         if(GAME_PAUSED){
@@ -310,6 +313,16 @@ public class GameScreen implements Screen {
             pause();
         }
 
+        /*
+        //FIXME: nopee hätänen testausosio ending-screenille
+        if(levelTimer > 2f){
+            game.GAME_IS_ON = false;
+            dispose();
+            SongHandler.currentSong.stop();
+            game.endScreen = new EndScreen(game,1234567890, game.currentSong);
+            game.setScreen(game.endScreen);
+        }
+        */
     }
 
     @Override

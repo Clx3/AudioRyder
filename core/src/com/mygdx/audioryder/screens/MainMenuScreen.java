@@ -42,9 +42,8 @@ public class MainMenuScreen implements Screen {
 
     AudioRyder game;
 
-     Stage currentStage;
-
-    private Stage backgroundStage;
+    Stage currentStage;
+    Stage backgroundStage;
     private Stage mainStage;
     private Stage selectSongStage;
     Stage settingsStage;

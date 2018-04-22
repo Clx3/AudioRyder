@@ -17,6 +17,7 @@ import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.properties.Properties;
+import com.mygdx.audioryder.screens.EndScreen;
 import com.mygdx.audioryder.screens.GameScreen;
 import com.mygdx.audioryder.screens.LevelLoadingScreen;
 import com.mygdx.audioryder.screens.LoadingScreen;
@@ -49,6 +50,7 @@ public class AudioRyder extends Game {
 	public MainMenuScreen mainMenuScreen;
 	public LoadingScreen loadingScreen;
 	public LevelLoadingScreen levelLoadingScreen;
+	public EndScreen endScreen;
 
 	public SpaceShip spaceShip;
 
