@@ -65,6 +65,7 @@ public class MainMenuScreen implements Screen {
     Label rightSensText;
     Label downSensText;
     Label upSensText;
+    TextButton calibrateButton;
 
 
     private Viewport viewport;
@@ -218,8 +219,10 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if(Properties.currentLocale == Properties.localeEN) {
                     Properties.currentLocale = Properties.localeFI;
+                    settingsButton.getLabel().setFontScale(0.8f,0.8f);
                 } else {
                     Properties.currentLocale = Properties.localeEN;
+                    settingsButton.getLabel().setFontScale(1f,1f);
                 }
                 Properties.updateProperties();
                 updateButtonTexts();
@@ -258,6 +261,7 @@ public class MainMenuScreen implements Screen {
         SongButton song3 = new SongButton(game.chinese, testSkin);
         SongButton song4 = new SongButton(game.reverie, testSkin);
         SongButton song5 = new SongButton(game.zzz, testSkin);
+        SongButton song6 = new SongButton(game.heatenings, testSkin);
 
         ButtonGroup songButtonGroup = new ButtonGroup();
         songButtonGroup.setUncheckLast(true);
@@ -267,6 +271,7 @@ public class MainMenuScreen implements Screen {
         songButtonGroup.add(song3);
         songButtonGroup.add(song4);
         songButtonGroup.add(song5);
+        songButtonGroup.add(song6);
 
         VerticalGroup songs = new VerticalGroup();
         songs.addActor(song1);
@@ -274,12 +279,17 @@ public class MainMenuScreen implements Screen {
         songs.addActor(song3);
         songs.addActor(song4);
         songs.addActor(song5);
+        songs.addActor(song6);
+        songs.padRight(5f);
+
 
         ScrollPane songsPane = new ScrollPane(songs, testSkin);
+        songsPane.setFadeScrollBars(false);
+        songsPane.setScrollingDisabled(true,false);
 
         Table songTable = new Table(testSkin);
         songTable.setSize(500f, 500f);
-        songTable.debug();
+        //songTable.debug();
         songTable.setPosition(game.WINDOW_WIDTH / 2 - songTable.getWidth() / 2, game.WINDOW_HEIGHT / 2 - songTable.getHeight() / 2);
         songTable.add(songsPane).row();
         songTable.add(playAndReturn);
@@ -366,6 +376,19 @@ public class MainMenuScreen implements Screen {
         sensitivityText2.setSize(150f,50f);
         sensitivityText2.setPosition(80f,490f - sensitivityText2.getHeight());
 
+        calibrateButton = new TextButton(Properties.calibrateText, testSkin);
+        calibrateButton.setPosition(650f, 250f);
+        calibrateButton.getLabel().setStyle(new Label.LabelStyle(testSkin.getFont("nasalization"),Color.WHITE));
+        calibrateButton.getLabel().setFontScale(1.2f);
+        calibrateButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                calibrateButton.setChecked(false);
+                game.xCalib = Gdx.input.getAccelerometerY();
+                game.yCalib = Gdx.input.getAccelerometerZ();
+            }
+        });
 
 
         leftSensText = new Label(game.sensitivityLeft + "", testSkin, "forvertz", Color.WHITE);
@@ -378,12 +401,14 @@ public class MainMenuScreen implements Screen {
         upSensText.setPosition(360f,500f);
 
 
+
         settingsStage.addActor(sensitivityText);
         settingsStage.addActor(sensitivityText2);
         settingsStage.addActor(leftSensText);
         settingsStage.addActor(downSensText);
         settingsStage.addActor(rightSensText);
         settingsStage.addActor(upSensText);
+        settingsStage.addActor(calibrateButton);
 
         SensitivitySlider left = new SensitivitySlider(false, testSkin, -4f,-1f, "left");
         left.setPosition(90f,290f);
@@ -447,6 +472,7 @@ public class MainMenuScreen implements Screen {
         rightSensText.setText(game.sensitivityRight + "");
         upSensText.setText(game.sensitivityUp + "");
         downSensText.setText(game.sensitivityDown + "");
+        calibrateButton.setText(Properties.calibrateText);
 
 
     }

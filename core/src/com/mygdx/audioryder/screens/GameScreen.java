@@ -146,9 +146,7 @@ public class GameScreen implements Screen {
     private void setupGameOverlay() {
         gameOverlay = new Stage(viewport, game.batch);
 
-
-        //FIXME: MENI RIKKI, KORJAA JOSKUS
-        final TextButton pauseButton = new TextButton("Pause",testSkin);
+        final TextButton pauseButton = new TextButton(Properties.pauseText,testSkin);
         pauseButton.setSize(150f,50f);
         pauseButton.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH - pauseButton.getWidth() - 10f,game.ORTHOCAM_VIEWPORT_HEIGHT - pauseButton.getHeight() - 10f);
         pauseButton.addListener(new ClickListener(){
@@ -176,14 +174,17 @@ public class GameScreen implements Screen {
         pauseMenuTable.setFillParent(true);
 
 
-        continueGame = new TextButton("Continue",testSkin);
-        continueGame.setSize(260f,80f);
-        settings = new TextButton("settings",testSkin);
-        settings.setSize(260f,80f);
-        restart = new TextButton("restart",testSkin);
-        restart.setSize(260f,80f);
-        exit = new TextButton("exit",testSkin);
-        exit.setSize(260f,80f);
+        continueGame = new TextButton(Properties.continueText,testSkin);
+        continueGame.setSize(300f,80f);
+        settings = new TextButton(Properties.settingsText,testSkin);
+        settings.setSize(300f,80f);
+        restart = new TextButton(Properties.restartText,testSkin);
+        restart.setSize(300f,80f);
+        if(Properties.currentLocale == Properties.localeFI) {
+            restart.getLabel().setFontScale(0.9f,0.9f);
+        }
+        exit = new TextButton(Properties.exitText,testSkin);
+        exit.setSize(300f,80f);
 
         continueGame.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {

@@ -25,6 +25,9 @@ public class Properties {
     public static String sensitivityText2;
     public static String scoreText;
     public static String pauseText;
+    public static String continueText;
+    public static String restartText;
+    public static String calibrateText;
 
     public static void updateProperties() {
         I18NBundle myBundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), currentLocale);
@@ -37,6 +40,9 @@ public class Properties {
         sensitivityText2 = myBundle.get("sensitivityText2");
         scoreText = myBundle.get("scoreText");
         pauseText = myBundle.get("pauseText");
+        continueText = myBundle.get("continueText");
+        restartText = myBundle.get("restartText");
+        calibrateText = myBundle.get("calibrateText");
     }
 
 }

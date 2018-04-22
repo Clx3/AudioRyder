@@ -100,11 +100,19 @@ public class SpaceShip extends GameObject {
 
     private void keyboardInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            setX(4);
+            setX(getX() + (Gdx.graphics.getDeltaTime() * 8f));
 
         } else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 
-            setX(-4);
+            setX(getX() - (Gdx.graphics.getDeltaTime() * 8f));
+
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            setY(getY() + (Gdx.graphics.getDeltaTime() * 8f));
+
+        } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+
+            setY(getY() - (Gdx.graphics.getDeltaTime() * 8f));
 
         }
     }
