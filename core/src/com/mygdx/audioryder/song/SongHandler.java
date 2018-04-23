@@ -38,35 +38,9 @@ public class SongHandler {
             if (songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / game.noteSpeed) + game.songOffset) {
                 notePosition = noteArray[songPointer].replaceAll("[0-9]", "").charAt(1);
                 noteHeight = noteArray[songPointer].replaceAll("[0-9]", "").charAt(2);
-
-                spawnNote(game, notePosition, noteHeight);
+                game.gameScreen.notes.add(new Note(game, notePosition, noteHeight, game.noteSpeed));
                 songPointer++;
             }
-    }
-
-    public static void spawnNote(AudioRyder game, char position, char height) {
-        float x;
-        float y;
-
-        switch(position) {
-            case 'U': x = 0f; break;
-            case 'D': x = 0f; break;
-            case 'L': x = -4.5f; break;
-            case 'R': x = 4.5f; break;
-
-            default: x = 0f;
-        }
-
-        switch(height) {
-            case 'H': y = 2f; break;
-            case 'M': y = 1f; break;
-            case 'L': y = -1f; break;
-
-            default: y = -1f; break;
-        }
-
-        game.gameScreen.notes.add(new Note(game, x, y, -50f, game.box, game.noteSpeed));
-
     }
 
 }

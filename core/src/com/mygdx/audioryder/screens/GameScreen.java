@@ -57,6 +57,13 @@ public class GameScreen implements Screen {
 
     BitmapFont font;
 
+    /**
+     * This Array of Model's contains all of the pyramid
+     * models used as our notes in the game.
+     * 0 = green, 1 = yellow and 2 = red.
+     */
+    public Model[] pyramids = new Model[3];
+
     Texture hit;
     Texture miss;
 
@@ -105,8 +112,14 @@ public class GameScreen implements Screen {
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
             game.spaceShip = new SpaceShip(game, tempModel);
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid.g3db");
-            game.box = (tempModel);
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_green.g3db");
+            pyramids[0] = (tempModel);
+
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_yellow.g3db");
+            pyramids[1] = (tempModel);
+
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_red.g3db");
+            pyramids[2] = (tempModel);
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
             game.levelModel = (tempModel);

@@ -50,7 +50,7 @@ public class SpaceShip extends GameObject {
             }
         }
         setX(0f);
-        setY(0f);
+        setY(0.5f);
         setZ(0f);
         spaceShipModel = new ModelInstance(model, getX(),getY(),getZ());
         spaceShipModel.transform.rotate(1, 0, 0, -90);
@@ -82,8 +82,8 @@ public class SpaceShip extends GameObject {
         //rollingAverageMovement();
         keyboardInput();
 
-        minPointBox = new Vector3(getX() - collisionBox.getWidth() / 2, getY(), getZ() + collisionBox.getHeight() / 2);
-        maxPointBox = new Vector3(getX() + collisionBox.getWidth() / 2, getY() + collisionBox.getDepth(), getZ() - collisionBox.getHeight() / 2);
+        minPointBox.set(getX() - collisionBox.getWidth() / 2, getY(), getZ() + collisionBox.getHeight() / 2);
+        maxPointBox.set(getX() + collisionBox.getWidth() / 2, getY() + collisionBox.getDepth(), getZ() - collisionBox.getHeight() / 2);
         /*minPointBox.x = getX() - 1f;
         minPointBox.y = getY() - 1f;
         maxPointBox.x = getX() + 1f;

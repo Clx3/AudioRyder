@@ -33,15 +33,42 @@ public class Note extends GameObject {
     float speed;
     AnimationController controller;
 
-    public Note(AudioRyder game, float x, float y, float z, Model model, float speed) {
+    public Note(AudioRyder game, char position, char height, float speed) {
         super(game);
         this.game = game;
 
-        setX(x);
-        setY(y);
-        setZ(z);
+        setZ(-50f);
 
-        this.noteModel = new ModelInstance(model,getX(),getY(),getZ());
+        switch(position) {
+            case 'U': setX(0f); break;
+            case 'D': setX(0f); break;
+            case 'L': setX(-4.5f); break;
+            case 'R': setX(4.5f); break;
+
+            default: setX(0f);
+        }
+
+        switch(height) {
+            case 'H':
+                setY(2.2f);
+                this.noteModel = new ModelInstance(game.gameScreen.pyramids[2], getX(), getY(), getZ());
+                break;
+
+            case 'M':
+                setY(0.5f);
+                this.noteModel = new ModelInstance(game.gameScreen.pyramids[1], getX(), getY(), getZ());
+                break;
+
+            case 'L':
+                setY(-1f);
+                this.noteModel = new ModelInstance(game.gameScreen.pyramids[0], getX(), getY(), getZ());
+                break;
+
+            default:
+                setY(-1f);
+                this.noteModel = new ModelInstance(game.gameScreen.pyramids[0], getX(), getY(), getZ());
+                break;
+        }
 
         this.speed = speed;
         controller = new AnimationController(this.noteModel);

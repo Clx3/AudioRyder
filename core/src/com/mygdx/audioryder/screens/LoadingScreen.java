@@ -34,7 +34,9 @@ public class LoadingScreen implements Screen {
         game.batch.setProjectionMatrix(game.cam2D.combined);
 
         game.assets.load(AudioRyder.MODELS_PATH + "Spaceship.g3db",Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid.g3db",Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_green.g3db",Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_yellow.g3db",Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_red.g3db",Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "TrackRE.g3db",Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db",Model.class);
 
