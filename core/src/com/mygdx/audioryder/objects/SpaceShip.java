@@ -100,25 +100,21 @@ public class SpaceShip extends GameObject {
 
     private void keyboardInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            setX(getX() + (Gdx.graphics.getDeltaTime() * 8f));
+            setX(getX() + (Gdx.graphics.getDeltaTime() * 25f));
 
         } else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 
-            setX(getX() - (Gdx.graphics.getDeltaTime() * 8f));
+            setX(getX() - (Gdx.graphics.getDeltaTime() * 25f));
 
         }
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            setY(getY() + (Gdx.graphics.getDeltaTime() * 8f));
+            setY(getY() + (Gdx.graphics.getDeltaTime() * 25f));
 
         } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 
-            setY(getY() - (Gdx.graphics.getDeltaTime() * 8f));
+            setY(getY() - (Gdx.graphics.getDeltaTime() * 25f));
 
         }
-    }
-
-    private void jump() {
-
     }
 
     public void checkCollisions(){
