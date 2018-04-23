@@ -27,7 +27,7 @@ public class GroundLine extends GameObject {
     public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
         modelBatch.render(model,environment);
 
-        setZ(getZ() + Gdx.graphics.getDeltaTime() * 10f * speed);
+        setZ(getZ() + Gdx.graphics.getDeltaTime() * 15f * speed);
         model.transform.setToTranslationAndScaling(getX(),getY(), getZ(),1.6f,1f,1f);
         model.calculateTransforms();
     }

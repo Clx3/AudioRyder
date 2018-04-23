@@ -132,7 +132,7 @@ public class AudioRyder extends Game {
 
 
         //settings
-        noteSpeed = 1.5f;
+        noteSpeed = 1f;
         sensitivityLeft = 1.5f;
         sensitivityDown = 2f;
         sensitivityRight = 1.5f;
