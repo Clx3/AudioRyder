@@ -205,7 +205,7 @@ public class SpaceShip extends GameObject {
             setX(getX() - (8f * Gdx.graphics.getDeltaTime()));
         }
 
-        if(Gdx.input.getAccelerometerZ() - game.yCalib >  5f - game.sensitivityDown && getY() > 0f){
+        if(Gdx.input.getAccelerometerZ() - game.yCalib >  5f - game.sensitivityDown && getY() > -0.5f){
             setY(getY() - (4f * Gdx.graphics.getDeltaTime()));
         } else if (Gdx.input.getAccelerometerZ() - game.yCalib < - 5f + game.sensitivityUp && getY() < 4f) {
             setY(getY() + (4f * Gdx.graphics.getDeltaTime()));

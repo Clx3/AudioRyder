@@ -69,7 +69,7 @@ public class Note extends GameObject {
 
         collisionBox.set(minPoint, maxPoint);
 
-        if(getZ() >= 0) {
+        if(getZ() >= 10f) {
             setActive(false);
             game.gameScreen.notesToRemove.add(this);
             game.streak = 0;

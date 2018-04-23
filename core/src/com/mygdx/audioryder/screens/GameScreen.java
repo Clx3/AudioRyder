@@ -261,8 +261,8 @@ public class GameScreen implements Screen {
 
             SongHandler.addNotesToGame(game);
 
-            cam3D.position.set(game.spaceShip.getX(), 2f + game.spaceShip.getY(), 4f);
-            cam3D.lookAt(game.spaceShip.getX(), game.spaceShip.getY(), game.spaceShip.getZ());
+            cam3D.position.set(game.spaceShip.getX(), 2f + game.spaceShip.getY(), 6f);
+            cam3D.lookAt(game.spaceShip.getX(), game.spaceShip.getY() + 1f, game.spaceShip.getZ());
             cam3D.update();
 
             modelBatch.begin(cam3D);
@@ -280,7 +280,7 @@ public class GameScreen implements Screen {
             if (groundLines.get(groundLines.size() - 1).getZ() > -200f) {
                 groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, game.noteSpeed * 2.5f));
             }
-            if (groundLines.get(0).getZ() > 20) {
+            if (groundLines.get(0).getZ() > 30) {
                 groundLines.get(0).setActive(false);
                 groundLines.remove(0);
             }
