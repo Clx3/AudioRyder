@@ -1,10 +1,13 @@
 package com.mygdx.audioryder.screens;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SoundLoader;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -33,12 +36,16 @@ public class LoadingScreen implements Screen {
         game.cam2D.setToOrtho(false,500f,300f);
         game.batch.setProjectionMatrix(game.cam2D.combined);
 
-        game.assets.load(AudioRyder.MODELS_PATH + "Spaceship.g3db",Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_green.g3db",Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_yellow.g3db",Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_red.g3db",Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "TrackRE.g3db",Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db",Model.class);
+        /* Models */
+        game.assets.load(AudioRyder.MODELS_PATH + "Spaceship.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_green.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_yellow.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_red.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
+
+        /* Sounds */
+        game.assets.load(AudioRyder.SOUNDS_PATH + "notehit.wav", Sound.class);
 
     }
 
