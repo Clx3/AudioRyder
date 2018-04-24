@@ -122,7 +122,7 @@ public class SpaceShip extends GameObject {
         for(Note note: game.gameScreen.notes) {
             if(collisionBox.intersects(note.collisionBox) && note.isActive()) {
                 note.setActive(false);
-                game.assets.get(game.SOUNDS_PATH + "notehit.wav", Sound.class).play();
+                //game.assets.get(game.SOUNDS_PATH + "notehit.wav", Sound.class).play();
                 game.gameScreen.notesToRemove.add(note);
                 System.out.println("HITS");
                 game.score++;
