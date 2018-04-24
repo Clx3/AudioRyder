@@ -67,6 +67,7 @@ public class EndScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 returnButton.setChecked(false);
+                game.score = 0;
                 game.setScreen(game.mainMenuScreen);
             }
         });

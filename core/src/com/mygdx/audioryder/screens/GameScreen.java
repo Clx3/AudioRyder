@@ -244,6 +244,7 @@ public class GameScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
+                game.score = 0;
                 game.setScreen(game.mainMenuScreen);
                 exit.setChecked(false);
                 game.GAME_IS_ON = false;
