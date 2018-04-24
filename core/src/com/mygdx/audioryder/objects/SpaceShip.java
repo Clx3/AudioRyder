@@ -2,6 +2,7 @@ package com.mygdx.audioryder.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -121,6 +122,7 @@ public class SpaceShip extends GameObject {
         for(Note note: game.gameScreen.notes) {
             if(collisionBox.intersects(note.collisionBox) && note.isActive()) {
                 note.setActive(false);
+                //game.assets.get(game.SOUNDS_PATH + "notehit.wav", Sound.class).play();
                 game.gameScreen.notesToRemove.add(note);
                 System.out.println("HITS");
                 game.score++;

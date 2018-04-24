@@ -33,6 +33,7 @@ public class AudioRyder extends Game {
 
 	public static final String MODELS_PATH = "models/";
 	public static final String SONGS_PATH = "songs/";
+	public static final String SOUNDS_PATH = "sounds/";
 	public static final String SPRITES_PATH = "sprites/";
 
 	public static final int WINDOW_WIDTH = 1024;
@@ -141,8 +142,6 @@ public class AudioRyder extends Game {
 
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
-
-
 	}
 
 	@Override
