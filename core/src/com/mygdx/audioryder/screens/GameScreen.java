@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,9 +25,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
+import com.mygdx.audioryder.objects.BackgroundObject;
 import com.mygdx.audioryder.objects.GameObject;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Note;
+import com.mygdx.audioryder.objects.BackgroundObject;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.properties.Properties;
@@ -128,11 +131,18 @@ public class GameScreen implements Screen {
             game.skyModel = (tempModel);
             game.skydome = new Skydome(game, game.skyModel);
 
-            //for(float x = -15f; x > -392f; x -= 17.9f){
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Planet.g3db", Model.class);
+            for(int i = 0; i < MathUtils.random(15, 30); i++) {
+                gameObjects.add(new BackgroundObject(game, tempModel));
+            }
+
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Asteroid.g3db", Model.class);
+            for(int i = 0; i < MathUtils.random(15, 30); i++) {
+                gameObjects.add(new BackgroundObject(game, tempModel));
+            }
+
             groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, 2f, game.noteSpeed * 2.5f));
-            //groundLines.add(new GroundLine(game.levelModel, 0, -2f, -100f,game.noteSpeed * 2.5f));
-            //groundLines.add(new GroundLine(game.levelModel, 0, -2f, 2f - 17.9f * 3,game.noteSpeed * 2.5f));
-            //}
+
 
             //Using the songhandler now, this will become usefull when we add multiple levels and
             //a loading screen from main menu to game.
@@ -266,7 +276,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //FIXME: testaus printtausta :--D moro teme :--D
+        //FIXME: testaus printtausta :--D moro teme :--D :---D homo joonas vittu :---D
         System.out.println(game.xCalib + "    " + game.yCalib);
 
         if(!(GAME_PAUSED)) {
@@ -290,7 +300,7 @@ public class GameScreen implements Screen {
             levelTimer += Gdx.graphics.getDeltaTime();
 
 
-        /* Spawning and removing the groundlines: */
+            /* Spawning and removing the groundlines: */
             if (groundLines.get(groundLines.size() - 1).getZ() > -200f) {
                 groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, game.noteSpeed * 2.5f));
             }

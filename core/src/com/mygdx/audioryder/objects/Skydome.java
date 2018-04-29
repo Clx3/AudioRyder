@@ -17,6 +17,7 @@ public class Skydome extends GameObject {
     float y;
     float x;
     float speed;
+
     public Skydome(AudioRyder game, Model model) {
         super(game);
         setPosition(0f, 0f, 0f);

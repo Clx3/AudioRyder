@@ -43,6 +43,8 @@ public class LoadingScreen implements Screen {
         game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_red.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Planet.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Asteroid.g3db", Model.class);
 
         /* Sounds */
         game.assets.load(AudioRyder.SOUNDS_PATH + "notehit.wav", Sound.class);

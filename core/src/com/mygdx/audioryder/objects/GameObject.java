@@ -12,10 +12,13 @@ import com.mygdx.audioryder.AudioRyder;
 
 public abstract class GameObject {
 
+    public AudioRyder game;
+
     private boolean isActive;
     private float x, y, z;
 
     public GameObject(AudioRyder game) {
+        this.game = game;
         setActive(true);
         game.gameScreen.gameObjects.add(this);
     }

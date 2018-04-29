@@ -16,8 +16,6 @@ import com.mygdx.audioryder.AudioRyder;
 
 public class Note extends GameObject {
 
-    AudioRyder game;
-
     ModelInstance noteModel;
 
     public BoundingBox collisionBox;
@@ -35,7 +33,6 @@ public class Note extends GameObject {
 
     public Note(AudioRyder game, char position, char height, float speed) {
         super(game);
-        this.game = game;
 
         setZ(-50f);
 

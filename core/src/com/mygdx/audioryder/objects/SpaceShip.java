@@ -20,8 +20,6 @@ import com.mygdx.audioryder.screens.GameScreen;
 
 public class SpaceShip extends GameObject {
 
-    AudioRyder game;
-
     ModelInstance spaceShipModel;
 
     public BoundingBox collisionBox;
@@ -41,7 +39,6 @@ public class SpaceShip extends GameObject {
 
     public SpaceShip(AudioRyder game, Model model){
         super(game);
-        this.game = game;
         rollingAverageCount = 20;
         moveAverageIndex = 0;
         latestMovement = new float[2][rollingAverageCount];
@@ -73,6 +70,7 @@ public class SpaceShip extends GameObject {
         this.sensitivity = sensitivity;
         controller = new AnimationController(spaceShipModel);
         controller.setAnimation("Float", -1);
+
 
 
     }
