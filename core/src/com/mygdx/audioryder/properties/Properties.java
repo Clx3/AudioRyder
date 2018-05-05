@@ -28,6 +28,7 @@ public class Properties {
     public static String continueText;
     public static String restartText;
     public static String calibrateText;
+    public static String highScoreText;
 
     public static void updateProperties() {
         I18NBundle myBundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), currentLocale);
@@ -43,6 +44,7 @@ public class Properties {
         continueText = myBundle.get("continueText");
         restartText = myBundle.get("restartText");
         calibrateText = myBundle.get("calibrateText");
+        highScoreText = myBundle.get("highScoreText");
     }
 
 }

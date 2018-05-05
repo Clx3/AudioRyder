@@ -343,10 +343,10 @@ public class GameScreen implements Screen {
             game.GAME_IS_ON = false;
             dispose();
             SongHandler.currentSong.stop();
-            game.endScreen = new EndScreen(game,1234567890, game.currentSong);
+            game.endScreen = new EndScreen(game,1234567897, game.currentSong);
             game.setScreen(game.endScreen);
-        }
-        */
+        }*/
+
     }
 
     @Override
