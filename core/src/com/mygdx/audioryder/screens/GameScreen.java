@@ -131,9 +131,9 @@ public class GameScreen implements Screen {
             game.skyModel = (tempModel);
             game.skydome = new Skydome(game, game.skyModel);
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Planet.g3db", Model.class);
             for(int i = 0; i < MathUtils.random(15, 30); i++) {
-                gameObjects.add(new BackgroundObject(game, tempModel));
+                int planetType = MathUtils.random(1, 3);
+                gameObjects.add(new BackgroundObject(game, game.assets.get(AudioRyder.MODELS_PATH + "Planet" + planetType + ".g3db", Model.class)));
             }
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Asteroid.g3db", Model.class);

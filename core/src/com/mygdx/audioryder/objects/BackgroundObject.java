@@ -51,7 +51,7 @@ public class BackgroundObject extends GameObject {
      * This method is also used in the constructor for initializion.
      */
     private void reset() {
-        float size = MathUtils.random(0.5f, 2f);
+        float size = MathUtils.random(0.5f, 4f);
         modelInstance.nodes.get(0).scale.set(size, size, size);
 
         speed = MathUtils.random(7f, 20f);

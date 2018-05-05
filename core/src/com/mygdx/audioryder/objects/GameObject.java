@@ -10,6 +10,14 @@ import com.mygdx.audioryder.AudioRyder;
  * Created by Teemu on 1.3.2018.
  */
 
+
+/**
+ * This class is very simple. It contains only few
+ * variables and methods. It is our GameObject class
+ * and all of our rendered objects in our game
+ * will extend this class.
+ *
+ */
 public abstract class GameObject {
 
     public AudioRyder game;
@@ -30,6 +38,8 @@ public abstract class GameObject {
         setY(y);
         setZ(z);
     }
+
+    /* Getters & setters: */
 
     public boolean isActive() {
         return isActive;
