@@ -12,6 +12,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.graphics.g3d.particles.ParticleEffect;
+import com.badlogic.gdx.graphics.g3d.particles.ParticleEffectLoader;
+import com.badlogic.gdx.graphics.g3d.particles.ParticleSystem;
+import com.badlogic.gdx.graphics.g3d.particles.batches.PointSpriteParticleBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
@@ -43,6 +47,8 @@ import java.util.ArrayList;
  */
 
 public class GameScreen implements Screen {
+
+    //TODO: PARTICLE FUCKING EFFECTS VOI VITTU I FUCK EMMI :---D
 
     AudioRyder game;
 
@@ -93,6 +99,11 @@ public class GameScreen implements Screen {
         this.game = game;
     }
 
+    // ParticleSystem is a singleton class, we get the instance instead of creating a new object:
+    public ParticleSystem particleSystem = ParticleSystem.get();
+    // Since our particle effects are PointSprites, we create a PointSpriteParticleBatch
+    public PointSpriteParticleBatch pointSpriteBatch = new PointSpriteParticleBatch();
+
     @Override
     public void show() {
         if(!(game.GAME_IS_ON)) {
@@ -109,6 +120,21 @@ public class GameScreen implements Screen {
             modelBatch = new ModelBatch();
 
             font = game.font;
+
+            pointSpriteBatch.setCamera(cam3D);
+            particleSystem.add(pointSpriteBatch);
+
+            /* Particle effects */
+            ParticleEffectLoader.ParticleEffectLoadParameter loadParam = new ParticleEffectLoader.ParticleEffectLoadParameter(particleSystem.getBatches());
+            game.assets.load(AudioRyder.EFFECTS_PATH + "particle.pfx", ParticleEffect.class, loadParam);
+            game.assets.finishLoading();
+
+            ParticleEffect originalEffect = game.assets.get(AudioRyder.EFFECTS_PATH + "particle.pfx");
+// we cannot use the originalEffect, we must make a copy each time we create new particle effect
+            ParticleEffect effect = originalEffect.copy();
+            effect.init();
+            //effect.start();  // optional: particle will begin playing immediately
+            particleSystem.add(effect);
 
             Model tempModel;
 
@@ -296,6 +322,13 @@ public class GameScreen implements Screen {
                 else
                     gameObjectsToRemove.add(object);
             }
+
+            /*particleSystem.update(); // technically not necessary for rendering
+            particleSystem.begin();
+            particleSystem.draw();
+            particleSystem.end();
+            modelBatch.render(particleSystem);*/
+
             modelBatch.end();
             levelTimer += Gdx.graphics.getDeltaTime();
 

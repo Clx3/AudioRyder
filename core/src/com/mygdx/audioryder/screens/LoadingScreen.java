@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.particles.ParticleEffect;
+import com.badlogic.gdx.graphics.g3d.particles.ParticleEffectLoader;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.song.SongHandler;
 
@@ -61,7 +63,6 @@ public class LoadingScreen implements Screen {
         if(game.assets.update()) {
             game.mainMenuScreen = new MainMenuScreen(game);
             game.setScreen(game.mainMenuScreen);
-
         }
         game.cam2D.update();
         game.batch.begin();

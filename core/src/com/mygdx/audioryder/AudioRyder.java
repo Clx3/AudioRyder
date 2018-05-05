@@ -11,11 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.BaseLight;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
-import com.badlogic.gdx.graphics.g3d.environment.SpotLight;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.properties.Properties;
@@ -26,9 +23,6 @@ import com.mygdx.audioryder.screens.LoadingScreen;
 import com.mygdx.audioryder.screens.MainMenuScreen;
 import com.mygdx.audioryder.song.Song;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
 public class AudioRyder extends Game {
 
 	public AssetManager assets = new AssetManager();
@@ -38,6 +32,7 @@ public class AudioRyder extends Game {
 	public static final String SONGS_PATH = "songs/";
 	public static final String SOUNDS_PATH = "sounds/";
 	public static final String SPRITES_PATH = "sprites/";
+	public static final String EFFECTS_PATH = "effects/";
 
 	public static final int WINDOW_WIDTH = 1024;
 	public static final int WINDOW_HEIGHT = 600;
@@ -96,6 +91,8 @@ public class AudioRyder extends Game {
 	public Song reverie;
 	public Song zzz;
 	public Song heatenings;
+	public Song octopus;
+	public Song lightInTheDark;
 
 	@Override
 	public void create () {
@@ -115,6 +112,8 @@ public class AudioRyder extends Game {
         reverie = new Song("Reverie","reverie.mp3","reverie.txt");
         zzz = new Song("Z Z Z","zzz.mp3","zzz.txt");
 		heatenings = new Song("Heatenings","Äss Berger - Heatenings.mp3","Heatenings.txt");
+		octopus = new Song("Octopus","mNoise - Octopus.mp3","mNoise - Octopus.txt");
+		lightInTheDark = new Song("Light in the dark","NoJustSe - Light in the dark.mp3","NoJustSe - Light in the dark.txt");
 
         //set variables
         score = 0;
