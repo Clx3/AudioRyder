@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -58,7 +59,7 @@ public class MainMenuScreen implements Screen {
     MenuButton playButton;
     MenuButton settingsButton;
     MenuButton exitButton;
-    MenuButton returnButton;
+    //MenuButton returnButton;
     Label sensitivityText;
     Label sensitivityText2;
     Label leftSensText;
@@ -252,7 +253,12 @@ public class MainMenuScreen implements Screen {
         nameField.setPosition(10f,game.ORTHOCAM_VIEWPORT_HEIGHT - nameField.getHeight() - 150f);
         nameField.setSize(200f,50f);
         mainStage.addActor(nameField);
-
+        mainStage.getRoot().addCaptureListener(new InputListener() {
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                if (!(event.getTarget() instanceof TextField)) mainStage.setKeyboardFocus(null);
+                return false;
+            }
+        });
     }
 
     /**
@@ -267,7 +273,7 @@ public class MainMenuScreen implements Screen {
         final TextButton playButtonn = new TextButton(Properties.playText, testSkin);
         HorizontalGroup playAndReturn = new HorizontalGroup();
         playAndReturn.space(50f);
-        returnButton = new MenuButton(Properties.returnText, testSkin);
+        final MenuButton returnButton = new MenuButton(Properties.returnText, testSkin);
         playAndReturn.addActor(returnButton);
         playAndReturn.addActor(playButtonn);
 
@@ -372,7 +378,7 @@ public class MainMenuScreen implements Screen {
             } else if(direction.equals("up")){
                 game.sensitivityUp = getValue();
             }
-            MainMenuScreen.this.updateButtonTexts();
+            MainMenuScreen.this.updateSensitivityTexts();
 
         }
     }
@@ -447,7 +453,7 @@ public class MainMenuScreen implements Screen {
 
 
         /* Adding buttons: */
-        returnButton = new MenuButton(Properties.returnText, testSkin);
+        final MenuButton returnButton = new MenuButton(Properties.returnText, testSkin);
 
         /* Adding listeners: */
         returnButton.addListener(new ClickListener() {
@@ -488,18 +494,23 @@ public class MainMenuScreen implements Screen {
         playButton.setText(Properties.playText);
         settingsButton.setText(Properties.settingsText);
         exitButton.setText(Properties.exitText);
+        /*
         returnButton.setText(Properties.returnText);
-        sensitivityText.setText(Properties.sensitivityText);
-        sensitivityText2.setText(Properties.sensitivityText2);
-        leftSensText.setText(game.sensitivityLeft + "");
-        rightSensText.setText(game.sensitivityRight + "");
         upSensText.setText(game.sensitivityUp + "");
         downSensText.setText(game.sensitivityDown + "");
-        calibrateButton.setText(Properties.calibrateText);
+        calibrateButton.setText(Properties.calibrateText);*/
+        setupSelectSongStage();
+        setupSettingsStage();
 
 
     }
 
+    public void updateSensitivityTexts(){
+        sensitivityText.setText(Properties.sensitivityText);
+        sensitivityText2.setText(Properties.sensitivityText2);
+        leftSensText.setText(game.sensitivityLeft + "");
+        rightSensText.setText(game.sensitivityRight + "");
+    }
     /**
      * This method is used to set what Stage
      * is being rendered.
