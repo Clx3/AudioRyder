@@ -149,7 +149,7 @@ public class EndScreen implements Screen {
                     prefs.putString("entry" + next +"name", prefs.getString("entry" + j + "name"));
                 }
                 prefs.putInteger("entry" + i,score);
-                prefs.putString("entry" + i +"name","testo");
+                prefs.putString("entry" + i +"name",game.playerName);
                 break;
             }
         }
