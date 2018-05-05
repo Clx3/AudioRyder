@@ -100,11 +100,11 @@ public class EndScreen implements Screen {
         highScores1.setPosition(300f,scoreText2.getY() - highScores1.getHeight() - 50f);
         endStage.addActor(highScores1);
 
-        highScores2 = new Label( prefs.getString("entry" + 1) + "\n" +
-                prefs.getString("entry" + 2)+ "\n" +
-                prefs.getString("entry" + 3)+ "\n" +
-                prefs.getString("entry" + 4)+ "\n" +
-                prefs.getString("entry" + 5),testSkin,"xolonium", Color.WHITE);
+        highScores2 = new Label( prefs.getInteger("entry" + 1) + "\n" +
+                prefs.getInteger("entry" + 2)+ "\n" +
+                prefs.getInteger("entry" + 3)+ "\n" +
+                prefs.getInteger("entry" + 4)+ "\n" +
+                prefs.getInteger("entry" + 5),testSkin,"xolonium", Color.WHITE);
 
         highScores2.setPosition(highScores1.getX() + highScores1.getWidth() + 50f, highScores1.getY());
         endStage.addActor(highScores2);
