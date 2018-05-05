@@ -181,7 +181,7 @@ public class GameScreen implements Screen {
             }
         });
         gameOverlay.addActor(pauseButton);
-        score = new Label(Properties.scoreText + "\n" + game.score,testSkin,"nasalization",Color.WHITE);
+        score = new Label(Properties.scoreText + "\n" + game.score,testSkin,"xolonium",Color.WHITE);
         score.setAlignment(1);
         score.setPosition((game.ORTHOCAM_VIEWPORT_WIDTH / 2f) - (score.getWidth() / 2),(game.ORTHOCAM_VIEWPORT_HEIGHT) - (score.getHeight()) - 10f);
         gameOverlay.addActor(score);

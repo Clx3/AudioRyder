@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -237,6 +238,21 @@ public class MainMenuScreen implements Screen {
         mainStage.addActor(changeLanguangeButton);
         mainStage.addActor(audioRyderText);
         mainStage.addActor(mainMenuTable);
+
+        final TextField nameField = new TextField(game.playerName,testSkin);
+        nameField.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                game.playerName = nameField.getText();
+                game.userSettings.putString("playerName",nameField.getText());
+                game.userSettings.flush();
+            }
+        });
+        nameField.setMaxLength(6);
+        nameField.setPosition(10f,game.ORTHOCAM_VIEWPORT_HEIGHT - nameField.getHeight() - 150f);
+        nameField.setSize(200f,50f);
+        mainStage.addActor(nameField);
+
     }
 
     /**
@@ -364,12 +380,12 @@ public class MainMenuScreen implements Screen {
     private void setupSettingsStage() {
         settingsStage = new Stage(viewport, game.batch);
 
-        sensitivityText = new Label(Properties.sensitivityText, testSkin, "forvertz", Color.WHITE);
+        sensitivityText = new Label(Properties.sensitivityText, testSkin, "xolonium", Color.WHITE);
         sensitivityText.setAlignment(1);
         sensitivityText.setSize(150f,50f);
         sensitivityText.setPosition(80f,520f);
 
-        sensitivityText2 = new Label(Properties.sensitivityText2, testSkin, "nasalization", Color.WHITE);
+        sensitivityText2 = new Label(Properties.sensitivityText2, testSkin, "xolonium", Color.WHITE);
         sensitivityText2.setAlignment(1);
         sensitivityText2.setFontScale(0.7f);
         sensitivityText2.setSize(150f,50f);
@@ -377,7 +393,7 @@ public class MainMenuScreen implements Screen {
 
         calibrateButton = new TextButton(Properties.calibrateText, testSkin);
         calibrateButton.setPosition(650f, 250f);
-        calibrateButton.getLabel().setStyle(new Label.LabelStyle(testSkin.getFont("nasalization"),Color.WHITE));
+        calibrateButton.getLabel().setStyle(new Label.LabelStyle(testSkin.getFont("xolonium"),Color.WHITE));
         calibrateButton.getLabel().setFontScale(1.2f);
         calibrateButton.addListener(new ClickListener(){
             @Override
@@ -390,13 +406,13 @@ public class MainMenuScreen implements Screen {
         });
 
 
-        leftSensText = new Label(game.sensitivityLeft + "", testSkin, "forvertz", Color.WHITE);
+        leftSensText = new Label(game.sensitivityLeft + "", testSkin, "xolonium", Color.WHITE);
         leftSensText.setPosition(100f,315f);
-        rightSensText = new Label(game.sensitivityRight + "", testSkin, "forvertz", Color.WHITE);
+        rightSensText = new Label(game.sensitivityRight + "", testSkin, "xolonium", Color.WHITE);
         rightSensText.setPosition(540f,315f);
-        downSensText = new Label(game.sensitivityDown + "", testSkin, "forvertz", Color.WHITE);
+        downSensText = new Label(game.sensitivityDown + "", testSkin, "xolonium", Color.WHITE);
         downSensText.setPosition(360f,130f);
-        upSensText = new Label(game.sensitivityUp + "", testSkin, "forvertz", Color.WHITE);
+        upSensText = new Label(game.sensitivityUp + "", testSkin, "xolonium", Color.WHITE);
         upSensText.setPosition(360f,500f);
 
 
@@ -437,6 +453,14 @@ public class MainMenuScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.userSettings.putFloat("sensitivityLeft",game.sensitivityLeft);
+                game.userSettings.putFloat("sensitivityRight",game.sensitivityRight);
+                game.userSettings.putFloat("sensitivityUp",game.sensitivityUp);
+                game.userSettings.putFloat("sensitivityDown",game.sensitivityDown);
+                game.userSettings.putFloat("xCalib",game.xCalib);
+                game.userSettings.putFloat("yCalib",game.yCalib);
+                game.userSettings.flush();
+
                 if(game.GAME_IS_ON) {
                     returnButton.setChecked(false);
                     game.setScreen(game.gameScreen);

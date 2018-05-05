@@ -1,6 +1,8 @@
 package com.mygdx.audioryder;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -30,6 +32,7 @@ import java.util.Locale;
 public class AudioRyder extends Game {
 
 	public AssetManager assets = new AssetManager();
+	public Preferences userSettings;
 
 	public static final String MODELS_PATH = "models/";
 	public static final String SONGS_PATH = "songs/";
@@ -72,6 +75,7 @@ public class AudioRyder extends Game {
 	public float hitOrMissTimer;
 	public boolean hitOrMiss = true;
 	public boolean GAME_IS_ON = false;
+	public String playerName;
 
 	public Model box;
 	public Float songTimer = 0f;
@@ -133,11 +137,16 @@ public class AudioRyder extends Game {
 
 
         //settings
+        userSettings = Gdx.app.getPreferences("userSettings");
+        playerName = userSettings.getString("playerName", "Guest");
+
         noteSpeed = 1f;
-        sensitivityLeft = 1.5f;
-        sensitivityDown = 2f;
-        sensitivityRight = 1.5f;
-        sensitivityUp = 2f;
+        sensitivityLeft = userSettings.getFloat("sensitivityLeft", 1.5f);
+        sensitivityDown = userSettings.getFloat("sensitivityDown", 2f);
+        sensitivityRight = userSettings.getFloat("sensitivityRight", 1.5f);
+        sensitivityUp = userSettings.getFloat("sensitivityUp", 2f);
+        xCalib = userSettings.getFloat("xCalib",0f);
+        yCalib = userSettings.getFloat("yCalib",0f);
         songOffset = -0.1f;
 
 		loadingScreen = new LoadingScreen(this);
