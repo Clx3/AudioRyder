@@ -5,14 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -28,13 +26,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.song.Song;
-
-import java.util.Locale;
 
 /**
  * Created by Teemu on 17.3.2018.
@@ -283,6 +278,8 @@ public class MainMenuScreen implements Screen {
         SongButton song4 = new SongButton(game.reverie, testSkin);
         SongButton song5 = new SongButton(game.zzz, testSkin);
         SongButton song6 = new SongButton(game.heatenings, testSkin);
+        SongButton song7 = new SongButton(game.octopus, testSkin);
+        SongButton song8 = new SongButton(game.lightInTheDark, testSkin);
 
         ButtonGroup songButtonGroup = new ButtonGroup();
         songButtonGroup.setUncheckLast(true);
@@ -293,6 +290,8 @@ public class MainMenuScreen implements Screen {
         songButtonGroup.add(song4);
         songButtonGroup.add(song5);
         songButtonGroup.add(song6);
+        songButtonGroup.add(song7);
+        songButtonGroup.add(song8);
 
         VerticalGroup songs = new VerticalGroup();
         songs.addActor(song1);
@@ -301,6 +300,8 @@ public class MainMenuScreen implements Screen {
         songs.addActor(song4);
         songs.addActor(song5);
         songs.addActor(song6);
+        songs.addActor(song7);
+        songs.addActor(song8);
         songs.padRight(5f);
 
 
