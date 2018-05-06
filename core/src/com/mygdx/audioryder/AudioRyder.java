@@ -23,6 +23,8 @@ import com.mygdx.audioryder.screens.LoadingScreen;
 import com.mygdx.audioryder.screens.MainMenuScreen;
 import com.mygdx.audioryder.song.Song;
 
+import java.util.ArrayList;
+
 public class AudioRyder extends Game {
 
 	public AssetManager assets = new AssetManager();
@@ -83,16 +85,15 @@ public class AudioRyder extends Game {
 	public float xCalib;
 	public float yCalib;
 
+	/** This Song is basically the "gameplay" Song that
+	 * the game uses to play and spawn notes from while in game.
+	 */
 	public Song currentSong;
 
-	public Song erikaSong;
-	public Song nopeeHatane;
-	public Song chinese;
-	public Song reverie;
-	public Song zzz;
-	public Song heatenings;
-	public Song octopus;
-	public Song lightInTheDark;
+	/** This ArrayList holds all the songs in the game and
+	 * it is used when selecting songs on main menu.
+	 */
+	public ArrayList<Song> songList = new ArrayList<Song>();
 
 	@Override
 	public void create () {
@@ -105,15 +106,22 @@ public class AudioRyder extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-        /* initializing songs: */
-		erikaSong = new Song("Marssilaulu","erika.mp3", "erika.txt");
-		nopeeHatane = new Song("Nopee hatanen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt");
-		chinese = new Song("Chinese Song","chinese.mp3","chinese.txt");
-        reverie = new Song("Reverie","reverie.mp3","reverie.txt");
-        zzz = new Song("Z Z Z","zzz.mp3","zzz.txt");
-		heatenings = new Song("Heatenings","Äss Berger - Heatenings.mp3","Heatenings.txt");
-		octopus = new Song("Octopus","mNoise - Octopus.mp3","mNoise - Octopus.txt");
-		lightInTheDark = new Song("Light in the dark","NoJustSe - Light in the dark.mp3","NoJustSe - Light in the dark.txt");
+        /* Creating songs: */
+		songList.add(new Song("Marssilaulu","erika.mp3", "erika.txt"));
+		songList.add(new Song("Nopee hatanen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt"));
+		songList.add(new Song("Chinese Song","chinese.mp3","chinese.txt"));
+		songList.add(new Song("Reverie","reverie.mp3","reverie.txt"));
+		songList.add(new Song("Z Z Z","zzz.mp3","zzz.txt"));
+		songList.add(new Song("Heatenings","Äss Berger - Heatenings.mp3","Heatenings.txt"));
+		songList.add(new Song("Octopus","mNoise - Octopus.mp3","mNoise - Octopus.txt"));
+		songList.add(new Song("Light in the dark","NoJustSe - Light in the dark.mp3","NoJustSe - Light in the dark.txt"));
+		songList.add(new Song("Melroom","mNoise - Melroom.mp3","mNoise - Melroom.txt"));
+		songList.add(new Song("Turmoil","NoJustSe - Turmoil.mp3","NoJustSe - Turmoil.txt"));
+		songList.add(new Song("Continuum","NoJustSe feat Chrysalid - Continuum.mp3","NoJustSe feat Chrysalid - Continuum.txt"));
+		songList.add(new Song("Sunrise","N-Tech - Sunrise.mp3","N-Tech - Sunrise.txt"));
+		songList.add(new Song("Sleepless Hours","N-Tech - Sleepless Hours.mp3","N-Tech - Sleepless Hours.txt"));
+		songList.add(new Song("Guardian","NoJustSe - The Guardian.mp3","NoJustSe - The Guardian.txt"));
+		songList.add(new Song("Frozen North","NoJustSe feat Chrysalid - Frozen north.mp3","NoJustSe feat Chrysalid - Frozen north.txt"));
 
         //set variables
         score = 0;

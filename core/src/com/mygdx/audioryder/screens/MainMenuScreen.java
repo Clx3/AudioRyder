@@ -115,8 +115,6 @@ public class MainMenuScreen implements Screen {
 
     }
 
-    private static Song selectedSong;
-
     class SongButton extends TextButton {
 
         private Song song;
@@ -272,38 +270,18 @@ public class MainMenuScreen implements Screen {
         playAndReturn.addActor(returnButton);
         playAndReturn.addActor(playButtonn);
 
-        SongButton song1 = new SongButton(game.erikaSong, testSkin);
-        SongButton song2 = new SongButton(game.nopeeHatane, testSkin);
-        SongButton song3 = new SongButton(game.chinese, testSkin);
-        SongButton song4 = new SongButton(game.reverie, testSkin);
-        SongButton song5 = new SongButton(game.zzz, testSkin);
-        SongButton song6 = new SongButton(game.heatenings, testSkin);
-        SongButton song7 = new SongButton(game.octopus, testSkin);
-        SongButton song8 = new SongButton(game.lightInTheDark, testSkin);
-
         ButtonGroup songButtonGroup = new ButtonGroup();
         songButtonGroup.setUncheckLast(true);
         songButtonGroup.setMaxCheckCount(1);
-        songButtonGroup.add(song1);
-        songButtonGroup.add(song2);
-        songButtonGroup.add(song3);
-        songButtonGroup.add(song4);
-        songButtonGroup.add(song5);
-        songButtonGroup.add(song6);
-        songButtonGroup.add(song7);
-        songButtonGroup.add(song8);
 
         VerticalGroup songs = new VerticalGroup();
-        songs.addActor(song1);
-        songs.addActor(song2);
-        songs.addActor(song3);
-        songs.addActor(song4);
-        songs.addActor(song5);
-        songs.addActor(song6);
-        songs.addActor(song7);
-        songs.addActor(song8);
         songs.padRight(5f);
 
+        for(Song song : game.songList) {
+            SongButton songButton = new SongButton(song, testSkin);
+            songButtonGroup.add(songButton);
+            songs.addActor(songButton);
+        }
 
         ScrollPane songsPane = new ScrollPane(songs, testSkin);
         songsPane.setFadeScrollBars(false);
@@ -311,16 +289,14 @@ public class MainMenuScreen implements Screen {
 
         Table songTable = new Table(testSkin);
         songTable.setSize(500f, 500f);
-        //songTable.debug();
         songTable.setPosition(game.WINDOW_WIDTH / 2 - songTable.getWidth() / 2, game.WINDOW_HEIGHT / 2 - songTable.getHeight() / 2);
         songTable.add(songsPane).row();
         songTable.add(playAndReturn);
 
         selectSongStage.addActor(songTable);
 
-        //Initializing the game.currentSong to the first song in the songlist.
-        song1.setChecked(true);
-        game.currentSong = song1.getSong();
+        /* Initializing the game.currentSong to the first song in the songlist: */
+        game.currentSong = game.songList.get(0);
 
         /* Adding listeners for return and play: */
         playButtonn.addListener(new ClickListener() {
