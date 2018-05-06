@@ -323,11 +323,11 @@ public class GameScreen implements Screen {
                     gameObjectsToRemove.add(object);
             }
 
-            /*particleSystem.update(); // technically not necessary for rendering
+            particleSystem.update(); // technically not necessary for rendering
             particleSystem.begin();
-            particleSystem.draw();
+            //particleSystem.draw();
             particleSystem.end();
-            modelBatch.render(particleSystem);*/
+            modelBatch.render(particleSystem);
 
             modelBatch.end();
             levelTimer += Gdx.graphics.getDeltaTime();
