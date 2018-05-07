@@ -233,7 +233,7 @@ public class MainMenuScreen implements Screen {
         nameField.setMaxLength(8);
         nameField.setPosition(10f,game.ORTHOCAM_VIEWPORT_HEIGHT - nameField.getHeight() - 150f);
         nameField.setSize(200f,50f);
-
+        nameField.setAlignment(1);
         mainStage.addActor(nameField);
         mainStage.getRoot().addCaptureListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {

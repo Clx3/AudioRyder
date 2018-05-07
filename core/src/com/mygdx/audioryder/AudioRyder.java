@@ -115,6 +115,7 @@ public class AudioRyder extends Game {
 		skin = new Skin(Gdx.files.internal("skins/jarno/AudioRyderUI.json"));
 		textureAtlas = new TextureAtlas("skins/jarno/AudioRyderUI.atlas");
 
+
         /* Creating songs: */
 		songList.add(new Song("Marssilaulu","erika.mp3", "erika.txt"));
 		songList.add(new Song("Nopee hatanen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt"));
