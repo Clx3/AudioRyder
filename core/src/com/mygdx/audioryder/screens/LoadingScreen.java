@@ -3,6 +3,7 @@ package com.mygdx.audioryder.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
@@ -25,6 +27,9 @@ import com.mygdx.audioryder.AudioRyder;
  * uses and it is used for loading necessary assets for the game
  * and it also splashes all of the three logos that are related
  * to this project(TAMK, Tiko and Exerium).
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
  */
 public class LoadingScreen implements Screen {
 
@@ -34,9 +39,6 @@ public class LoadingScreen implements Screen {
 
     /** This is the Stage that this LoadingScreen uses. */
     private Stage loadingStage;
-
-    /** This Image is the Audioryder text. Initialized in show(). */
-    private Image audioRyderText;
 
     /** This Image is the TAMK logo. Initialized in show(). */
     private Image tamkLogo;
@@ -83,7 +85,7 @@ public class LoadingScreen implements Screen {
 
         Texture audioRyderTextTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "audioryder.png"));
         TextureRegion audioRyderTextRegion = new TextureRegion(audioRyderTextTexture);
-        audioRyderText = new Image(audioRyderTextRegion);
+        Image audioRyderText = new Image(audioRyderTextRegion);
         audioRyderText.setSize(750f, 200f);
         audioRyderText.setPosition(game.WINDOW_WIDTH / 2 - audioRyderText.getWidth() / 2, game.WINDOW_HEIGHT - audioRyderText.getHeight());
 
@@ -105,12 +107,16 @@ public class LoadingScreen implements Screen {
         tikoLogo.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - tikoLogo.getWidth() / 2,20f);
         tikoLogo.getColor().a = 0f;
 
+        Label loadingText = new Label("Loading...", game.skin, "xolonium", Color.WHITE);
+        loadingText.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - loadingText.getWidth() / 2, game.ORTHOCAM_VIEWPORT_HEIGHT / 2);
+
         /* Adding the actors to the Stage: */
         loadingStage.addActor(background);
         loadingStage.addActor(audioRyderText);
         loadingStage.addActor(tamkLogo);
         loadingStage.addActor(exeriumLogo);
         loadingStage.addActor(tikoLogo);
+        loadingStage.addActor(loadingText);
 
         /* -- ASSETS THAT ARE GOING TO BE LOADED HERE: -- */
 
@@ -174,10 +180,6 @@ public class LoadingScreen implements Screen {
                 tikoLogo.addAction(createFadeInOutAction());
             }
         }
-
-        game.batch.begin();
-        game.font.draw(game.batch, "Loading...", 230, 170);
-        game.batch.end();
 
         if(game.assets.update() && allLogosActed) {
             game.mainMenuScreen = new MainMenuScreen(game);

@@ -59,8 +59,6 @@ public class AudioRyder extends Game {
 	public LevelLoadingScreen levelLoadingScreen;
 	public EndScreen endScreen;
 
-	public SpaceShip spaceShip;
-
 	public Model levelModel;
 
 	public Model skyModel;
@@ -177,9 +175,12 @@ public class AudioRyder extends Game {
 
 	@Override
 	public void dispose () {
-		spaceShip.dispose();
 		batch.dispose();
 		font.dispose();
+
+		for(int i = 0; i < gameScreen.pyramids.length-1; i++) {
+			gameScreen.pyramids[i].dispose();
+		}
 	}
 
 }

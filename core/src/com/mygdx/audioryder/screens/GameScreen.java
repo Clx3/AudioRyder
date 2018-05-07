@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.particles.ParticleEffect;
@@ -64,8 +63,6 @@ public class GameScreen implements Screen {
 
     ModelBatch modelBatch;
 
-    BitmapFont font;
-
     /**
      * This Array of Model's contains all of the pyramid
      * models used as our notes in the game.
@@ -73,10 +70,10 @@ public class GameScreen implements Screen {
      */
     public Model[] pyramids = new Model[3];
 
+    private SpaceShip spaceShip;
+
     Texture hit;
     Texture miss;
-
-    Music currentSong;
 
     float levelTimer = 0f;
     boolean GAME_PAUSED;
@@ -116,10 +113,8 @@ public class GameScreen implements Screen {
             cam3D.near = 0.1f;
             cam3D.far = 1000.0f;
             //game.cam2D.setToOrtho(false, 10f,6f);
-
             modelBatch = new ModelBatch();
 
-            font = game.font;
             //FIXME: kommentoin nää vittuun ja katon miks tulee fps lagia
             /*
             pointSpriteBatch.setCamera(cam3D);
@@ -140,7 +135,7 @@ public class GameScreen implements Screen {
             Model tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
-            game.spaceShip = new SpaceShip(game, tempModel);
+            spaceShip = new SpaceShip(game, tempModel);
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_green.g3db");
             pyramids[0] = (tempModel);
@@ -312,8 +307,8 @@ public class GameScreen implements Screen {
 
             SongHandler.addNotesToGame(game);
 
-            cam3D.position.set(game.spaceShip.getX(), 2f + game.spaceShip.getY(), 6f);
-            cam3D.lookAt(game.spaceShip.getX(), game.spaceShip.getY() + 1f, game.spaceShip.getZ());
+            cam3D.position.set(spaceShip.getX(), 2f + spaceShip.getY(), 6f);
+            cam3D.lookAt(spaceShip.getX(), spaceShip.getY() + 1f, spaceShip.getZ());
             cam3D.update();
 
             modelBatch.begin(cam3D);
@@ -432,10 +427,12 @@ public class GameScreen implements Screen {
         /*modelBatch.dispose();
         hit.dispose();
         miss.dispose();
-        currentSong.dispose();
         shapeRenderer.dispose();*/
+
         levelTimer = 0f;
         game.songTimer = 0f;
+        modelBatch.dispose();
+        spaceShip.dispose();
     }
 
     public void drawTextAndSprites(){
@@ -454,13 +451,13 @@ public class GameScreen implements Screen {
         /*game.cam2D.setToOrtho(false,game.ORTHOCAM_VIEWPORT_WIDTH,game.ORTHOCAM_VIEWPORT_HEIGHT);
         game.batch.setProjectionMatrix(game.cam2D.combined);
         game.cam2D.update();*/
-        font.draw(game.batch, "Score :" + game.score, 750, 170);
-        font.draw(game.batch, "Streak :" + game.streak, 750, 190);
-        font.draw(game.batch, "Multiplier " + game.multiplier + "X", 750, 210);
-        font.draw(game.batch, "X: " + Gdx.input.getAccelerometerX(), 750, 230);
-        font.draw(game.batch, "Y: " + Gdx.input.getAccelerometerY(), 750, 250);
-        font.draw(game.batch, "Z: " + Gdx.input.getAccelerometerZ(), 750, 270);
-        font.draw(game.batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 750, 290);
+        game.font.draw(game.batch, "Score :" + game.score, 750, 170);
+        game.font.draw(game.batch, "Streak :" + game.streak, 750, 190);
+        game.font.draw(game.batch, "Multiplier " + game.multiplier + "X", 750, 210);
+        game.font.draw(game.batch, "X: " + Gdx.input.getAccelerometerX(), 750, 230);
+        game.font.draw(game.batch, "Y: " + Gdx.input.getAccelerometerY(), 750, 250);
+        game.font.draw(game.batch, "Z: " + Gdx.input.getAccelerometerZ(), 750, 270);
+        game.font.draw(game.batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 750, 290);
 
 
         game.batch.end();

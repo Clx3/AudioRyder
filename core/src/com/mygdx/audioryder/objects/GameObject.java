@@ -17,6 +17,8 @@ import com.mygdx.audioryder.AudioRyder;
  * and all of our rendered objects in our game
  * will extend this class.
  *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
  */
 public abstract class GameObject {
 
@@ -31,6 +33,15 @@ public abstract class GameObject {
         game.gameScreen.gameObjects.add(this);
     }
 
+    /**
+     * This method will be called on all of the GameObjects
+     * in the main game loop which is located in GameScreen.java.
+     * This methods purpose is to handle the rendering and updating
+     * of the GameObject.
+     *
+     * @param modelBatch This ModelBatch will be the one in the GameScreen.java.
+     * @param environment This environment is the one in the GameScreen.java.
+     */
     public abstract void renderAndUpdate(ModelBatch modelBatch, Environment environment);
 
     public void setPosition(float x, float y, float z) {
