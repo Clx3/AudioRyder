@@ -115,7 +115,7 @@ public class AudioRyder extends Game {
 		songList.add(new Song("Z Z Z","zzz.mp3","zzz.txt"));
 		songList.add(new Song("Heatenings","Äss Berger - Heatenings.mp3","Heatenings.txt"));
 		songList.add(new Song("Octopus","mNoise - Octopus.mp3","mNoise - Octopus.txt"));
-		songList.add(new Song("Light in the dark","NoJustSe - Light in the dark.mp3","NoJustSe - Light in the dark.txt"));
+		songList.add(new Song("Light in the dark","NoJustSe - Light in the dark.mp3","NoJustSe - Light In The Dark.txt"));
 		songList.add(new Song("Melroom","mNoise - Melroom.mp3","mNoise - Melroom.txt"));
 		songList.add(new Song("Turmoil","NoJustSe - Turmoil.mp3","NoJustSe - Turmoil.txt"));
 		songList.add(new Song("Continuum","NoJustSe feat Chrysalid - Continuum.mp3","NoJustSe feat Chrysalid - Continuum.txt"));
@@ -148,14 +148,14 @@ public class AudioRyder extends Game {
         userSettings = Gdx.app.getPreferences("userSettings");
         playerName = userSettings.getString("playerName", "Guest");
 
-        noteSpeed = 1f;
+        noteSpeed = userSettings.getFloat("gameSpeed", 2f);
         sensitivityLeft = userSettings.getFloat("sensitivityLeft", 1.5f);
         sensitivityDown = userSettings.getFloat("sensitivityDown", 2f);
         sensitivityRight = userSettings.getFloat("sensitivityRight", 1.5f);
         sensitivityUp = userSettings.getFloat("sensitivityUp", 2f);
         xCalib = userSettings.getFloat("xCalib",0f);
         yCalib = userSettings.getFloat("yCalib",0f);
-        songOffset = -0.1f;
+        songOffset = -0.15f;
 
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);

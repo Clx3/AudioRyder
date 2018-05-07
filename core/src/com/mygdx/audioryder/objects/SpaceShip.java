@@ -200,56 +200,28 @@ public class SpaceShip extends GameObject {
             setY(getY() - ((Gdx.input.getAccelerometerZ() - game.yCalib) * (Gdx.graphics.getDeltaTime() * (game.sensitivityUp / 2f))));
         }*/
 
-        /*if(Gdx.input.getAccelerometerY() - game.xCalib > 5f - game.sensitivityRight && getX() < 4.5f){
-            setX(getX() + (8f * Gdx.graphics.getDeltaTime()));
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib <  -5f + game.sensitivityLeft && getX() > -4.5f) {
-            setX(getX() - (8f * Gdx.graphics.getDeltaTime()));
+        if(Gdx.input.getAccelerometerY() - game.xCalib > 1f && getX() < 4.5f){
+            setX(getX() + (2f * Gdx.graphics.getDeltaTime() * (game.sensitivityRight / 1.5f) *(Gdx.input.getAccelerometerY() - game.xCalib)));
+        } else if (Gdx.input.getAccelerometerY() - game.xCalib <  1f && getX() > -4.5f) {
+            setX(getX() - (2f * Gdx.graphics.getDeltaTime() * (game.sensitivityLeft / 1.5f) *-(Gdx.input.getAccelerometerY() - game.xCalib)));
         }
 
-        if(Gdx.input.getAccelerometerZ() - game.yCalib >  5f - game.sensitivityDown && getY() > -0.5f){
-            setY(getY() - (4f * Gdx.graphics.getDeltaTime()));
-        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < - 5f + game.sensitivityUp && getY() < 4f) {
-            setY(getY() + (4f * Gdx.graphics.getDeltaTime()));
-        }*/
-        float accelX = Gdx.input.getAccelerometerY() - game.xCalib;
-        if(Gdx.input.getAccelerometerY() - game.xCalib < 0f){
-            accelX = ((Gdx.input.getAccelerometerY() - game.xCalib) * game.sensitivityLeft) / 10f;
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib > 0f){
-            accelX = ((Gdx.input.getAccelerometerY() - game.xCalib) * game.sensitivityRight) / 10f;
+        if(Gdx.input.getAccelerometerZ() - game.yCalib >  1f && getY() > -0.5f){
+            setY(getY() - (1f * Gdx.graphics.getDeltaTime() * (game.sensitivityDown / 1.5f) * (Gdx.input.getAccelerometerZ() - game.yCalib)));
+        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < 1f && getY() < 3f) {
+            setY(getY() + (1f * Gdx.graphics.getDeltaTime() * (game.sensitivityUp / 1.5f) * -(Gdx.input.getAccelerometerZ() - game.yCalib)));
         }
 
-        float accelY = Gdx.input.getAccelerometerZ() - game.yCalib;
-        if(Gdx.input.getAccelerometerZ() - game.yCalib < 0f){
-            accelY = ((Gdx.input.getAccelerometerZ() - game.yCalib) * game.sensitivityUp) / 10f;
-        } else if (Gdx.input.getAccelerometerZ() - game.yCalib > 0f){
-            accelY = ((Gdx.input.getAccelerometerZ() - game.yCalib) * game.sensitivityDown) / 10f;
+        if(getY() < -0.5f){
+            setY(-0.5f);
+        } else if(getY() > 3f){
+            setY(3f);
         }
-        speedX = speedX + (accelX * Gdx.graphics.getDeltaTime());
-        speedY = speedY - (accelY * Gdx.graphics.getDeltaTime());
-
-        if(speedX > 0.11f){
-            speedX -= 0.2f * Gdx.graphics.getDeltaTime();
-        } else if (speedX < -0.11f) {
-            speedX += 0.2f * Gdx.graphics.getDeltaTime();
+        if(getX() < -4.5f){
+            setX(-4.5f);
+        } else if(getX() > 4.5f){
+            setX(4.5f);
         }
 
-        if(speedY > 0.21f){
-            speedY -= 0.4f * Gdx.graphics.getDeltaTime();
-        } else if (speedY < 0.21f) {
-            speedY += 0.4f * Gdx.graphics.getDeltaTime();
-        }
-        if(getX() < 4.5f && speedX > 0f){
-            setX(getX() + speedX);
-        }else if (getX() > -4.5f && speedX < 0f){
-            setX(getX() + speedX);
-        }
-        if(getX() > 4.5f && speedX > 0f){
-            speedX = 0f;
-        } else if(getX() < -4.5f && speedX < 0f){
-            speedX = 0f;
-        }
-
-        //setX(getX() + speedX);
-        //setY(getY() + speedY);
     }
 }

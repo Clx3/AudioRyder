@@ -120,21 +120,22 @@ public class GameScreen implements Screen {
             modelBatch = new ModelBatch();
 
             font = game.font;
-
+            //FIXME: kommentoin nää vittuun ja katon miks tulee fps lagia
+            /*
             pointSpriteBatch.setCamera(cam3D);
-            particleSystem.add(pointSpriteBatch);
+            particleSystem.add(pointSpriteBatch); */
 
             /* Particle effects */
-            ParticleEffectLoader.ParticleEffectLoadParameter loadParam = new ParticleEffectLoader.ParticleEffectLoadParameter(particleSystem.getBatches());
+            /*ParticleEffectLoader.ParticleEffectLoadParameter loadParam = new ParticleEffectLoader.ParticleEffectLoadParameter(particleSystem.getBatches());
             game.assets.load(AudioRyder.EFFECTS_PATH + "particle.pfx", ParticleEffect.class, loadParam);
-            game.assets.finishLoading();
+            game.assets.finishLoading();*/
 
-            ParticleEffect originalEffect = game.assets.get(AudioRyder.EFFECTS_PATH + "particle.pfx");
+            /*ParticleEffect originalEffect = game.assets.get(AudioRyder.EFFECTS_PATH + "particle.pfx");
 // we cannot use the originalEffect, we must make a copy each time we create new particle effect
             ParticleEffect effect = originalEffect.copy();
             effect.init();
             //effect.start();  // optional: particle will begin playing immediately
-            particleSystem.add(effect);
+            particleSystem.add(effect);*/
 
             Model tempModel;
 
@@ -157,17 +158,17 @@ public class GameScreen implements Screen {
             game.skyModel = (tempModel);
             game.skydome = new Skydome(game, game.skyModel);
 
-            for(int i = 0; i < MathUtils.random(15, 30); i++) {
+            for(int i = 0; i < MathUtils.random(3, 5); i++) {
                 int planetType = MathUtils.random(1, 3);
                 gameObjects.add(new BackgroundObject(game, game.assets.get(AudioRyder.MODELS_PATH + "Planet" + planetType + ".g3db", Model.class)));
             }
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Asteroid.g3db", Model.class);
-            for(int i = 0; i < MathUtils.random(15, 30); i++) {
+            for(int i = 0; i < MathUtils.random(5, 10); i++) {
                 gameObjects.add(new BackgroundObject(game, tempModel));
             }
 
-            groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, 2f, game.noteSpeed * 2.5f));
+            groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, 2f, 3.5f));
 
 
             //Using the songhandler now, this will become usefull when we add multiple levels and
@@ -323,11 +324,11 @@ public class GameScreen implements Screen {
                     gameObjectsToRemove.add(object);
             }
 
-            particleSystem.update(); // technically not necessary for rendering
+            /*particleSystem.update(); // technically not necessary for rendering
             particleSystem.begin();
             //particleSystem.draw();
             particleSystem.end();
-            modelBatch.render(particleSystem);
+            modelBatch.render(particleSystem);*/
 
             modelBatch.end();
             levelTimer += Gdx.graphics.getDeltaTime();
@@ -335,7 +336,7 @@ public class GameScreen implements Screen {
 
             /* Spawning and removing the groundlines: */
             if (groundLines.get(groundLines.size() - 1).getZ() > -200f) {
-                groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, game.noteSpeed * 2.5f));
+                groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, 3.5f));
             }
             if (groundLines.get(0).getZ() > 30) {
                 groundLines.get(0).setActive(false);
@@ -443,12 +444,12 @@ public class GameScreen implements Screen {
         /*game.cam2D.setToOrtho(false,10f,6f);
         game.batch.setProjectionMatrix(game.cam2D.combined);
         game.cam2D.update();*/
-        game.hitOrMissTimer += Gdx.graphics.getDeltaTime();
+        /*game.hitOrMissTimer += Gdx.graphics.getDeltaTime();
         if (game.hitOrMiss && game.score > 0 && game.hitOrMissTimer < 0.5f) {
             game.batch.draw(hit, 1.5f, 3f, 1f, 0.5f);
         } else if (!(game.hitOrMiss) && game.hitOrMissTimer < 0.5f) {
             game.batch.draw(miss, 1.5f, 3f, 1f, 0.5f);
-        }
+        }*/
 
         /*game.cam2D.setToOrtho(false,game.ORTHOCAM_VIEWPORT_WIDTH,game.ORTHOCAM_VIEWPORT_HEIGHT);
         game.batch.setProjectionMatrix(game.cam2D.combined);
