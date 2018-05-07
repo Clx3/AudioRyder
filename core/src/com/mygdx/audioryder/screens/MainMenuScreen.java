@@ -146,10 +146,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-
-
         setCurrentStage(mainStage);
-
     }
 
     /**
@@ -161,7 +158,6 @@ public class MainMenuScreen implements Screen {
         backgroundStage = new Stage(viewport, game.batch);
 
         backgroundStage.addActor(background);
-
     }
 
     /**

@@ -42,6 +42,7 @@ public class AudioRyder extends Game {
 	public OrthographicCamera cam2D;
 	public static final float ORTHOCAM_VIEWPORT_WIDTH = WINDOW_WIDTH;
 	public static final float ORTHOCAM_VIEWPORT_HEIGHT = WINDOW_HEIGHT;
+
 	public Viewport viewport;
 
 	public SpriteBatch batch;
