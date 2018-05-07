@@ -8,10 +8,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
@@ -47,6 +49,9 @@ public class AudioRyder extends Game {
 
 	public SpriteBatch batch;
 	public BitmapFont font;
+
+	public Skin skin;
+	public TextureAtlas textureAtlas;
 
 	public GameScreen gameScreen;
 	public MainMenuScreen mainMenuScreen;
@@ -106,6 +111,9 @@ public class AudioRyder extends Game {
 
         batch = new SpriteBatch();
         font = new BitmapFont();
+
+		skin = new Skin(Gdx.files.internal("skins/jarno/AudioRyderUI.json"));
+		textureAtlas = new TextureAtlas("skins/jarno/AudioRyderUI.atlas");
 
         /* Creating songs: */
 		songList.add(new Song("Marssilaulu","erika.mp3", "erika.txt"));

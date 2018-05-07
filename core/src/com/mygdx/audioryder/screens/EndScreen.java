@@ -32,8 +32,6 @@ public class EndScreen implements Screen {
     Stage endStage;
     Image background;
     Viewport viewport;
-    Skin testSkin;
-    TextureAtlas testAtlas;
     Label scoreText1;
     Label scoreText2;
     Label highScores1;
@@ -47,12 +45,6 @@ public class EndScreen implements Screen {
         this.score = score;
         this.currentSong = currentSong;
 
-        testSkin = new Skin();
-        testSkin = game.mainMenuScreen.testSkin;
-        testAtlas = new TextureAtlas();
-        testAtlas = game.mainMenuScreen.testAtlas;
-
-
         viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
         viewport.apply();
 
@@ -63,7 +55,7 @@ public class EndScreen implements Screen {
     }
 
     private void setupActors() {
-        returnButton = new TextButton(Properties.returnText, testSkin);
+        returnButton = new TextButton(Properties.returnText, game.skin);
         returnButton.setSize(250f,80f);
         returnButton.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH - returnButton.getWidth(), returnButton.getY());
 
@@ -77,10 +69,10 @@ public class EndScreen implements Screen {
         });
         endStage.addActor(returnButton);
 
-        scoreText1 = new Label(Properties.scoreText,testSkin, "xolonium", Color.WHITE);
+        scoreText1 = new Label(Properties.scoreText, game.skin, "xolonium", Color.WHITE);
         scoreText1.setFontScale(1f);
         scoreText1.setPosition(50f,game.ORTHOCAM_VIEWPORT_HEIGHT - scoreText1.getHeight() - 30f);
-        scoreText2 = new Label(score + "",testSkin,"xolonium", Color.WHITE);
+        scoreText2 = new Label(score + "", game.skin,"xolonium", Color.WHITE);
         scoreText2.setFontScale(1.5f);
         scoreText2.setPosition(50f,scoreText1.getY() - scoreText1.getHeight());
 
@@ -95,7 +87,7 @@ public class EndScreen implements Screen {
                 "2. " + prefs.getString("entry" + 2 + "name")+ "\n" +
                 "3. " + prefs.getString("entry" + 3 + "name")+ "\n" +
                 "4. " + prefs.getString("entry" + 4 + "name")+ "\n" +
-                "5. " + prefs.getString("entry" + 5 + "name"),testSkin,"xolonium", Color.WHITE);
+                "5. " + prefs.getString("entry" + 5 + "name"), game.skin,"xolonium", Color.WHITE);
 
         highScores1.setPosition(300f,scoreText2.getY() - highScores1.getHeight() - 50f);
         endStage.addActor(highScores1);
@@ -104,7 +96,7 @@ public class EndScreen implements Screen {
                 prefs.getInteger("entry" + 2)+ "\n" +
                 prefs.getInteger("entry" + 3)+ "\n" +
                 prefs.getInteger("entry" + 4)+ "\n" +
-                prefs.getInteger("entry" + 5),testSkin,"xolonium", Color.WHITE);
+                prefs.getInteger("entry" + 5), game.skin,"xolonium", Color.WHITE);
 
         highScores2.setPosition(highScores1.getX() + highScores1.getWidth() + 50f, highScores1.getY());
         endStage.addActor(highScores2);

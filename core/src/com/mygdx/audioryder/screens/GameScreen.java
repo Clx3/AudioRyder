@@ -182,7 +182,7 @@ public class GameScreen implements Screen {
             viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
             viewport.apply();
 
-            testSkin = game.mainMenuScreen.testSkin;
+            testSkin = game.skin;
 
             setupPauseStage();
             setupGameOverlay();

@@ -45,9 +45,6 @@ public class MainMenuScreen implements Screen {
     private Stage selectSongStage;
     Stage settingsStage;
 
-    Skin testSkin;
-    TextureAtlas testAtlas;
-
     private Image background;
     private Image audioRyderText;
 
@@ -76,17 +73,8 @@ public class MainMenuScreen implements Screen {
         game.cam2D.setToOrtho(false, game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
         game.batch.setProjectionMatrix(game.cam2D.combined);
 
-        //testSkin = new Skin(Gdx.files.internal("skins/plain-james-ui.json"));
-        //testAtlas = new TextureAtlas("skins/plain-james-ui.atlas");
-
-        testSkin = new Skin(Gdx.files.internal("skins/jarno/AudioRyderUI.json"));
-        testAtlas = new TextureAtlas("skins/jarno/AudioRyderUI.atlas");
-
         viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
         viewport.apply();
-
-        //testSkin = new Skin(Gdx.files.internal("skins/PlayButton.json"));
-        //testAtlas = new TextureAtlas("skins/PlayButton.atlas");
 
         Texture backgroundTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "menubackground.jpg"));
         TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
@@ -176,11 +164,11 @@ public class MainMenuScreen implements Screen {
         mainMenuTable.setFillParent(true);
 
         /* Creating the buttons: */
-        playButton = new MenuButton(Properties.playText, testSkin);
-        settingsButton = new MenuButton(Properties.settingsText, testSkin);
-        exitButton = new MenuButton(Properties.exitText, testSkin);
+        playButton = new MenuButton(Properties.playText, game.skin);
+        settingsButton = new MenuButton(Properties.settingsText, game.skin);
+        exitButton = new MenuButton(Properties.exitText, game.skin);
 
-        ImageButton changeLanguangeButton = new ImageButton(testSkin, "flag");
+        ImageButton changeLanguangeButton = new ImageButton(game.skin, "flag");
         changeLanguangeButton.setSize(50f,50f);
         changeLanguangeButton.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - changeLanguangeButton.getWidth() / 2, 50f);
         changeLanguangeButton.setChecked(true);
@@ -233,7 +221,7 @@ public class MainMenuScreen implements Screen {
         mainStage.addActor(audioRyderText);
         mainStage.addActor(mainMenuTable);
 
-        nameField = new TextField(game.playerName,testSkin);
+        nameField = new TextField(game.playerName, game.skin);
         nameField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
@@ -254,7 +242,7 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        playerNameText = new Label(Properties.playerText,testSkin,"xolonium",Color.WHITE);
+        playerNameText = new Label(Properties.playerText, game.skin,"xolonium", Color.WHITE);
         playerNameText.setPosition(nameField.getX() + (nameField.getWidth() / 2) - (playerNameText.getWidth() / 2),nameField.getY() + nameField.getHeight());
         mainStage.addActor(playerNameText);
     }
@@ -268,10 +256,10 @@ public class MainMenuScreen implements Screen {
         selectSongStage = new Stage(viewport, game.batch);
 
         //final TextButton returnButton = new TextButton(Properties.returnText, testSkin);
-        final TextButton playButtonn = new TextButton(Properties.playText, testSkin);
+        final TextButton playButtonn = new TextButton(Properties.playText, game.skin);
         HorizontalGroup playAndReturn = new HorizontalGroup();
         playAndReturn.space(50f);
-        final MenuButton returnButton = new MenuButton(Properties.returnText, testSkin);
+        final MenuButton returnButton = new MenuButton(Properties.returnText, game.skin);
         playAndReturn.addActor(returnButton);
         playAndReturn.addActor(playButtonn);
 
@@ -283,16 +271,16 @@ public class MainMenuScreen implements Screen {
         songs.padRight(5f);
 
         for(Song song : game.songList) {
-            SongButton songButton = new SongButton(song, testSkin);
+            SongButton songButton = new SongButton(song, game.skin);
             songButtonGroup.add(songButton);
             songs.addActor(songButton);
         }
 
-        ScrollPane songsPane = new ScrollPane(songs, testSkin);
+        ScrollPane songsPane = new ScrollPane(songs, game.skin);
         songsPane.setFadeScrollBars(false);
         songsPane.setScrollingDisabled(true,false);
 
-        Table songTable = new Table(testSkin);
+        Table songTable = new Table(game.skin);
         songTable.setSize(500f, 500f);
         songTable.setPosition(game.WINDOW_WIDTH / 2 - songTable.getWidth() / 2, game.WINDOW_HEIGHT / 2 - songTable.getHeight() / 2);
         songTable.add(songsPane).row();
@@ -369,24 +357,24 @@ public class MainMenuScreen implements Screen {
         settingsStage = new Stage(viewport, game.batch);
 
         /* Add all texts: */
-        sensitivityText = new Label(Properties.sensitivityText, testSkin, "xolonium", Color.WHITE);
+        sensitivityText = new Label(Properties.sensitivityText, game.skin, "xolonium", Color.WHITE);
         sensitivityText.setAlignment(1);
         sensitivityText.setSize(150f,50f);
         sensitivityText.setPosition(80f,520f);
 
-        sensitivityText2 = new Label(Properties.sensitivityText2, testSkin, "xolonium", Color.WHITE);
+        sensitivityText2 = new Label(Properties.sensitivityText2, game.skin, "xolonium", Color.WHITE);
         sensitivityText2.setAlignment(1);
         sensitivityText2.setFontScale(0.7f);
         sensitivityText2.setSize(150f,50f);
         sensitivityText2.setPosition(80f,490f - sensitivityText2.getHeight());
 
-        leftSensText = new Label(game.sensitivityLeft + "", testSkin, "xolonium", Color.WHITE);
+        leftSensText = new Label(game.sensitivityLeft + "", game.skin, "xolonium", Color.WHITE);
         leftSensText.setPosition(100f,315f);
-        rightSensText = new Label(game.sensitivityRight + "", testSkin, "xolonium", Color.WHITE);
+        rightSensText = new Label(game.sensitivityRight + "", game.skin, "xolonium", Color.WHITE);
         rightSensText.setPosition(540f,315f);
-        downSensText = new Label(game.sensitivityDown + "", testSkin, "xolonium", Color.WHITE);
+        downSensText = new Label(game.sensitivityDown + "", game.skin, "xolonium", Color.WHITE);
         downSensText.setPosition(360f,130f);
-        upSensText = new Label(game.sensitivityUp + "", testSkin, "xolonium", Color.WHITE);
+        upSensText = new Label(game.sensitivityUp + "", game.skin, "xolonium", Color.WHITE);
         upSensText.setPosition(360f,500f);
 
 
@@ -400,9 +388,9 @@ public class MainMenuScreen implements Screen {
 
 
         /* Add calibrate button: */
-        calibrateButton = new TextButton(Properties.calibrateText, testSkin);
+        calibrateButton = new TextButton(Properties.calibrateText, game.skin);
         calibrateButton.setPosition(650f, 400f);
-        calibrateButton.getLabel().setStyle(new Label.LabelStyle(testSkin.getFont("xolonium"),Color.WHITE));
+        calibrateButton.getLabel().setStyle(new Label.LabelStyle(game.skin.getFont("xolonium"),Color.WHITE));
         calibrateButton.getLabel().setFontScale(1.2f);
         calibrateButton.addListener(new ClickListener(){
             @Override
@@ -416,13 +404,13 @@ public class MainMenuScreen implements Screen {
         settingsStage.addActor(calibrateButton);
 
         /* Create sliders: */
-        SensitivitySlider left = new SensitivitySlider(false, testSkin, -4f,-1f, "left");
+        SensitivitySlider left = new SensitivitySlider(false, game.skin, -4f,-1f, "left");
         left.setPosition(90f,290f);
-        SensitivitySlider down = new SensitivitySlider(true, testSkin, -4f, -1f,"down");
+        SensitivitySlider down = new SensitivitySlider(true, game.skin, -4f, -1f,"down");
         down.setPosition(330f,280f - down.getHeight());
-        SensitivitySlider right = new SensitivitySlider(false, testSkin, 1f,4f,"right");
+        SensitivitySlider right = new SensitivitySlider(false, game.skin, 1f,4f,"right");
         right.setPosition(360f,290f);
-        SensitivitySlider up = new SensitivitySlider(true, testSkin, 1f, 4f,"up");
+        SensitivitySlider up = new SensitivitySlider(true, game.skin, 1f, 4f,"up");
         up.setPosition(330f,320f);
 
 
@@ -433,7 +421,7 @@ public class MainMenuScreen implements Screen {
         settingsStage.addActor(up);
 
         /* Gamespeed slider */
-        final Slider gameSpeed = new Slider(1f,3f,0.5f,false, testSkin);
+        final Slider gameSpeed = new Slider(1f,3f,0.5f,false, game.skin);
         gameSpeed.setWidth(230f);
         gameSpeed.setWidth(calibrateButton.getWidth());
         gameSpeed.setPosition(650f,150f);
@@ -446,11 +434,11 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        gameSpeedText = new Label(game.noteSpeed + "", testSkin, "xolonium", Color.WHITE);
+        gameSpeedText = new Label(game.noteSpeed + "", game.skin, "xolonium", Color.WHITE);
         gameSpeedText.setPosition(650f + (gameSpeed.getWidth() / 2f) - (gameSpeedText.getWidth() / 2),150f - gameSpeed.getHeight());
         settingsStage.addActor(gameSpeedText);
 
-        gameSpeedText2 = new Label(Properties.gameSpeedText, testSkin, "xolonium", Color.WHITE);
+        gameSpeedText2 = new Label(Properties.gameSpeedText, game.skin, "xolonium", Color.WHITE);
         gameSpeedText2.setPosition(650f + (gameSpeed.getWidth() / 2f) - (gameSpeedText2.getWidth() / 2),150f + gameSpeed.getHeight() + gameSpeed.getHeight());
         settingsStage.addActor(gameSpeedText2);
 
@@ -462,7 +450,7 @@ public class MainMenuScreen implements Screen {
         gameSpeed.setValue(game.noteSpeed);
 
         /* Adding buttons: */
-        final MenuButton returnButton = new MenuButton(Properties.returnText, testSkin);
+        final MenuButton returnButton = new MenuButton(Properties.returnText, game.skin);
 
         /* Adding listeners: */
         returnButton.addListener(new ClickListener() {
