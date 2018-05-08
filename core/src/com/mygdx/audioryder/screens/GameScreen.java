@@ -115,9 +115,19 @@ public class GameScreen implements Screen {
      */
     private SpaceShip spaceShip;
 
+    /**
+     * Determines if the game is paused
+     */
     boolean GAME_PAUSED;
 
+    /**
+     *
+     */
     Stage pauseStage;
+
+    /**
+     * Stage for game overlay: pause button and score text
+     */
     Stage gameOverlay;
 
     /**
@@ -195,6 +205,11 @@ public class GameScreen implements Screen {
 
     }
 
+    /**
+     * Sets up all actor for game overlay.
+     * Is called when the game screen is shown for the first time.
+     * Creates actors, adds listeners to them and adds them to stage.
+     */
     private void setupGameOverlay() {
         gameOverlay = new Stage(game.viewport, game.batch);
 
@@ -217,6 +232,11 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(gameOverlay);
     }
 
+    /**
+     * Sets up all actor for pause screen.
+     * Is called when the game screen is shown for the first time.
+     * Creates actors, adds listeners to them and adds them to stage.
+     */
     private void setupPauseStage() {
         pauseStage = new Stage(game.viewport, game.batch);
 
@@ -282,8 +302,9 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
                 game.score = 0;
-                game.setScreen(game.mainMenuScreen);
                 game.GAME_IS_ON = false;
+                game.setScreen(game.mainMenuScreen);
+
             }
         });
 
@@ -316,14 +337,8 @@ public class GameScreen implements Screen {
             //drawTextAndSprites(); //debug
             removeNonActive();
             drawOverlay();
+            checkSongStatus();
 
-            if (!(SongHandler.gameMusic.isPlaying())) {
-                game.GAME_IS_ON = false;
-                dispose();
-                SongHandler.gameMusic.stop();
-                game.endScreen = new EndScreen(game,game.score, game.currentSong);
-                game.setScreen(game.endScreen);
-            }
         }
         if(GAME_PAUSED){
             Gdx.input.setInputProcessor(pauseStage);
@@ -342,6 +357,26 @@ public class GameScreen implements Screen {
 
     }
 
+    /**
+     * Ends the game, when the music ends.
+     * Checks if the music is playing. If not, sets GAME_IS_ON to false and
+     * changes screen to endScreen with the correct variables, like score
+     * and song name.
+     */
+    private void checkSongStatus() {
+        if (!(SongHandler.gameMusic.isPlaying())) {
+            game.GAME_IS_ON = false;
+            dispose();
+            SongHandler.gameMusic.stop();
+            game.endScreen = new EndScreen(game,game.score, game.currentSong);
+            game.setScreen(game.endScreen);
+        }
+    }
+
+    /**
+     * Updates and draws the game overlay.
+     * Includes score and pause button.
+     */
     private void drawOverlay() {
         //Overlay:
         score.setText(Properties.scoreText + "\n" + game.score);
@@ -349,6 +384,10 @@ public class GameScreen implements Screen {
         gameOverlay.draw();
     }
 
+    /**
+     * Removes all game objects with isActive = false.
+     * Removes non active objects from all the array lists.
+     */
     private void removeNonActive() {
         gameObjects.removeAll(gameObjectsToRemove);
         gameObjectsToRemove.clear();
@@ -357,6 +396,11 @@ public class GameScreen implements Screen {
         notesToRemove.clear();
     }
 
+    /**
+     * Removes off screen level and spawns new level.
+     * Removes level blocks when they go off screen, and
+     * spawns new level blocks far away.
+     */
     private void removeAndSpawnLevel() {
         /* Spawning and removing the groundlines: */
         if (groundLines.get(groundLines.size() - 1).getZ() > -200f) {
@@ -368,6 +412,12 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Renders all active 3D game objects.
+     * Goes through the whole list of game objects, and checks if they are active.
+     * For all the active ones, calls their renderAndUpdate() method. For all else,
+     * adds to the to-be-removed list.
+     */
     private void renderGameObjects() {
         modelBatch.begin(cam3D);
         for (GameObject object : gameObjects) {
@@ -380,6 +430,9 @@ public class GameScreen implements Screen {
         modelBatch.end();
     }
 
+    /**
+     * Sets camera to correct position, which is behind the spaceship.
+     */
     private void updateCamera() {
         cam3D.position.set(spaceShip.getX(), 2f + spaceShip.getY(), 6f);
         cam3D.lookAt(spaceShip.getX(), spaceShip.getY() + 1f, spaceShip.getZ());
@@ -401,7 +454,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resume() {
-        GAME_PAUSED = true;
+
     }
 
     @Override
@@ -410,6 +463,12 @@ public class GameScreen implements Screen {
 
     }
 
+    /**
+     * Draws the bounding box of two given vectors.
+     * Used for collision box debugging.
+     * @param vectorMin
+     * @param vectorMax
+     */
     public void drawBoundingBox(Vector3 vectorMin, Vector3 vectorMax) {
 
         shapeRenderer = new ShapeRenderer();
@@ -436,13 +495,19 @@ public class GameScreen implements Screen {
         hit.dispose();
         miss.dispose();
         shapeRenderer.dispose();*/
+        /*
         modelBatch.dispose();
         spaceShip.dispose();
         groundModel.dispose();
         skyModel.dispose();
+        */
     }
 
 
+    /**
+     * Draws BitMapFont and textures.
+     * Not in use anymore expect for debugging, replaced by stages.
+     */
     public void drawTextAndSprites(){
         game.batch.begin();
 
