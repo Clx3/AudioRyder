@@ -29,14 +29,10 @@ import com.mygdx.audioryder.song.SongHandler;
 
 import java.util.ArrayList;
 
-
 /**
- * Created by Teemu on 1.3.2018.
- */
-
-/**
- * This class contains the logid and rendering
- * of our game. It handles everything that is needed
+ * This class contains the logic and rendering
+ * of our game and it contains the main loop of the
+ * game. It handles everything that is needed
  * in the gameplay view "GameScreen".
  *
  * @author Teemu Salminen

@@ -77,7 +77,9 @@ public class MainMenuScreen implements Screen {
     Label gameSpeedText;
     Label gameSpeedText2;
     TextButton calibrateButton;
-    TextField nameField;
+
+    /** This is the field where player enters his/hers name. */
+    private TextField nameField;
 
     public MainMenuScreen(AudioRyder game) {
         this.game = game;
@@ -180,14 +182,15 @@ public class MainMenuScreen implements Screen {
         ImageButton changeLanguangeButton = new ImageButton(game.skin, "flag");
         changeLanguangeButton.setSize(50f,50f);
         changeLanguangeButton.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - changeLanguangeButton.getWidth() / 2, 50f);
+
+        /* Configuring the change language buttton: */
         if(Properties.currentLocale == Properties.localeEN) {
             changeLanguangeButton.setChecked(false);
         } else {
             changeLanguangeButton.setChecked(true);
         }
 
-
-        /* Adding listeners: */
+        /* Adding listeners for buttons: */
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -228,15 +231,12 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        /* Configuring the main menu table: */
         mainMenuTable.add(playButton).size(playButton.getWidth(), playButton.getHeight()).pad(15f);
         mainMenuTable.row();
         mainMenuTable.add(settingsButton).size(settingsButton.getWidth(), settingsButton.getHeight()).pad(15f);
         mainMenuTable.row();
         mainMenuTable.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).pad(15f);
-
-        mainStage.addActor(changeLanguangeButton);
-        mainStage.addActor(audioRyderText);
-        mainStage.addActor(mainMenuTable);
 
         nameField = new TextField(game.playerName, game.skin);
         nameField.setTextFieldListener(new TextField.TextFieldListener() {
@@ -248,10 +248,9 @@ public class MainMenuScreen implements Screen {
             }
         });
         nameField.setMaxLength(8);
-        nameField.setPosition(10f,game.ORTHOCAM_VIEWPORT_HEIGHT - nameField.getHeight() - 150f);
         nameField.setSize(200f,50f);
+        nameField.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH - nameField.getWidth() - 50f, game.ORTHOCAM_VIEWPORT_HEIGHT - 250f);
         nameField.setAlignment(1);
-        mainStage.addActor(nameField);
         mainStage.getRoot().addCaptureListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 if (!(event.getTarget() instanceof TextField)){
@@ -263,8 +262,15 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        System.out.println(mainMenuTable.getWidth() + " W");
+        System.out.println(mainMenuTable.getHeight() + " H");
         playerNameText = new Label(Properties.playerText, game.skin,"xolonium", Color.WHITE);
         playerNameText.setPosition(nameField.getX() + (nameField.getWidth() / 2) - (playerNameText.getWidth() / 2),nameField.getY() + nameField.getHeight());
+
+        mainStage.addActor(changeLanguangeButton);
+        mainStage.addActor(audioRyderText);
+        mainStage.addActor(mainMenuTable);
+        mainStage.addActor(nameField);
         mainStage.addActor(playerNameText);
     }
 
@@ -330,16 +336,10 @@ public class MainMenuScreen implements Screen {
 
     }
 
-    /**
-     * This method setups the "Settings" stage
-     * of the menu. This is made
-     * only for readability purposes.
-     */
-
     public class SensitivitySlider extends Slider{
         String direction;
 
-        public SensitivitySlider(boolean vertical, Skin skin, float min, float max, String direction){
+        private SensitivitySlider(boolean vertical, Skin skin, float min, float max, String direction){
             super(min,max,0.5f, vertical, skin);
             this.addListener(new ChangeListener() {
                 @Override
@@ -358,7 +358,7 @@ public class MainMenuScreen implements Screen {
 
         }
 
-        public void setSensitivity(){
+        private void setSensitivity(){
             if(direction.equals("left")){
                 game.sensitivityLeft = getValue() * -1;
             } else if(direction.equals("down")){
@@ -373,6 +373,11 @@ public class MainMenuScreen implements Screen {
         }
     }
 
+    /**
+     * This method setups the "Settings" stage
+     * of the menu. This is made
+     * only for readability purposes.
+     */
     private void setupSettingsStage() {
         settingsStage = new Stage(game.viewport, game.batch);
 

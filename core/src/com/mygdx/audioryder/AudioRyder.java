@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.objects.Skydome;
-import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.screens.EndScreen;
 import com.mygdx.audioryder.screens.GameScreen;
