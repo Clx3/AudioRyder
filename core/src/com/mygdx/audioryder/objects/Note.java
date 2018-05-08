@@ -21,6 +21,8 @@ import com.mygdx.audioryder.AudioRyder;
  */
 public class Note extends GameObject {
 
+    //TODO: IS THE U DIRECTION NEEDED?
+
     /** This is the instance of this Notes pyramid model. */
     ModelInstance noteModel;
 
