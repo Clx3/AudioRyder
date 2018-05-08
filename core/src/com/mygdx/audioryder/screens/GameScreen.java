@@ -143,7 +143,6 @@ public class GameScreen implements Screen {
             cam3D.lookAt(0f, 1f, 0f);
             cam3D.near = 0.1f;
             cam3D.far = 1000.0f;
-            //game.cam2D.setToOrtho(false, 10f,6f);
             modelBatch = new ModelBatch();
 
             //FIXME: kommentoin nää vittuun ja katon miks tulee fps lagia
@@ -154,19 +153,19 @@ public class GameScreen implements Screen {
             spaceShip = new SpaceShip(game, tempModel);
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_green.g3db");
-            pyramids[0] = (tempModel);
+            pyramids[0] = tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_yellow.g3db");
-            pyramids[1] = (tempModel);
+            pyramids[1] = tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_red.g3db");
-            pyramids[2] = (tempModel);
+            pyramids[2] = tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
-            groundModel = (tempModel);
+            groundModel = tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
-            skyModel = (tempModel);
+            skyModel = tempModel;
             skydome = new Skydome(game, skyModel);
 
             for(int i = 0; i < MathUtils.random(3, 5); i++) {
@@ -192,8 +191,6 @@ public class GameScreen implements Screen {
             GAME_PAUSED = false;
             game.GAME_IS_ON = true;
         }
-
-
     }
 
     private void setupGameOverlay() {
@@ -324,12 +321,6 @@ public class GameScreen implements Screen {
                     gameObjectsToRemove.add(object);
             }
 
-            /*particleSystem.update(); // technically not necessary for rendering
-            particleSystem.begin();
-            //particleSystem.draw();
-            particleSystem.end();
-            modelBatch.render(particleSystem);*/
-
             modelBatch.end();
 
 
@@ -428,15 +419,15 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        /*modelBatch.dispose();
-        hit.dispose();
-        miss.dispose();
-        shapeRenderer.dispose();*/
         game.songTimer = 0f;
         modelBatch.dispose();
         spaceShip.dispose();
         groundModel.dispose();
         skyModel.dispose();
+
+        for(int i = 0; i < pyramids.length-1; i++) {
+            pyramids[i].dispose();
+        }
     }
 
     //TODO: REMOVE THIS BEFORE GOOGLE PLAY

@@ -192,10 +192,6 @@ public class AudioRyder extends Game {
 	public void dispose () {
 		batch.dispose();
 		font.dispose();
-
-		for(int i = 0; i < gameScreen.pyramids.length-1; i++) {
-			gameScreen.pyramids[i].dispose();
-		}
 	}
 
 }

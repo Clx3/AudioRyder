@@ -311,7 +311,7 @@ public class MainMenuScreen implements Screen {
         final TextButton playButtonn = new TextButton(Properties.playText, game.skin);
         HorizontalGroup playAndReturn = new HorizontalGroup();
         playAndReturn.space(50f);
-        final MenuButton returnButton = new MenuButton(Properties.returnText, game.skin);
+        final TextButton returnButton = new MenuButton(Properties.returnText, game.skin);
         playAndReturn.addActor(returnButton);
         playAndReturn.addActor(playButtonn);
 
@@ -530,10 +530,13 @@ public class MainMenuScreen implements Screen {
     private void setupInfoStage() {
         infoStage = new Stage(game.viewport, game.batch);
 
+        final Stage creditsStage = new Stage(game.viewport, game.batch);
+
+        /* ----- First info stage: ----- */
         TextButton guideButton = new MenuButton("Guide", game.skin);
         TextButton creditsButton = new MenuButton("Credits", game.skin);
 
-        TextButton returnButton = new MenuButton("Return", game.skin);
+        final TextButton returnButton = new MenuButton("Return", game.skin);
         returnButton.setPosition(20f, 20f);
 
         Table infoTable = new Table();
@@ -543,6 +546,14 @@ public class MainMenuScreen implements Screen {
         infoTable.add(creditsButton).row();
 
         /* Adding listeners: */
+        creditsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                creditsStage.addActor(returnButton);
+                setCurrentStage(creditsStage);
+            }
+        });
+
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
