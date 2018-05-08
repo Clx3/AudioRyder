@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -31,10 +30,6 @@ import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.song.Song;
 
 /**
- * Created by Teemu on 17.3.2018.
- */
-
-/**
  * This class is the Main menu of our game.
  * It contains all the logic and function that
  * the main menu needs.
@@ -46,23 +41,38 @@ public class MainMenuScreen implements Screen {
 
     AudioRyder game;
 
-    Stage currentStage;
-    Stage backgroundStage;
+    /** This is the "main" stage or the first stage of the main menu. */
     private Stage mainStage;
-    private Stage selectSongStage;
-    Stage settingsStage;
 
-    private Image background;
+    /** This is the Stage where the user can select the song to play. */
+    private Stage selectSongStage;
+
+    /** This is the info Stage of the main menu. */
+    private Stage infoStage;
+
+    /** This is the background Stage what is rendered behind all of the other Stages. */
+    public Stage backgroundStage;
+
+    /** This is the settings Stage where user can change the settings of the game. */
+    public Stage settingsStage;
+
+    /**
+     * This is the Stage that is going to be rendered, so all
+     * the Stages we have in this class will be given to this variable
+     * if it is the chosen Stage that is going to be rendered.
+     */
+    public Stage currentStage;
+
     private Image audioRyderText;
 
     /** This is the play button in the menu.*/
-    MenuButton playButton;
+    private MenuButton playButton;
 
     /** This is the Settings button in the menu. */
-    MenuButton settingsButton;
+    private MenuButton settingsButton;
 
     /** This is the Exit button in the menu. */
-    MenuButton exitButton;
+    private MenuButton exitButton;
 
     /** This label is the Player name: in the menu. */
     Label playerNameText;
@@ -87,19 +97,16 @@ public class MainMenuScreen implements Screen {
         game.cam2D.setToOrtho(false, game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
         game.batch.setProjectionMatrix(game.cam2D.combined);
 
-        Texture backgroundTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "menubackground.jpg"));
-        TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
-        background = new Image(backgroundRegion);
-
         Texture audioRyderTextTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "audioryder.png"));
         TextureRegion audioRyderTextRegion = new TextureRegion(audioRyderTextTexture);
         audioRyderText = new Image(audioRyderTextRegion);
         audioRyderText.setSize(750f, 200f);
         audioRyderText.setPosition(game.WINDOW_WIDTH / 2 - audioRyderText.getWidth() / 2, game.WINDOW_HEIGHT - audioRyderText.getHeight());
 
-
+        /* Initializing all the Stages: */
         setupBackgroundStage();
         setupMainStage();
+        setupInfoStage();
         setupSelectSongStage();
         setupSettingsStage();
     }
@@ -159,6 +166,10 @@ public class MainMenuScreen implements Screen {
      */
     private void setupBackgroundStage() {
         backgroundStage = new Stage(game.viewport, game.batch);
+
+        Texture backgroundTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "menubackground.jpg"));
+        TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
+        Image background = new Image(backgroundRegion);
 
         backgroundStage.addActor(background);
     }
@@ -239,6 +250,7 @@ public class MainMenuScreen implements Screen {
         mainMenuTable.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).pad(15f);
 
         nameField = new TextField(game.playerName, game.skin);
+
         nameField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
@@ -247,10 +259,12 @@ public class MainMenuScreen implements Screen {
                 game.userSettings.flush();
             }
         });
+
         nameField.setMaxLength(8);
         nameField.setSize(200f,50f);
         nameField.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH - nameField.getWidth() - 50f, game.ORTHOCAM_VIEWPORT_HEIGHT - 250f);
         nameField.setAlignment(1);
+
         mainStage.getRoot().addCaptureListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 if (!(event.getTarget() instanceof TextField)){
@@ -262,16 +276,27 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        System.out.println(mainMenuTable.getWidth() + " W");
-        System.out.println(mainMenuTable.getHeight() + " H");
         playerNameText = new Label(Properties.playerText, game.skin,"xolonium", Color.WHITE);
         playerNameText.setPosition(nameField.getX() + (nameField.getWidth() / 2) - (playerNameText.getWidth() / 2),nameField.getY() + nameField.getHeight());
 
+        /** Creating and adding the listener for the Info button: */
+        final ImageButton infoButton = new ImageButton(game.skin, "info");
+        infoButton.setPosition(50f, game.ORTHOCAM_VIEWPORT_HEIGHT - infoButton.getHeight() - 50f);
+
+        infoButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setCurrentStage(infoStage);
+            }
+        });
+
+        /* Adding all the actors to the Stage: */
         mainStage.addActor(changeLanguangeButton);
         mainStage.addActor(audioRyderText);
         mainStage.addActor(mainMenuTable);
         mainStage.addActor(nameField);
         mainStage.addActor(playerNameText);
+        mainStage.addActor(infoButton);
     }
 
     /**
@@ -500,8 +525,34 @@ public class MainMenuScreen implements Screen {
         settingsStage.addActor(returnButton);
     }
 
-    private void addActorToStage(Actor actor, Stage stage) {
-        stage.addActor(actor);
+
+    //TODO: TÄMÄ. Voin jatkaa tätä kun tuun takasin mutta voit Joonas jatkaa ihan vapaasti kanssa jos haluat :--) t teemu.
+    private void setupInfoStage() {
+        infoStage = new Stage(game.viewport, game.batch);
+
+        TextButton guideButton = new MenuButton("Guide", game.skin);
+        TextButton creditsButton = new MenuButton("Credits", game.skin);
+
+        TextButton returnButton = new MenuButton("Return", game.skin);
+        returnButton.setPosition(20f, 20f);
+
+        Table infoTable = new Table();
+        infoTable.setFillParent(true);
+
+        infoTable.add(guideButton).row();
+        infoTable.add(creditsButton).row();
+
+        /* Adding listeners: */
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setCurrentStage(mainStage);
+            }
+        });
+
+        /* Adding the actors to the Stage: */
+        infoStage.addActor(infoTable);
+        infoStage.addActor(returnButton);
     }
 
 
@@ -518,8 +569,6 @@ public class MainMenuScreen implements Screen {
         playerNameText.setPosition(nameField.getX() + (nameField.getWidth() / 2) - (playerNameText.getWidth() / 2),nameField.getY() + nameField.getHeight());
         setupSelectSongStage();
         setupSettingsStage();
-
-
     }
 
     public void updateSensitivityTexts(){

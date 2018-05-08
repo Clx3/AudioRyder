@@ -125,6 +125,10 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
 		imageUp: Finland-icon
 		imageChecked: United-Kingdom-icon
 	}
+	info: {
+		imageUp: info
+		imageDown: infodowni
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	default: {

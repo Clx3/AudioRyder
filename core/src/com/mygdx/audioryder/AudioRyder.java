@@ -45,14 +45,10 @@ public class AudioRyder extends Game {
 	public static final String SPRITES_PATH = "sprites/";
 	public static final String EFFECTS_PATH = "effects/";
 
-	/**
-     * Width of the application window.
-	 */
+	/** Width of the application window. */
 	public static final int WINDOW_WIDTH = 1024;
 
-    /**
-     * Height of the application window.
-     */
+    /** Height of the application window. */
 	public static final int WINDOW_HEIGHT = 600;
 
 	public OrthographicCamera cam2D;
