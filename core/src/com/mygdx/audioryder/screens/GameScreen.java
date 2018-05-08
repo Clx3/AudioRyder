@@ -177,19 +177,16 @@ public class GameScreen implements Screen {
 
             groundLines.add(new GroundLine(game, groundModel, 0, -2f, 2f, 3.5f));
 
-
             //Using the songhandler now, this will become usefull when we add multiple levels and
             //a loading screen from main menu to game.
             SongHandler.setupSong(game, game.currentSong);
             SongHandler.gameMusic.play();
             game.songTimer = 0f;
 
-            //LOLsetupPauseStage();
             setupGameOverlay();
             GAME_PAUSED = false;
             game.GAME_IS_ON = true;
         }
-
 
     }
 
