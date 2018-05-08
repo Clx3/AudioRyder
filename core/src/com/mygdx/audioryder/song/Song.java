@@ -16,8 +16,6 @@ public class Song {
     private String songFileString;
     private String noteFileString;
 
-    //private Music soundFile;
-
     private FileHandle noteFile;
 
     public Song(String name, String songFile, String noteFile) {

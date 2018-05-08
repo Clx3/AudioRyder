@@ -185,14 +185,12 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 //game.loadingScreen = new LoadingScreen(game);
                 //game.setScreen(game.loadingScreen);
-                playButton.setChecked(false);
                 setCurrentStage(selectSongStage);
             }
         });
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                settingsButton.setChecked(false);
                 setCurrentStage(settingsStage);
             }
         });
@@ -303,14 +301,13 @@ public class MainMenuScreen implements Screen {
 
         selectSongStage.addActor(songTable);
 
-        /* Initializing the game.currentSong to the first song in the songlist: */
+        /* Initializing the game.gameMusic to the first song in the songlist: */
         game.currentSong = game.songList.get(0);
 
         /* Adding listeners for return and play: */
         playButtonn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                playButtonn.setChecked(false);
                 game.levelLoadingScreen = new LevelLoadingScreen(game, game.currentSong);
                 game.setScreen(game.levelLoadingScreen);
             }
@@ -319,7 +316,6 @@ public class MainMenuScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                returnButton.setChecked(false);
                 setCurrentStage(mainStage);
             }
         });
@@ -411,7 +407,6 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                calibrateButton.setChecked(false);
                 game.xCalib = Gdx.input.getAccelerometerY();
                 game.yCalib = Gdx.input.getAccelerometerZ();
             }
@@ -481,10 +476,8 @@ public class MainMenuScreen implements Screen {
                 game.userSettings.flush();
 
                 if(game.GAME_IS_ON) {
-                    returnButton.setChecked(false);
                     game.setScreen(game.gameScreen);
                 } else {
-                    returnButton.setChecked(false);
                     setCurrentStage(mainStage);
                 }
             }

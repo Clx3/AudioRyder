@@ -3,16 +3,12 @@ package com.mygdx.audioryder.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleEffect;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleEffectLoader;
 import com.badlogic.gdx.graphics.g3d.particles.ParticleSystem;
 import com.badlogic.gdx.graphics.g3d.particles.batches.PointSpriteParticleBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -32,7 +28,6 @@ import com.mygdx.audioryder.objects.BackgroundObject;
 import com.mygdx.audioryder.objects.GameObject;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Note;
-import com.mygdx.audioryder.objects.BackgroundObject;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.properties.Properties;
@@ -45,22 +40,59 @@ import java.util.ArrayList;
  * Created by Teemu on 1.3.2018.
  */
 
+/**
+ * This class contains the logid and rendering
+ * of our game. It handles everything that is needed
+ * in the gameplay view "GameScreen".
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
+ */
 public class GameScreen implements Screen {
 
     //TODO: PARTICLE FUCKING EFFECTS VOI VITTU I FUCK EMMI :---D
 
     AudioRyder game;
 
+    /**
+     * This ArrayList contains all the GameObjects in our game.
+     */
     public ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
+
+    /**
+     * This ArrayList contain all the GameObjects that are going to be removed from
+     * the gameObjects ArrayList after every iteration.
+     */
     public ArrayList<GameObject> gameObjectsToRemove = new ArrayList<GameObject>();
 
+    /**
+     * This ArrayList contains all the active Notes of our game.
+     */
     public ArrayList<Note> notes = new ArrayList<Note>();
+
+    /**
+     * This ArrayList contains all the Notes that are going to be removed
+     * from the notes ArrayList and this is action is done every iteration.
+     */
     public ArrayList<Note> notesToRemove = new ArrayList<Note>();
 
+    /**
+     * This ArrayList contains all the GroundLine objects of our game.
+     * To be more precise GroundLines are the "roads" which the spaceship
+     * will fly on.
+     */
     public ArrayList<GroundLine> groundLines = new ArrayList<GroundLine>();
 
+    /**
+     * This PerspectiveCamera is used for our GameScreen to
+     * render our 3D world and 3D objects.
+     */
     PerspectiveCamera cam3D;
 
+    /**
+     * This is the ModelBatch our game uses for our
+     * models.
+     */
     ModelBatch modelBatch;
 
     /**
@@ -70,36 +102,28 @@ public class GameScreen implements Screen {
      */
     public Model[] pyramids = new Model[3];
 
+    /**
+     * This is the SpaceShip Object of our game.
+     */
     private SpaceShip spaceShip;
 
-    Texture hit;
-    Texture miss;
-
-    float levelTimer = 0f;
     boolean GAME_PAUSED;
 
     Stage pauseStage;
     Stage gameOverlay;
     Viewport viewport;
-    Skin testSkin;
 
-    TextButton continueGame;
-    TextButton settings;
-    TextButton restart;
-    TextButton exit;
-    Table pauseMenuTable;
-    Label score;
+    /**
+     * This Label is the Score text on top of the screen in the game.
+     */
+    private Label score;
 
+    //TODO: REMOVE THIS BEFORE GOOGLE PLAY
     ShapeRenderer shapeRenderer;
 
     public GameScreen(AudioRyder game) {
         this.game = game;
     }
-
-    // ParticleSystem is a singleton class, we get the instance instead of creating a new object:
-    public ParticleSystem particleSystem = ParticleSystem.get();
-    // Since our particle effects are PointSprites, we create a PointSpriteParticleBatch
-    public PointSpriteParticleBatch pointSpriteBatch = new PointSpriteParticleBatch();
 
     @Override
     public void show() {
@@ -169,15 +193,10 @@ public class GameScreen implements Screen {
             //Using the songhandler now, this will become usefull when we add multiple levels and
             //a loading screen from main menu to game.
             SongHandler.setupSong(game, game.currentSong);
-            SongHandler.currentSong.play();
-
-            hit = new Texture("hit.png");
-            miss = new Texture("miss.png");
+            SongHandler.gameMusic.play();
 
             viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
             viewport.apply();
-
-            testSkin = game.skin;
 
             setupPauseStage();
             setupGameOverlay();
@@ -191,7 +210,7 @@ public class GameScreen implements Screen {
     private void setupGameOverlay() {
         gameOverlay = new Stage(viewport, game.batch);
 
-        final TextButton pauseButton = new TextButton(Properties.pauseText,testSkin);
+        final TextButton pauseButton = new TextButton(Properties.pauseText, game.skin);
         pauseButton.setSize(150f,50f);
         pauseButton.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH - pauseButton.getWidth() - 10f,game.ORTHOCAM_VIEWPORT_HEIGHT - pauseButton.getHeight() - 10f);
         pauseButton.addListener(new ClickListener(){
@@ -199,11 +218,11 @@ public class GameScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 GAME_PAUSED = true;
                 pauseButton.setChecked(false);
-                SongHandler.currentSong.pause();
+                SongHandler.gameMusic.pause();
             }
         });
         gameOverlay.addActor(pauseButton);
-        score = new Label(Properties.scoreText + "\n" + game.score,testSkin,"xolonium",Color.WHITE);
+        score = new Label(Properties.scoreText + "\n" + game.score, game.skin,"xolonium",Color.WHITE);
         score.setAlignment(1);
         score.setPosition((game.ORTHOCAM_VIEWPORT_WIDTH / 2f) - (score.getWidth() / 2),(game.ORTHOCAM_VIEWPORT_HEIGHT) - (score.getHeight()) - 10f);
         gameOverlay.addActor(score);
@@ -211,40 +230,39 @@ public class GameScreen implements Screen {
     }
 
     private void setupPauseStage() {
-
         pauseStage = new Stage(viewport, game.batch);
 
-
-        pauseMenuTable = new Table();
+        Table pauseMenuTable = new Table();
         pauseMenuTable.setFillParent(true);
 
-
-        continueGame = new TextButton(Properties.continueText,testSkin);
+        TextButton continueGame = new TextButton(Properties.continueText, game.skin);
         continueGame.setSize(300f,80f);
-        settings = new TextButton(Properties.settingsText,testSkin);
+
+        TextButton settings = new TextButton(Properties.settingsText, game.skin);
         settings.setSize(300f,80f);
-        restart = new TextButton(Properties.restartText,testSkin);
+
+        TextButton restart = new TextButton(Properties.restartText, game.skin);
         restart.setSize(300f,80f);
+
         if(Properties.currentLocale == Properties.localeFI) {
             restart.getLabel().setFontScale(0.9f,0.9f);
         }
-        exit = new TextButton(Properties.exitText,testSkin);
+
+        TextButton exit = new TextButton(Properties.exitText, game.skin);
         exit.setSize(300f,80f);
 
         continueGame.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
                 GAME_PAUSED = false;
                 Gdx.input.setInputProcessor(gameOverlay);
-                continueGame.setChecked(false);
-                SongHandler.currentSong.play();
+                SongHandler.gameMusic.play();
             }
         });
 
         settings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                settings.setChecked(false);
-                SongHandler.currentSong.pause();
+                SongHandler.gameMusic.pause();
                 game.setScreen(game.mainMenuScreen);
                 game.mainMenuScreen.currentStage = game.mainMenuScreen.settingsStage;
                 Gdx.input.setInputProcessor(game.mainMenuScreen.currentStage);
@@ -266,9 +284,8 @@ public class GameScreen implements Screen {
                 game.songTimer = 0f;
                 SongHandler.setupSong(game,game.currentSong);
                 Gdx.input.setInputProcessor(gameOverlay);
-                SongHandler.currentSong.play();
+                SongHandler.gameMusic.play();
                 GAME_PAUSED = false;
-                restart.setChecked(false);
             }
         });
 
@@ -278,7 +295,6 @@ public class GameScreen implements Screen {
                 dispose();
                 game.score = 0;
                 game.setScreen(game.mainMenuScreen);
-                exit.setChecked(false);
                 game.GAME_IS_ON = false;
             }
         });
@@ -326,7 +342,6 @@ public class GameScreen implements Screen {
             modelBatch.render(particleSystem);*/
 
             modelBatch.end();
-            levelTimer += Gdx.graphics.getDeltaTime();
 
 
             /* Spawning and removing the groundlines: */
@@ -353,10 +368,10 @@ public class GameScreen implements Screen {
             gameOverlay.draw();
 
 
-            if (!(SongHandler.currentSong.isPlaying())) {
+            if (!(SongHandler.gameMusic.isPlaying())) {
                 game.GAME_IS_ON = false;
                 dispose();
-                SongHandler.currentSong.stop();
+                SongHandler.gameMusic.stop();
                 game.endScreen = new EndScreen(game,game.score, game.currentSong);
                 game.setScreen(game.endScreen);
             }
@@ -371,8 +386,8 @@ public class GameScreen implements Screen {
         if(levelTimer > 2f){
             game.GAME_IS_ON = false;
             dispose();
-            SongHandler.currentSong.stop();
-            game.endScreen = new EndScreen(game,1234567897, game.currentSong);
+            SongHandler.gameMusic.stop();
+            game.endScreen = new EndScreen(game,1234567897, game.gameMusic);
             game.setScreen(game.endScreen);
         }*/
 
@@ -428,13 +443,12 @@ public class GameScreen implements Screen {
         hit.dispose();
         miss.dispose();
         shapeRenderer.dispose();*/
-
-        levelTimer = 0f;
         game.songTimer = 0f;
         modelBatch.dispose();
         spaceShip.dispose();
     }
 
+    //TODO: REMOVE THIS BEFORE GOOGLE PLAY
     public void drawTextAndSprites(){
         game.batch.begin();
 
