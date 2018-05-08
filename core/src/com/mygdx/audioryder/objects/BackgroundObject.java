@@ -24,6 +24,7 @@ public class BackgroundObject extends GameObject {
 
     /** Speed of the object this is initialized in reset() method. */
     private float speed;
+    private float rotationSpeed;
 
     /**
      * Creates a new Background object from a wanted Model.
@@ -39,6 +40,7 @@ public class BackgroundObject extends GameObject {
 
         //This is here to prevent all objects from spawning at the end of the map so it randomizes its spawning location.
         setZ(MathUtils.random(30, -150f));
+        rotationSpeed = MathUtils.random(0.1f,20f);
 
         modelInstance.transform.setToTranslation(getX(), getY(), getZ());
         modelInstance.calculateTransforms();
@@ -66,6 +68,7 @@ public class BackgroundObject extends GameObject {
     public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
 
         setZ(getZ() + speed * Gdx.graphics.getDeltaTime());
+
 
         if(getZ() > 30)
             reset();

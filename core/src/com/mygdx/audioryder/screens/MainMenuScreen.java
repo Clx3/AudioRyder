@@ -1,6 +1,7 @@
 package com.mygdx.audioryder.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -171,7 +172,12 @@ public class MainMenuScreen implements Screen {
         ImageButton changeLanguangeButton = new ImageButton(game.skin, "flag");
         changeLanguangeButton.setSize(50f,50f);
         changeLanguangeButton.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - changeLanguangeButton.getWidth() / 2, 50f);
-        changeLanguangeButton.setChecked(true);
+        if(Properties.currentLocale == Properties.localeEN) {
+            changeLanguangeButton.setChecked(false);
+        } else {
+            changeLanguangeButton.setChecked(true);
+        }
+
 
         /* Adding listeners: */
         playButton.addListener(new ClickListener() {
@@ -199,15 +205,20 @@ public class MainMenuScreen implements Screen {
         changeLanguangeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Preferences userSettings = Gdx.app.getPreferences("userSettings");
                 if(Properties.currentLocale == Properties.localeEN) {
                     Properties.currentLocale = Properties.localeFI;
+                    userSettings.putString("language","fi");
                     settingsButton.getLabel().setFontScale(0.8f,0.8f);
+
                 } else {
                     Properties.currentLocale = Properties.localeEN;
+                    userSettings.putString("language","en");
                     settingsButton.getLabel().setFontScale(1f,1f);
                 }
                 Properties.updateProperties();
                 updateButtonTexts();
+                userSettings.flush();
             }
         });
 
@@ -237,7 +248,11 @@ public class MainMenuScreen implements Screen {
         mainStage.addActor(nameField);
         mainStage.getRoot().addCaptureListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                if (!(event.getTarget() instanceof TextField)) mainStage.setKeyboardFocus(null);
+                if (!(event.getTarget() instanceof TextField)){
+                    mainStage.setKeyboardFocus(null);
+                    nameField.getOnscreenKeyboard().show(false);
+                }
+
                 return false;
             }
         });
