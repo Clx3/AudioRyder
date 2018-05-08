@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 ButtonDown
   rotate: false
-  xy: 603, 873
+  xy: 1, 287
   size: 300, 150
   orig: 300, 150
   offset: 0, 0
@@ -20,14 +20,14 @@ ButtonUp
   index: -1
 Finland-icon
   rotate: false
-  xy: 515, 887
+  xy: 718, 807
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 List
   rotate: false
-  xy: 1, 287
+  xy: 603, 873
   size: 300, 150
   orig: 300, 150
   offset: 0, 0
@@ -41,7 +41,7 @@ SongButton
   index: -1
 United-Kingdom-icon
   rotate: false
-  xy: 515, 459
+  xy: 515, 887
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -171,7 +171,7 @@ round-white
   index: -1
 round-white-small
   rotate: false
-  xy: 784, 847
+  xy: 88, 109
   size: 24, 24
   split: 10, 10, 10, 10
   pad: 10, 10, 2, 2
@@ -189,7 +189,7 @@ selectbox
   index: -1
 selection
   rotate: false
-  xy: 978, 970
+  xy: 949, 921
   size: 9, 9
   split: 2, 1, 2, 1
   pad: 4, 3, 4, 3
@@ -221,14 +221,14 @@ slider-horizontal
   index: -1
 slider-knob
   rotate: false
-  xy: 88, 109
+  xy: 784, 847
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 slider-vertical
   rotate: false
-  xy: 949, 910
+  xy: 978, 959
   size: 9, 20
   split: 4, 3, 3, 3
   pad: 3, 3, 2, 2
@@ -252,7 +252,7 @@ touchpad
   index: -1
 touchpad-knob
   rotate: false
-  xy: 718, 807
+  xy: 515, 459
   size: 64, 64
   orig: 64, 64
   offset: 0, 0

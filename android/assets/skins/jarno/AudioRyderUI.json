@@ -212,7 +212,6 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		fontColor: black
 		up: ButtonUp
 		down: ButtonDown
-		checked: ButtonDown
 	}
 	toggle: {
 		font: xolonium

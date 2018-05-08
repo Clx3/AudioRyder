@@ -12,7 +12,7 @@ import com.mygdx.audioryder.objects.Note;
 
 public class SongHandler {
 
-    public static Music currentSong;
+    public static Music gameMusic;
     public static FileHandle currentNoteFile;
 
     private static int songPointer = 0;
@@ -21,8 +21,8 @@ public class SongHandler {
     //123test
     public static void setupSong(AudioRyder game, Song song) {
         songPointer = 0;
-        currentSong = game.assets.get(AudioRyder.SONGS_PATH + song.getSongFileString());
-        currentSong.stop();
+        gameMusic = game.assets.get(AudioRyder.SONGS_PATH + song.getSongFileString());
+        gameMusic.stop();
         currentNoteFile = song.getNoteFile();
 
         String noteData = currentNoteFile.readString();
