@@ -40,7 +40,7 @@ import java.util.ArrayList;
  */
 public class GameScreen implements Screen {
 
-    //TODO: PARTICLE FUCKING EFFECTS
+    //TODO: PARTICLE FUCKING EFFECTS VOI VITTU I FUCK EMMI :---D
 
     AudioRyder game;
 
@@ -115,19 +115,8 @@ public class GameScreen implements Screen {
      */
     private SpaceShip spaceShip;
 
-    /**
-     * Determines if the game is paused
-     */
     boolean GAME_PAUSED;
 
-    /**
-     *
-     */
-    Stage pauseStage;
-
-    /**
-     * Stage for game overlay: pause button and score text
-     */
     Stage gameOverlay;
 
     /**
@@ -153,7 +142,6 @@ public class GameScreen implements Screen {
             cam3D.lookAt(0f, 1f, 0f);
             cam3D.near = 0.1f;
             cam3D.far = 1000.0f;
-            //game.cam2D.setToOrtho(false, 10f,6f);
             modelBatch = new ModelBatch();
 
             Model tempModel;
@@ -162,19 +150,19 @@ public class GameScreen implements Screen {
             spaceShip = new SpaceShip(game, tempModel);
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_green.g3db");
-            pyramids[0] = (tempModel);
+            pyramids[0] = tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_yellow.g3db");
-            pyramids[1] = (tempModel);
+            pyramids[1] = tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_red.g3db");
-            pyramids[2] = (tempModel);
+            pyramids[2] = tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
-            groundModel = (tempModel);
+            groundModel = tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
-            skyModel = (tempModel);
+            skyModel = tempModel;
             skydome = new Skydome(game, skyModel);
 
             for(int i = 0; i < MathUtils.random(3, 5); i++) {
@@ -196,7 +184,7 @@ public class GameScreen implements Screen {
             SongHandler.gameMusic.play();
             game.songTimer = 0f;
 
-            setupPauseStage();
+            //LOLsetupPauseStage();
             setupGameOverlay();
             GAME_PAUSED = false;
             game.GAME_IS_ON = true;
@@ -219,9 +207,7 @@ public class GameScreen implements Screen {
         pauseButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                GAME_PAUSED = true;
-                pauseButton.setChecked(false);
-                SongHandler.gameMusic.pause();
+                pause();
             }
         });
         gameOverlay.addActor(pauseButton);
@@ -232,99 +218,8 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(gameOverlay);
     }
 
-    /**
-     * Sets up all actor for pause screen.
-     * Is called when the game screen is shown for the first time.
-     * Creates actors, adds listeners to them and adds them to stage.
-     */
-    private void setupPauseStage() {
-        pauseStage = new Stage(game.viewport, game.batch);
-
-        Table pauseMenuTable = new Table();
-        pauseMenuTable.setFillParent(true);
-
-        TextButton continueGame = new TextButton(Properties.continueText, game.skin);
-        continueGame.setSize(300f,80f);
-
-        TextButton settings = new TextButton(Properties.settingsText, game.skin);
-        settings.setSize(300f,80f);
-
-        TextButton restart = new TextButton(Properties.restartText, game.skin);
-        restart.setSize(300f,80f);
-
-        if(Properties.currentLocale == Properties.localeFI) {
-            restart.getLabel().setFontScale(0.9f,0.9f);
-        }
-
-        TextButton exit = new TextButton(Properties.exitText, game.skin);
-        exit.setSize(300f,80f);
-
-        continueGame.addListener(new ClickListener(){
-            public void clicked(InputEvent event, float x, float y) {
-                GAME_PAUSED = false;
-                Gdx.input.setInputProcessor(gameOverlay);
-                SongHandler.gameMusic.play();
-            }
-        });
-
-        settings.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                SongHandler.gameMusic.pause();
-                game.setScreen(game.mainMenuScreen);
-                game.mainMenuScreen.currentStage = game.mainMenuScreen.settingsStage;
-                Gdx.input.setInputProcessor(game.mainMenuScreen.currentStage);
-            }
-        });
-
-        restart.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                for(Note note : notes){
-                    note.setActive(false);
-                    notesToRemove.add(note);
-                    gameObjectsToRemove.add(note);
-                }
-                gameObjects.removeAll(gameObjectsToRemove);
-                gameObjectsToRemove.clear();
-                notes.removeAll(notesToRemove);
-                notesToRemove.clear();
-                game.songTimer = 0f;
-                SongHandler.setupSong(game,game.currentSong);
-                Gdx.input.setInputProcessor(gameOverlay);
-                SongHandler.gameMusic.play();
-                GAME_PAUSED = false;
-            }
-        });
-
-        exit.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                dispose();
-                game.score = 0;
-                game.GAME_IS_ON = false;
-                game.setScreen(game.mainMenuScreen);
-
-            }
-        });
-
-
-        pauseMenuTable.add(continueGame).size(continueGame.getWidth(),continueGame.getHeight()).pad(15f);
-        pauseMenuTable.row();
-        pauseMenuTable.add(settings).size(settings.getWidth(),settings.getHeight()).pad(15f);
-        pauseMenuTable.row();
-        pauseMenuTable.add(restart).size(restart.getWidth(),restart.getHeight()).pad(15f);
-        pauseMenuTable.row();
-        pauseMenuTable.add(exit).size(exit.getWidth(),exit.getHeight()).pad(15f);
-
-        pauseStage.addActor(pauseMenuTable);
-
-    }
-
     @Override
     public void render(float delta) {
-
-
         if(!(GAME_PAUSED)) {
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -337,16 +232,13 @@ public class GameScreen implements Screen {
             //drawTextAndSprites(); //debug
             removeNonActive();
             drawOverlay();
-            checkSongStatus();
 
+            checkSongStatus();
         }
-        if(GAME_PAUSED){
-            Gdx.input.setInputProcessor(pauseStage);
-            pause();
-        }
+
 
         /*
-        //nopee hätänen testausosio ending-screenille
+        //FIXME: nopee hätänen testausosio ending-screenille
         if(levelTimer > 2f){
             game.GAME_IS_ON = false;
             dispose();
@@ -446,21 +338,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-        Gdx.gl.glClearColor( 0, 0, 0, 1 );
-        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
-        pauseStage.act(Gdx.graphics.getDeltaTime());
-        pauseStage.draw();
+        GAME_PAUSED = true;
+        SongHandler.gameMusic.pause();
+        game.pauseScreen = new PauseScreen(game);
+        game.setScreen(game.pauseScreen);
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
-
     }
 
     /**
@@ -491,16 +380,14 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        /*modelBatch.dispose();
-        hit.dispose();
-        miss.dispose();
-        shapeRenderer.dispose();*/
-        /*
         modelBatch.dispose();
         spaceShip.dispose();
         groundModel.dispose();
         skyModel.dispose();
-        */
+
+        for(int i = 0; i < pyramids.length-1; i++) {
+            pyramids[i].dispose();
+        }
     }
 
 
@@ -510,20 +397,6 @@ public class GameScreen implements Screen {
      */
     public void drawTextAndSprites(){
         game.batch.begin();
-
-        /*game.cam2D.setToOrtho(false,10f,6f);
-        game.batch.setProjectionMatrix(game.cam2D.combined);
-        game.cam2D.update();*/
-        /*game.hitOrMissTimer += Gdx.graphics.getDeltaTime();
-        if (game.hitOrMiss && game.score > 0 && game.hitOrMissTimer < 0.5f) {
-            game.batch.draw(hit, 1.5f, 3f, 1f, 0.5f);
-        } else if (!(game.hitOrMiss) && game.hitOrMissTimer < 0.5f) {
-            game.batch.draw(miss, 1.5f, 3f, 1f, 0.5f);
-        }*/
-
-        /*game.cam2D.setToOrtho(false,game.ORTHOCAM_VIEWPORT_WIDTH,game.ORTHOCAM_VIEWPORT_HEIGHT);
-        game.batch.setProjectionMatrix(game.cam2D.combined);
-        game.cam2D.update();*/
         game.font.draw(game.batch, "Score :" + game.score, 750, 170);
         game.font.draw(game.batch, "Streak :" + game.streak, 750, 190);
         game.font.draw(game.batch, "Multiplier " + game.multiplier + "X", 750, 210);

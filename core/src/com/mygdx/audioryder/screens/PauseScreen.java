@@ -26,7 +26,11 @@ public class PauseScreen implements Screen {
     public PauseScreen(AudioRyder game) {
         this.game = game;
     }
-
+    /**
+     * Sets up all actor for pause screen.
+     * Is called when the game screen is shown for the first time.
+     * Creates actors, adds listeners to them and adds them to stage.
+     */
     @Override
     public void show() {
         pauseStage = new Stage(game.viewport, game.batch);
