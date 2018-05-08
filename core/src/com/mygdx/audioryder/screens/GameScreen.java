@@ -112,7 +112,6 @@ public class GameScreen implements Screen {
     Stage pauseStage;
     Stage gameOverlay;
     Viewport viewport;
-    Skin testSkin;
 
     /**
      * This Label is the Score text on top of the screen in the game.
@@ -199,8 +198,6 @@ public class GameScreen implements Screen {
             viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
             viewport.apply();
 
-            testSkin = game.skin;
-
             setupPauseStage();
             setupGameOverlay();
             GAME_PAUSED = false;
@@ -213,7 +210,7 @@ public class GameScreen implements Screen {
     private void setupGameOverlay() {
         gameOverlay = new Stage(viewport, game.batch);
 
-        final TextButton pauseButton = new TextButton(Properties.pauseText,testSkin);
+        final TextButton pauseButton = new TextButton(Properties.pauseText, game.skin);
         pauseButton.setSize(150f,50f);
         pauseButton.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH - pauseButton.getWidth() - 10f,game.ORTHOCAM_VIEWPORT_HEIGHT - pauseButton.getHeight() - 10f);
         pauseButton.addListener(new ClickListener(){
@@ -225,7 +222,7 @@ public class GameScreen implements Screen {
             }
         });
         gameOverlay.addActor(pauseButton);
-        score = new Label(Properties.scoreText + "\n" + game.score,testSkin,"xolonium",Color.WHITE);
+        score = new Label(Properties.scoreText + "\n" + game.score, game.skin,"xolonium",Color.WHITE);
         score.setAlignment(1);
         score.setPosition((game.ORTHOCAM_VIEWPORT_WIDTH / 2f) - (score.getWidth() / 2),(game.ORTHOCAM_VIEWPORT_HEIGHT) - (score.getHeight()) - 10f);
         gameOverlay.addActor(score);
@@ -238,20 +235,20 @@ public class GameScreen implements Screen {
         Table pauseMenuTable = new Table();
         pauseMenuTable.setFillParent(true);
 
-        TextButton continueGame = new TextButton(Properties.continueText,testSkin);
+        TextButton continueGame = new TextButton(Properties.continueText, game.skin);
         continueGame.setSize(300f,80f);
 
-        TextButton settings = new TextButton(Properties.settingsText,testSkin);
+        TextButton settings = new TextButton(Properties.settingsText, game.skin);
         settings.setSize(300f,80f);
 
-        TextButton restart = new TextButton(Properties.restartText,testSkin);
+        TextButton restart = new TextButton(Properties.restartText, game.skin);
         restart.setSize(300f,80f);
 
         if(Properties.currentLocale == Properties.localeFI) {
             restart.getLabel().setFontScale(0.9f,0.9f);
         }
 
-        TextButton exit = new TextButton(Properties.exitText,testSkin);
+        TextButton exit = new TextButton(Properties.exitText, game.skin);
         exit.setSize(300f,80f);
 
         continueGame.addListener(new ClickListener(){
