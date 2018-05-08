@@ -40,7 +40,7 @@ import java.util.ArrayList;
  */
 public class GameScreen implements Screen {
 
-    //TODO: PARTICLE FUCKING EFFECTS VOI VITTU I FUCK EMMI :---D
+    //TODO: PARTICLE FUCKING EFFECTS
 
     AudioRyder game;
 
@@ -146,8 +146,6 @@ public class GameScreen implements Screen {
             //game.cam2D.setToOrtho(false, 10f,6f);
             modelBatch = new ModelBatch();
 
-            //FIXME: kommentoin nää vittuun ja katon miks tulee fps lagia
-
             Model tempModel;
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
@@ -186,6 +184,7 @@ public class GameScreen implements Screen {
             //a loading screen from main menu to game.
             SongHandler.setupSong(game, game.currentSong);
             SongHandler.gameMusic.play();
+            game.songTimer = 0f;
 
             setupPauseStage();
             setupGameOverlay();
@@ -303,8 +302,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //FIXME: testaus printtausta :--D moro teme :--D :---D homo joonas vittu :---D
-        System.out.println(game.xCalib + "    " + game.yCalib);
+
 
         if(!(GAME_PAUSED)) {
             Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -312,50 +310,12 @@ public class GameScreen implements Screen {
 
             SongHandler.addNotesToGame(game);
 
-            cam3D.position.set(spaceShip.getX(), 2f + spaceShip.getY(), 6f);
-            cam3D.lookAt(spaceShip.getX(), spaceShip.getY() + 1f, spaceShip.getZ());
-            cam3D.update();
-
-            modelBatch.begin(cam3D);
-            for (GameObject object : gameObjects) {
-                if (object.isActive())
-                    object.renderAndUpdate(modelBatch, game.environment);
-                else
-                    gameObjectsToRemove.add(object);
-            }
-
-            /*particleSystem.update(); // technically not necessary for rendering
-            particleSystem.begin();
-            //particleSystem.draw();
-            particleSystem.end();
-            modelBatch.render(particleSystem);*/
-
-            modelBatch.end();
-
-
-            /* Spawning and removing the groundlines: */
-            if (groundLines.get(groundLines.size() - 1).getZ() > -200f) {
-                groundLines.add(new GroundLine(game, groundModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, 3.5f));
-            }
-            if (groundLines.get(0).getZ() > 30) {
-                groundLines.get(0).setActive(false);
-                groundLines.remove(0);
-            }
-
-            drawTextAndSprites();
-
-            gameObjects.removeAll(gameObjectsToRemove);
-            gameObjectsToRemove.clear();
-
-
-            notes.removeAll(notesToRemove);
-            notesToRemove.clear();
-
-            //Overlay:
-            score.setText(Properties.scoreText + "\n" + game.score);
-            gameOverlay.act();
-            gameOverlay.draw();
-
+            updateCamera();
+            renderGameObjects();
+            removeAndSpawnLevel();
+            //drawTextAndSprites(); //debug
+            removeNonActive();
+            drawOverlay();
 
             if (!(SongHandler.gameMusic.isPlaying())) {
                 game.GAME_IS_ON = false;
@@ -371,7 +331,7 @@ public class GameScreen implements Screen {
         }
 
         /*
-        //FIXME: nopee hätänen testausosio ending-screenille
+        //nopee hätänen testausosio ending-screenille
         if(levelTimer > 2f){
             game.GAME_IS_ON = false;
             dispose();
@@ -380,6 +340,50 @@ public class GameScreen implements Screen {
             game.setScreen(game.endScreen);
         }*/
 
+    }
+
+    private void drawOverlay() {
+        //Overlay:
+        score.setText(Properties.scoreText + "\n" + game.score);
+        gameOverlay.act();
+        gameOverlay.draw();
+    }
+
+    private void removeNonActive() {
+        gameObjects.removeAll(gameObjectsToRemove);
+        gameObjectsToRemove.clear();
+
+        notes.removeAll(notesToRemove);
+        notesToRemove.clear();
+    }
+
+    private void removeAndSpawnLevel() {
+        /* Spawning and removing the groundlines: */
+        if (groundLines.get(groundLines.size() - 1).getZ() > -200f) {
+            groundLines.add(new GroundLine(game, groundModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, 3.5f));
+        }
+        if (groundLines.get(0).getZ() > 30) {
+            groundLines.get(0).setActive(false);
+            groundLines.remove(0);
+        }
+    }
+
+    private void renderGameObjects() {
+        modelBatch.begin(cam3D);
+        for (GameObject object : gameObjects) {
+            if (object.isActive())
+                object.renderAndUpdate(modelBatch, game.environment);
+            else
+                gameObjectsToRemove.add(object);
+        }
+
+        modelBatch.end();
+    }
+
+    private void updateCamera() {
+        cam3D.position.set(spaceShip.getX(), 2f + spaceShip.getY(), 6f);
+        cam3D.lookAt(spaceShip.getX(), spaceShip.getY() + 1f, spaceShip.getZ());
+        cam3D.update();
     }
 
     @Override
@@ -432,14 +436,13 @@ public class GameScreen implements Screen {
         hit.dispose();
         miss.dispose();
         shapeRenderer.dispose();*/
-        game.songTimer = 0f;
         modelBatch.dispose();
         spaceShip.dispose();
         groundModel.dispose();
         skyModel.dispose();
     }
 
-    //TODO: REMOVE THIS BEFORE GOOGLE PLAY
+
     public void drawTextAndSprites(){
         game.batch.begin();
 
