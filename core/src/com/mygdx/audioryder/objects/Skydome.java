@@ -20,7 +20,7 @@ public class Skydome extends GameObject {
 
     public Skydome(AudioRyder game, Model model) {
         super(game);
-        setPosition(0f, 0f, 0f);
+        setPosition(0f, 0f, 100f);
         this.model = new ModelInstance(model, getX(), getY(), getZ());
         this.model.transform.setToTranslationAndScaling(getX(),getY(),getZ(),0.9f,0.9f,0.9f);
         this.model.transform.rotate(1f,-1f,0f,-50f);

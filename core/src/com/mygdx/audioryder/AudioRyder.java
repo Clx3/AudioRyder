@@ -103,8 +103,8 @@ public class AudioRyder extends Game {
 
 	@Override
 	public void create () {
-		Properties.currentLocale = Properties.localeEN;
-		Properties.updateProperties();
+
+
 
         cam2D = new OrthographicCamera();
         cam2D.setToOrtho(false, ORTHOCAM_VIEWPORT_WIDTH, ORTHOCAM_VIEWPORT_HEIGHT);
@@ -159,6 +159,13 @@ public class AudioRyder extends Game {
         //settings
         userSettings = Gdx.app.getPreferences("userSettings");
         playerName = userSettings.getString("playerName", "Guest");
+        String gameLanguage = userSettings.getString("language", "en");
+        if(gameLanguage.equals("en")){
+            Properties.currentLocale = Properties.localeEN;
+        } else if(gameLanguage.equals("fi")){
+            Properties.currentLocale = Properties.localeFI;
+        }
+        Properties.updateProperties();
 
         noteSpeed = userSettings.getFloat("gameSpeed", 2f);
         sensitivityLeft = userSettings.getFloat("sensitivityLeft", 1.5f);
