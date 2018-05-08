@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.audioryder.AudioRyder;
+import com.mygdx.audioryder.preferences.UserSettings;
 import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.screens.GameScreen;
 import com.mygdx.audioryder.song.Song;
@@ -27,16 +28,30 @@ public class EndScreen implements Screen {
 
     AudioRyder game;
 
+    /**
+     * Background image. Same background stage as in main menu.
+     */
     Stage backgroundStage;
+
+    /**
+     * Stage for all actor of this screen.
+     */
     Stage endStage;
 
-    Image background;
     Label scoreText1;
     Label scoreText2;
     Label highScores1;
     Label highScores2;
     TextButton returnButton;
+
+    /**
+     * Your score in the game you just played.
+     */
     int score;
+
+    /**
+     * The song you played. Used for saving high scores.
+     */
     Song currentSong;
 
     public EndScreen(AudioRyder game, int score, Song currentSong) {
@@ -137,7 +152,7 @@ public class EndScreen implements Screen {
                     prefs.putString("entry" + next +"name", prefs.getString("entry" + j + "name"));
                 }
                 prefs.putInteger("entry" + i,score);
-                prefs.putString("entry" + i +"name",game.playerName);
+                prefs.putString("entry" + i +"name", UserSettings.playerName);
                 break;
             }
         }

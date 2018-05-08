@@ -6,7 +6,11 @@ import com.badlogic.gdx.utils.I18NBundle;
 import java.util.Locale;
 
 /**
- * Created by Teemu on 7.4.2018.
+ * This class handles locale settings. Loads all
+ * strings with selected language.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
  */
 
 public class Properties {
@@ -32,6 +36,9 @@ public class Properties {
     public static String gameSpeedText;
     public static String playerText;
 
+    /**
+     * Updates all strings with selected language.
+     */
     public static void updateProperties() {
         I18NBundle myBundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), currentLocale);
 

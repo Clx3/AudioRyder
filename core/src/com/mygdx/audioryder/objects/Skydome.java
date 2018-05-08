@@ -8,14 +8,26 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.mygdx.audioryder.AudioRyder;
 
 /**
- * Created by Joonas on 28.3.2018.
+ * This class is the background object of the game,
+ * the skydome / skybox. It's a huge model that
+ * rotates in the background. This class handles creating
+ * and positioning of the skydome and rendering and rotating.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
  */
 
 public class Skydome extends GameObject {
 
+    /**
+     * Used model. ModelInstance is created in the constructor from given model.
+     */
     ModelInstance model;
-    float speed;
 
+    /**
+     * @param game
+     * @param model The model that should be used as background (dome)
+     */
     public Skydome(AudioRyder game, Model model) {
         super(game);
         setPosition(0f, 0f, 100f);
@@ -25,6 +37,11 @@ public class Skydome extends GameObject {
         this.model.calculateTransforms();
     }
 
+    /**
+     * Rotates and renders the skydome.
+     * @param modelBatch This ModelBatch will be the one in the GameScreen.java.
+     * @param environment This environment is the one in the GameScreen.java.
+     */
     @Override
     public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
         model.transform.rotate(1f,-1f,0f,0.7f * Gdx.graphics.getDeltaTime());

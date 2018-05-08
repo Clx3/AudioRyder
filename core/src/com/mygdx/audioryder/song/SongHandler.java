@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.objects.Note;
+import com.mygdx.audioryder.preferences.UserSettings;
 
 /**
  * Created by Teemu on 2.3.2018.
@@ -35,10 +36,10 @@ public class SongHandler {
         char notePosition;
         char noteHeight;
         game.songTimer += Gdx.graphics.getDeltaTime();
-            if (songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / game.noteSpeed) + game.songOffset) {
+            if (songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / UserSettings.noteSpeed) + game.songOffset) {
                 notePosition = noteArray[songPointer].replaceAll("[0-9]", "").charAt(1);
                 noteHeight = noteArray[songPointer].replaceAll("[0-9]", "").charAt(2);
-                game.gameScreen.notes.add(new Note(game, notePosition, noteHeight, game.noteSpeed));
+                game.gameScreen.notes.add(new Note(game, notePosition, noteHeight, UserSettings.noteSpeed));
                 songPointer++;
             }
     }

@@ -12,42 +12,47 @@ import com.badlogic.gdx.graphics.g3d.utils.AnimationController;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.mygdx.audioryder.AudioRyder;
+import com.mygdx.audioryder.preferences.UserSettings;
 import com.mygdx.audioryder.screens.GameScreen;
 
 /**
- * Created by Joonas on 22.2.2018.
+ * Players game object, which is a spaceship. This class
+ * handles the movement and drawing of the spaceship, player
+ * input, collision detection and animation.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
  */
 
 public class SpaceShip extends GameObject {
 
+    /**
+     * Player model. Spaceship in the final game.
+     */
     ModelInstance spaceShipModel;
 
+    /**
+     * Bounding box of the player model, which is used for collision detection.
+     */
     public BoundingBox collisionBox;
+
+    /**
+     * Used for creating collision box
+     */
     public Vector3 minPointBox;
+    /**
+     * Used for creating collision box
+     */
     public Vector3 maxPointBox;
 
-    int rollingAverageCount;
-
-    Texture img;
-    int moveAverageIndex;
-    float[][] latestMovement;
-    float sensitivity;
+    /**
+     * Handles player models animations. Default: floating spaceship
+     */
     AnimationController controller;
-
-    float speedX = 0f;
-    float speedY = 0f;
-    private float velocityY = -5f;
 
     public SpaceShip(AudioRyder game, Model model){
         super(game);
-        rollingAverageCount = 20;
-        moveAverageIndex = 0;
-        latestMovement = new float[2][rollingAverageCount];
-        for(int i = 0; i < 2; i++){
-            for(int j = 0; j < rollingAverageCount; j++){
-                latestMovement[i][j] = 0f;
-            }
-        }
+
         setX(0f);
         setY(0.5f);
         setZ(0f);
@@ -68,14 +73,17 @@ public class SpaceShip extends GameObject {
 
         collisionBox.set(minPointBox, maxPointBox);
 
-        this.sensitivity = sensitivity;
         controller = new AnimationController(spaceShipModel);
         controller.setAnimation("Float", -1);
 
-
-
     }
 
+    /**
+     * Handles all input from the player and then movement and rendering of the object.
+     *
+     * @param modelBatch This ModelBatch will be the one in the GameScreen.java.
+     * @param environment This environment is the one in the GameScreen.java.
+     */
     @Override
     public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
         accelMovement();
@@ -98,6 +106,9 @@ public class SpaceShip extends GameObject {
         modelBatch.render(spaceShipModel, environment);
     }
 
+    /**
+     * Handles movement when using a keyboard to play. Mainly for debugging on computer.
+     */
     private void keyboardInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             setX(getX() + (Gdx.graphics.getDeltaTime() * 25f));
@@ -117,6 +128,9 @@ public class SpaceShip extends GameObject {
         }
     }
 
+    /**
+     * Checks if the player's model collides with any of the notes/pyramids in the game.
+     */
     public void checkCollisions(){
         for(Note note: game.gameScreen.notes) {
             if(collisionBox.intersects(note.collisionBox) && note.isActive()) {
@@ -144,22 +158,39 @@ public class SpaceShip extends GameObject {
         this.spaceShipModel = spaceShipModel;
     }
 
+    /**
+     * Old style of movement. Replaced with a better movement style, but this is preserved for
+     * possible later use.
+     */
     public void rollingAverageMovement(){
+        int rollingAverageCount;
+        int moveAverageIndex;
+        float[][] latestMovement;
+        //this should be in the constructor if used
+        rollingAverageCount = 20;
+        moveAverageIndex = 0;
+        latestMovement = new float[2][rollingAverageCount];
+        for(int i = 0; i < 2; i++){
+            for(int j = 0; j < rollingAverageCount; j++){
+                latestMovement[i][j] = 0f;
+            }
+        }
+
         float accelX = 0f;
         float accelY = 0f;
-        if(Gdx.input.getAccelerometerY() - game.xCalib > 4f / game.sensitivityRight){
+        if(Gdx.input.getAccelerometerY() - UserSettings.xCalib > 4f / UserSettings.sensitivityRight){
             accelX = 4.5f;
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib < -4f / game.sensitivityLeft) {
+        } else if (Gdx.input.getAccelerometerY() - UserSettings.xCalib < -4f / UserSettings.sensitivityLeft) {
             accelX = -4.5f;
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib < 2f / game.sensitivityRight && Gdx.input.getAccelerometerY() - game.xCalib > -2f / game.sensitivityLeft) {
+        } else if (Gdx.input.getAccelerometerY() - UserSettings.xCalib < 2f / UserSettings.sensitivityRight && Gdx.input.getAccelerometerY() - UserSettings.xCalib > -2f / UserSettings.sensitivityLeft) {
             accelX = -0f;
         }
 
-        if(Gdx.input.getAccelerometerZ() - game.yCalib > 4f / (game.sensitivityDown)){
+        if(Gdx.input.getAccelerometerZ() - UserSettings.yCalib > 4f / (UserSettings.sensitivityDown)){
             accelY = 0f;
-        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < -4f / (game.sensitivityUp)) {
+        } else if (Gdx.input.getAccelerometerZ() - UserSettings.yCalib < -4f / (UserSettings.sensitivityUp)) {
             accelY = 2f;
-        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < 4f / (game.sensitivityDown) && Gdx.input.getAccelerometerZ() - game.yCalib > -4f / (game.sensitivityUp)) {
+        } else if (Gdx.input.getAccelerometerZ() - UserSettings.yCalib < 4f / (UserSettings.sensitivityDown) && Gdx.input.getAccelerometerZ() - UserSettings.yCalib > -4f / (UserSettings.sensitivityUp)) {
             accelY = 1f;
         }
 
@@ -186,30 +217,21 @@ public class SpaceShip extends GameObject {
         setY(totalY);
     }
 
+    /**
+     * Handles movement of the player model. Uses accelerometer values to determine speed of the spaceship.
+     */
     public void accelMovement(){
-        //VANHA SHITTI
-        /*if(Gdx.input.getAccelerometerY() - game.xCalib > 5f / game.sensitivityRight && getX() < 4f){
-            setX(getX() + ((Gdx.input.getAccelerometerY() - game.xCalib) * (Gdx.graphics.getDeltaTime() * (game.sensitivityRight / 1f))));
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib <  -5f / game.sensitivityLeft && getX() > -4f) {
-            setX(getX() + ((Gdx.input.getAccelerometerY() - game.xCalib) * (Gdx.graphics.getDeltaTime() * (game.sensitivityLeft / 1f))));
+
+        if(Gdx.input.getAccelerometerY() - UserSettings.xCalib > 1f && getX() < 4.5f){
+            setX(getX() + (2f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityRight / 1.5f) *(Gdx.input.getAccelerometerY() - UserSettings.xCalib)));
+        } else if (Gdx.input.getAccelerometerY() - UserSettings.xCalib <  1f && getX() > -4.5f) {
+            setX(getX() - (2f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityLeft / 1.5f) *-(Gdx.input.getAccelerometerY() - UserSettings.xCalib)));
         }
 
-        if(Gdx.input.getAccelerometerZ() - game.yCalib >  3f / game.sensitivityDown && getY() > 0f){
-            setY(getY() - ((Gdx.input.getAccelerometerZ() - game.yCalib) * (Gdx.graphics.getDeltaTime() * (game.sensitivityDown / 2f))));
-        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < -3f / game.sensitivityUp && getY() < 4f) {
-            setY(getY() - ((Gdx.input.getAccelerometerZ() - game.yCalib) * (Gdx.graphics.getDeltaTime() * (game.sensitivityUp / 2f))));
-        }*/
-
-        if(Gdx.input.getAccelerometerY() - game.xCalib > 1f && getX() < 4.5f){
-            setX(getX() + (2f * Gdx.graphics.getDeltaTime() * (game.sensitivityRight / 1.5f) *(Gdx.input.getAccelerometerY() - game.xCalib)));
-        } else if (Gdx.input.getAccelerometerY() - game.xCalib <  1f && getX() > -4.5f) {
-            setX(getX() - (2f * Gdx.graphics.getDeltaTime() * (game.sensitivityLeft / 1.5f) *-(Gdx.input.getAccelerometerY() - game.xCalib)));
-        }
-
-        if(Gdx.input.getAccelerometerZ() - game.yCalib >  1f && getY() > -0.5f){
-            setY(getY() - (1f * Gdx.graphics.getDeltaTime() * (game.sensitivityDown / 1.5f) * (Gdx.input.getAccelerometerZ() - game.yCalib)));
-        } else if (Gdx.input.getAccelerometerZ() - game.yCalib < 1f && getY() < 3f) {
-            setY(getY() + (1f * Gdx.graphics.getDeltaTime() * (game.sensitivityUp / 1.5f) * -(Gdx.input.getAccelerometerZ() - game.yCalib)));
+        if(Gdx.input.getAccelerometerZ() - UserSettings.yCalib >  1f && getY() > -0.5f){
+            setY(getY() - (1f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityDown / 1.5f) * (Gdx.input.getAccelerometerZ() - UserSettings.yCalib)));
+        } else if (Gdx.input.getAccelerometerZ() - UserSettings.yCalib < 1f && getY() < 3f) {
+            setY(getY() + (1f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityUp / 1.5f) * -(Gdx.input.getAccelerometerZ() - UserSettings.yCalib)));
         }
 
         if(getY() < -0.5f){

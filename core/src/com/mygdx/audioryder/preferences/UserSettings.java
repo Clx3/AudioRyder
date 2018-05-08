@@ -1,40 +1,64 @@
 package com.mygdx.audioryder.preferences;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.mygdx.audioryder.properties.Properties;
 
 /**
- * Created by Teemu on 3.4.2018.
+ * This class handles loading and saving the user settings.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
  */
 
 public class UserSettings {
 
     public static String playerName;
 
-    public static float sensitivityX;
-    public static float sensitivityY;
+    public static float noteSpeed;
+    public static float sensitivityLeft;
+    public static float sensitivityRight;
+    public static float sensitivityDown;
+    public static float sensitivityUp;
+    public static float xCalib;
+    public static float yCalib;
 
-    public static boolean soundOn;
-    public static boolean musicOn;
-
-    public static void getPlayerSettings(Preferences prefs) {
-        playerName = prefs.getString("playerName");
-        sensitivityX = prefs.getFloat("sensitivityX");
-        sensitivityY = prefs.getFloat("sensitivityY");
-        soundOn = prefs.getBoolean("soundOn");
-        musicOn = prefs.getBoolean("musicOn");
+    /**
+     * Loads user settings from preferences.
+     */
+    public static void loadPlayerSettings() {
+        Preferences userSettings = Gdx.app.getPreferences("userSettings");
+        playerName = userSettings.getString("playerName", "Guest");
+        String gameLanguage = userSettings.getString("language", "en");
+        if(gameLanguage.equals("en")){
+            Properties.currentLocale = Properties.localeEN;
+        } else if(gameLanguage.equals("fi")){
+            Properties.currentLocale = Properties.localeFI;
+        }
+        Properties.updateProperties();
+        noteSpeed = userSettings.getFloat("gameSpeed", 2f);
+        sensitivityLeft = userSettings.getFloat("sensitivityLeft", 1.5f);
+        sensitivityDown = userSettings.getFloat("sensitivityDown", 2f);
+        sensitivityRight = userSettings.getFloat("sensitivityRight", 1.5f);
+        sensitivityUp = userSettings.getFloat("sensitivityUp", 2f);
+        xCalib = userSettings.getFloat("xCalib",0f);
+        yCalib = userSettings.getFloat("yCalib",0f);
     }
 
-    public static void savePlayerSettings(Preferences prefs) {
-        prefs.putString("playerName", playerName);
-        prefs.putFloat("sensitivityX", sensitivityX);
-        prefs.putFloat("sensitivityY", sensitivityY);
+    /**
+     * Saves player settings to preferences.
+     */
+    public static void savePlayerSettings() {
+        Preferences userSettings = Gdx.app.getPreferences("userSettings");
+        userSettings.putFloat("sensitivityLeft",sensitivityLeft);
+        userSettings.putFloat("sensitivityRight",sensitivityRight);
+        userSettings.putFloat("sensitivityUp",sensitivityUp);
+        userSettings.putFloat("sensitivityDown",sensitivityDown);
+        userSettings.putFloat("xCalib",xCalib);
+        userSettings.putFloat("yCalib",yCalib);
+        userSettings.putFloat("gameSpeed",noteSpeed);
+        userSettings.putString("playerName",playerName);
+        userSettings.flush();
     }
 
-    public static void setDefaultSettings() {
-        playerName = "Player";
-        sensitivityX = 0;
-        sensitivityY = 0;
-        soundOn = true;
-        musicOn = true;
-    }
 }

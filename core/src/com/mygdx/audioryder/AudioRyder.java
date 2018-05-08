@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.objects.Skydome;
+import com.mygdx.audioryder.preferences.UserSettings;
 import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.screens.EndScreen;
 import com.mygdx.audioryder.screens.GameScreen;
@@ -36,8 +37,6 @@ public class AudioRyder extends Game {
      * game.
      */
 	public AssetManager assets = new AssetManager();
-
-	public Preferences userSettings;
 
 	/* These Strings contains the path to different types of assets: */
 	public static final String MODELS_PATH = "models/";
@@ -83,18 +82,11 @@ public class AudioRyder extends Game {
 	public float hitOrMissTimer;
 	public boolean hitOrMiss = true;
 	public boolean GAME_IS_ON = false;
-	public String playerName;
 
 	public Model box;
 	public Float songTimer = 0f;
 	public float songOffset;
-	public float noteSpeed;
-	public float sensitivityLeft;
-	public float sensitivityRight;
-	public float sensitivityDown;
-	public float sensitivityUp;
-	public float xCalib;
-	public float yCalib;
+
 
 	/** This Song is basically the "gameplay" Song that
 	 * the game uses to play and spawn notes from while in game.
@@ -158,8 +150,16 @@ public class AudioRyder extends Game {
         light2.setPosition(0f,70f,-150f);
         environment.add(light2);
 
-
+        UserSettings.loadPlayerSettings();
         //settings
+
+        songOffset = -0.15f;
+
+		loadingScreen = new LoadingScreen(this);
+		setScreen(loadingScreen);
+	}
+
+    /*private void loadSettings() {
         userSettings = Gdx.app.getPreferences("userSettings");
         playerName = userSettings.getString("playerName", "Guest");
         String gameLanguage = userSettings.getString("language", "en");
@@ -169,7 +169,6 @@ public class AudioRyder extends Game {
             Properties.currentLocale = Properties.localeFI;
         }
         Properties.updateProperties();
-
         noteSpeed = userSettings.getFloat("gameSpeed", 2f);
         sensitivityLeft = userSettings.getFloat("sensitivityLeft", 1.5f);
         sensitivityDown = userSettings.getFloat("sensitivityDown", 2f);
@@ -177,13 +176,9 @@ public class AudioRyder extends Game {
         sensitivityUp = userSettings.getFloat("sensitivityUp", 2f);
         xCalib = userSettings.getFloat("xCalib",0f);
         yCalib = userSettings.getFloat("yCalib",0f);
-        songOffset = -0.15f;
+    }*/
 
-		loadingScreen = new LoadingScreen(this);
-		setScreen(loadingScreen);
-	}
-
-	@Override
+    @Override
 	public void render () {
 		super.render();
 	}
@@ -194,5 +189,6 @@ public class AudioRyder extends Game {
 		font.dispose();
 		assets.dispose();
 	}
+
 
 }

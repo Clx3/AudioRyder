@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.audioryder.AudioRyder;
+import com.mygdx.audioryder.preferences.UserSettings;
 import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.song.Song;
 
@@ -249,14 +250,13 @@ public class MainMenuScreen implements Screen {
         mainMenuTable.row();
         mainMenuTable.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).pad(15f);
 
-        nameField = new TextField(game.playerName, game.skin);
+        nameField = new TextField(UserSettings.playerName, game.skin);
 
         nameField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                game.playerName = nameField.getText();
-                game.userSettings.putString("playerName",nameField.getText());
-                game.userSettings.flush();
+                UserSettings.playerName = nameField.getText();
+                UserSettings.savePlayerSettings();
             }
         });
 
@@ -385,13 +385,13 @@ public class MainMenuScreen implements Screen {
 
         private void setSensitivity(){
             if(direction.equals("left")){
-                game.sensitivityLeft = getValue() * -1;
+                UserSettings.sensitivityLeft = getValue() * -1;
             } else if(direction.equals("down")){
-                game.sensitivityDown = getValue() * -1;
+                UserSettings.sensitivityDown = getValue() * -1;
             } else if(direction.equals("right")){
-                game.sensitivityRight = getValue();
+                UserSettings.sensitivityRight = getValue();
             } else if(direction.equals("up")){
-                game.sensitivityUp = getValue();
+                UserSettings.sensitivityUp = getValue();
             }
             MainMenuScreen.this.updateSensitivityTexts();
 
@@ -418,13 +418,13 @@ public class MainMenuScreen implements Screen {
         sensitivityText2.setSize(150f,50f);
         sensitivityText2.setPosition(80f,490f - sensitivityText2.getHeight());
 
-        leftSensText = new Label(game.sensitivityLeft + "", game.skin, "xolonium", Color.WHITE);
+        leftSensText = new Label(UserSettings.sensitivityLeft + "", game.skin, "xolonium", Color.WHITE);
         leftSensText.setPosition(100f,315f);
-        rightSensText = new Label(game.sensitivityRight + "", game.skin, "xolonium", Color.WHITE);
+        rightSensText = new Label(UserSettings.sensitivityRight + "", game.skin, "xolonium", Color.WHITE);
         rightSensText.setPosition(540f,315f);
-        downSensText = new Label(game.sensitivityDown + "", game.skin, "xolonium", Color.WHITE);
+        downSensText = new Label(UserSettings.sensitivityDown + "", game.skin, "xolonium", Color.WHITE);
         downSensText.setPosition(360f,130f);
-        upSensText = new Label(game.sensitivityUp + "", game.skin, "xolonium", Color.WHITE);
+        upSensText = new Label(UserSettings.sensitivityUp + "", game.skin, "xolonium", Color.WHITE);
         upSensText.setPosition(360f,500f);
 
 
@@ -446,8 +446,8 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                game.xCalib = Gdx.input.getAccelerometerY();
-                game.yCalib = Gdx.input.getAccelerometerZ();
+                UserSettings.xCalib = Gdx.input.getAccelerometerY();
+                UserSettings.yCalib = Gdx.input.getAccelerometerZ();
             }
         });
         settingsStage.addActor(calibrateButton);
@@ -478,12 +478,12 @@ public class MainMenuScreen implements Screen {
         gameSpeed.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.noteSpeed = gameSpeed.getValue();
+                UserSettings.noteSpeed = gameSpeed.getValue();
                 updateSensitivityTexts();
             }
         });
 
-        gameSpeedText = new Label(game.noteSpeed + "", game.skin, "xolonium", Color.WHITE);
+        gameSpeedText = new Label(UserSettings.noteSpeed + "", game.skin, "xolonium", Color.WHITE);
         gameSpeedText.setPosition(650f + (gameSpeed.getWidth() / 2f) - (gameSpeedText.getWidth() / 2),150f - gameSpeed.getHeight());
         settingsStage.addActor(gameSpeedText);
 
@@ -492,11 +492,11 @@ public class MainMenuScreen implements Screen {
         settingsStage.addActor(gameSpeedText2);
 
         /* Set values for sliders */
-        left.setValue(game.sensitivityLeft * -1f);
-        down.setValue(game.sensitivityDown * -1f);
-        right.setValue(game.sensitivityRight);
-        up.setValue(game.sensitivityUp);
-        gameSpeed.setValue(game.noteSpeed);
+        left.setValue(UserSettings.sensitivityLeft * -1f);
+        down.setValue(UserSettings.sensitivityDown * -1f);
+        right.setValue(UserSettings.sensitivityRight);
+        up.setValue(UserSettings.sensitivityUp);
+        gameSpeed.setValue(UserSettings.noteSpeed);
 
         /* Adding buttons: */
         final MenuButton returnButton = new MenuButton(Properties.returnText, game.skin);
@@ -505,14 +505,8 @@ public class MainMenuScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.userSettings.putFloat("sensitivityLeft",game.sensitivityLeft);
-                game.userSettings.putFloat("sensitivityRight",game.sensitivityRight);
-                game.userSettings.putFloat("sensitivityUp",game.sensitivityUp);
-                game.userSettings.putFloat("sensitivityDown",game.sensitivityDown);
-                game.userSettings.putFloat("xCalib",game.xCalib);
-                game.userSettings.putFloat("yCalib",game.yCalib);
-                game.userSettings.putFloat("gameSpeed",game.noteSpeed);
-                game.userSettings.flush();
+                UserSettings.savePlayerSettings();
+
 
                 if(game.GAME_IS_ON) {
                     game.setScreen(game.pauseScreen);
@@ -583,11 +577,11 @@ public class MainMenuScreen implements Screen {
     }
 
     public void updateSensitivityTexts(){
-        upSensText.setText(game.sensitivityUp + "");
-        downSensText.setText(game.sensitivityDown + "");
-        leftSensText.setText(game.sensitivityLeft + "");
-        rightSensText.setText(game.sensitivityRight + "");
-        gameSpeedText.setText(game.noteSpeed + "");
+        upSensText.setText(UserSettings.sensitivityUp + "");
+        downSensText.setText(UserSettings.sensitivityDown + "");
+        leftSensText.setText(UserSettings.sensitivityLeft + "");
+        rightSensText.setText(UserSettings.sensitivityRight + "");
+        gameSpeedText.setText(UserSettings.noteSpeed + "");
     }
     /**
      * This method is used to set what Stage
