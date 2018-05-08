@@ -34,6 +34,14 @@ import com.mygdx.audioryder.song.Song;
  * Created by Teemu on 17.3.2018.
  */
 
+/**
+ * This class is the Main menu of our game.
+ * It contains all the logic and function that
+ * the main menu needs.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
+ */
 public class MainMenuScreen implements Screen {
 
     AudioRyder game;
@@ -47,11 +55,19 @@ public class MainMenuScreen implements Screen {
     private Image background;
     private Image audioRyderText;
 
+    /** This is the play button in the menu.*/
     MenuButton playButton;
+
+    /** This is the Settings button in the menu. */
     MenuButton settingsButton;
+
+    /** This is the Exit button in the menu. */
     MenuButton exitButton;
+
+    /** This label is the Player name: in the menu. */
     Label playerNameText;
-    //MenuButton returnButton;
+
+
     Label sensitivityText;
     Label sensitivityText2;
     Label leftSensText;
@@ -341,6 +357,7 @@ public class MainMenuScreen implements Screen {
             this.direction = direction;
 
         }
+
         public void setSensitivity(){
             if(direction.equals("left")){
                 game.sensitivityLeft = getValue() * -1;

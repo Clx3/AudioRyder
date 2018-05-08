@@ -6,18 +6,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleSystem;
-import com.badlogic.gdx.graphics.g3d.particles.batches.PointSpriteParticleBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -101,6 +97,24 @@ public class GameScreen implements Screen {
     public Model[] pyramids = new Model[3];
 
     /**
+     * This Model is the road or ground
+     * which the SpaceShip will fly on.
+     */
+    private Model groundModel;
+
+    /**
+     * This Model is the sky or space in the background
+     * of the game.
+     */
+    private Model skyModel;
+
+    /**
+     * This is the background of the game that uses the
+     * skyModel.
+     */
+    private Skydome skydome;
+
+    /**
      * This is the SpaceShip Object of our game.
      */
     private SpaceShip spaceShip;
@@ -137,21 +151,6 @@ public class GameScreen implements Screen {
             modelBatch = new ModelBatch();
 
             //FIXME: kommentoin nää vittuun ja katon miks tulee fps lagia
-            /*
-            pointSpriteBatch.setCamera(cam3D);
-            particleSystem.add(pointSpriteBatch); */
-
-            /* Particle effects */
-            /*ParticleEffectLoader.ParticleEffectLoadParameter loadParam = new ParticleEffectLoader.ParticleEffectLoadParameter(particleSystem.getBatches());
-            game.assets.load(AudioRyder.EFFECTS_PATH + "particle.pfx", ParticleEffect.class, loadParam);
-            game.assets.finishLoading();*/
-
-            /*ParticleEffect originalEffect = game.assets.get(AudioRyder.EFFECTS_PATH + "particle.pfx");
-// we cannot use the originalEffect, we must make a copy each time we create new particle effect
-            ParticleEffect effect = originalEffect.copy();
-            effect.init();
-            //effect.start();  // optional: particle will begin playing immediately
-            particleSystem.add(effect);*/
 
             Model tempModel;
 
@@ -168,11 +167,11 @@ public class GameScreen implements Screen {
             pyramids[2] = (tempModel);
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
-            game.levelModel = (tempModel);
+            groundModel = (tempModel);
 
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
-            game.skyModel = (tempModel);
-            game.skydome = new Skydome(game, game.skyModel);
+            skyModel = (tempModel);
+            skydome = new Skydome(game, skyModel);
 
             for(int i = 0; i < MathUtils.random(3, 5); i++) {
                 int planetType = MathUtils.random(1, 3);
@@ -184,7 +183,7 @@ public class GameScreen implements Screen {
                 gameObjects.add(new BackgroundObject(game, tempModel));
             }
 
-            groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, 2f, 3.5f));
+            groundLines.add(new GroundLine(game, groundModel, 0, -2f, 2f, 3.5f));
 
 
             //Using the songhandler now, this will become usefull when we add multiple levels and
@@ -340,7 +339,7 @@ public class GameScreen implements Screen {
 
             /* Spawning and removing the groundlines: */
             if (groundLines.get(groundLines.size() - 1).getZ() > -200f) {
-                groundLines.add(new GroundLine(game, game.levelModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, 3.5f));
+                groundLines.add(new GroundLine(game, groundModel, 0, -2f, (groundLines.get(groundLines.size() - 1).getZ()) - 17.9f, 3.5f));
             }
             if (groundLines.get(0).getZ() > 30) {
                 groundLines.get(0).setActive(false);
@@ -440,6 +439,8 @@ public class GameScreen implements Screen {
         game.songTimer = 0f;
         modelBatch.dispose();
         spaceShip.dispose();
+        groundModel.dispose();
+        skyModel.dispose();
     }
 
     //TODO: REMOVE THIS BEFORE GOOGLE PLAY

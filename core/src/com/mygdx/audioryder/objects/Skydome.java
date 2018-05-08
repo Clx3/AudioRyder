@@ -14,8 +14,6 @@ import com.mygdx.audioryder.AudioRyder;
 public class Skydome extends GameObject {
 
     ModelInstance model;
-    float y;
-    float x;
     float speed;
 
     public Skydome(AudioRyder game, Model model) {

@@ -30,17 +30,30 @@ import java.util.ArrayList;
 
 public class AudioRyder extends Game {
 
+    /**
+     * This AssetManager is used in couple of Classes.
+     * It's used for loading the assets needed for the
+     * game.
+     */
 	public AssetManager assets = new AssetManager();
 
 	public Preferences userSettings;
 
+	/* These Strings contains the path to different types of assets: */
 	public static final String MODELS_PATH = "models/";
 	public static final String SONGS_PATH = "songs/";
 	public static final String SOUNDS_PATH = "sounds/";
 	public static final String SPRITES_PATH = "sprites/";
 	public static final String EFFECTS_PATH = "effects/";
 
+	/**
+     * Width of the application window.
+	 */
 	public static final int WINDOW_WIDTH = 1024;
+
+    /**
+     * Height of the application window.
+     */
 	public static final int WINDOW_HEIGHT = 600;
 
 	public OrthographicCamera cam2D;
@@ -55,17 +68,12 @@ public class AudioRyder extends Game {
 	public Skin skin;
 	public TextureAtlas textureAtlas;
 
+	/* Screens: */
 	public GameScreen gameScreen;
 	public MainMenuScreen mainMenuScreen;
 	public LoadingScreen loadingScreen;
 	public LevelLoadingScreen levelLoadingScreen;
 	public EndScreen endScreen;
-
-	public Model levelModel;
-
-	public Model skyModel;
-
-	public Skydome skydome;
 
 	public Environment environment;
     public PointLight light;
