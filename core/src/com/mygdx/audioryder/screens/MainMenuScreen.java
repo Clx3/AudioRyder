@@ -65,18 +65,6 @@ public class MainMenuScreen implements Screen {
 
     private Image audioRyderText;
 
-    /** This is the play button in the menu.*/
-    private MenuButton playButton;
-
-    /** This is the Settings button in the menu. */
-    private MenuButton settingsButton;
-
-    /** This is the Exit button in the menu. */
-    private MenuButton exitButton;
-
-    /** This label is the Player name: in the menu. */
-    Label playerNameText;
-
 
     Label sensitivityText;
     Label sensitivityText2;
@@ -186,9 +174,9 @@ public class MainMenuScreen implements Screen {
         mainMenuTable.setFillParent(true);
 
         /* Creating the buttons: */
-        playButton = new MenuButton(Properties.playText, game.skin);
-        settingsButton = new MenuButton(Properties.settingsText, game.skin);
-        exitButton = new MenuButton(Properties.exitText, game.skin);
+        MenuButton playButton = new MenuButton(Properties.playText, game.skin);
+        final MenuButton settingsButton = new MenuButton(Properties.settingsText, game.skin);
+        MenuButton exitButton = new MenuButton(Properties.exitText, game.skin);
 
         ImageButton changeLanguangeButton = new ImageButton(game.skin, "flag");
         changeLanguangeButton.setSize(50f,50f);
@@ -237,8 +225,13 @@ public class MainMenuScreen implements Screen {
                     settingsButton.getLabel().setFontScale(1f,1f);
                 }
                 Properties.updateProperties();
-                updateButtonTexts();
+                setupStages();
                 userSettings.flush();
+
+                setCurrentStage(mainStage);
+
+                //game.mainMenuScreen = new MainMenuScreen(game);
+                //game.setScreen(game.mainMenuScreen);
             }
         });
 
@@ -276,7 +269,7 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        playerNameText = new Label(Properties.playerText, game.skin,"xolonium", Color.WHITE);
+        Label playerNameText = new Label(Properties.playerText, game.skin,"xolonium", Color.WHITE);
         playerNameText.setPosition(nameField.getX() + (nameField.getWidth() / 2) - (playerNameText.getWidth() / 2),nameField.getY() + nameField.getHeight());
 
         /** Creating and adding the listener for the Info button: */
@@ -462,8 +455,6 @@ public class MainMenuScreen implements Screen {
         SensitivitySlider up = new SensitivitySlider(true, game.skin, 1f, 4f,"up");
         up.setPosition(330f,320f);
 
-
-
         settingsStage.addActor(left);
         settingsStage.addActor(down);
         settingsStage.addActor(right);
@@ -530,27 +521,27 @@ public class MainMenuScreen implements Screen {
     private void setupInfoStage() {
         infoStage = new Stage(game.viewport, game.batch);
 
-        final Stage creditsStage = new Stage(game.viewport, game.batch);
+        final Stage artistsStage = new Stage(game.viewport, game.batch);
 
-        /* ----- First info stage: ----- */
-        TextButton guideButton = new MenuButton("Guide", game.skin);
-        TextButton creditsButton = new MenuButton("Credits", game.skin);
+        /* ----------- First info stage: ----------- */
+        MenuButton guideButton = new MenuButton(Properties.guideText, game.skin);
+        MenuButton artistsButton = new MenuButton(Properties.artistsText, game.skin);
 
-        final TextButton returnButton = new MenuButton("Return", game.skin);
+        final MenuButton returnButton = new MenuButton(Properties.returnText, game.skin);
         returnButton.setPosition(20f, 20f);
 
         Table infoTable = new Table();
         infoTable.setFillParent(true);
 
         infoTable.add(guideButton).row();
-        infoTable.add(creditsButton).row();
+        infoTable.add(artistsButton).row();
 
         /* Adding listeners: */
-        creditsButton.addListener(new ClickListener() {
+        artistsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                creditsStage.addActor(returnButton);
-                setCurrentStage(creditsStage);
+                artistsStage.addActor(returnButton);
+                setCurrentStage(artistsStage);
             }
         });
 
@@ -564,20 +555,23 @@ public class MainMenuScreen implements Screen {
         /* Adding the actors to the Stage: */
         infoStage.addActor(infoTable);
         infoStage.addActor(returnButton);
+
+        /* ----------- Artists stage: ----------- */
+        Label artistStageTitle = new Label("Special thanks to these artists for letting\n us to use their music in AudioRyder.", game.skin, "xolonium", Color.WHITE);
+        artistStageTitle.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - artistStageTitle.getWidth() / 2, game.ORTHOCAM_VIEWPORT_HEIGHT - artistStageTitle.getHeight() - 50f);
+        artistsStage.addActor(artistStageTitle);
     }
 
 
     /**
-     * This method is used to update the Strings
-     * that are shown on the buttons if the user
-     * changes the language.
+     * This method is used to setup all the
+     * Stages that the main menu uses. The reason for this
+     * having an own method is that this is called when the
+     * language is changed so the texts will update.
      */
-    public void updateButtonTexts() {
-        playButton.setText(Properties.playText);
-        settingsButton.setText(Properties.settingsText);
-        exitButton.setText(Properties.exitText);
-        playerNameText.setText(Properties.playerText);
-        playerNameText.setPosition(nameField.getX() + (nameField.getWidth() / 2) - (playerNameText.getWidth() / 2),nameField.getY() + nameField.getHeight());
+    public void setupStages() {
+        setupMainStage();
+        setupInfoStage();
         setupSelectSongStage();
         setupSettingsStage();
     }

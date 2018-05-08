@@ -31,6 +31,8 @@ public class Properties {
     public static String highScoreText;
     public static String gameSpeedText;
     public static String playerText;
+    public static String guideText;
+    public static String artistsText;
 
     public static void updateProperties() {
         I18NBundle myBundle = I18NBundle.createBundle(Gdx.files.internal("MyBundle"), currentLocale);
@@ -49,6 +51,8 @@ public class Properties {
         highScoreText = myBundle.get("highScoreText");
         gameSpeedText = myBundle.get("gameSpeedText");
         playerText = myBundle.get("playerText");
+        guideText = myBundle.get("guideText");
+        artistsText = myBundle.get("artistsText");
     }
 
 }
