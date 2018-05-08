@@ -17,8 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.screens.GameScreen;
@@ -28,10 +26,11 @@ import com.mygdx.audioryder.song.SongHandler;
 public class EndScreen implements Screen {
 
     AudioRyder game;
+
     Stage backgroundStage;
     Stage endStage;
+
     Image background;
-    Viewport viewport;
     Label scoreText1;
     Label scoreText2;
     Label highScores1;
@@ -44,14 +43,6 @@ public class EndScreen implements Screen {
         this.game = game;
         this.score = score;
         this.currentSong = currentSong;
-
-        viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
-        viewport.apply();
-
-        backgroundStage = new Stage(viewport, game.batch);
-        endStage = new Stage(viewport, game.batch);
-
-        setupActors();
     }
 
     private void setupActors() {
@@ -104,10 +95,15 @@ public class EndScreen implements Screen {
 
     @Override
     public void show() {
+
+        backgroundStage = new Stage(game.viewport, game.batch);
+        endStage = new Stage(game.viewport, game.batch);
+
+        setupActors();
+
         Gdx.input.setInputProcessor(endStage);
 
         backgroundStage = game.mainMenuScreen.backgroundStage;
-
     }
 
     @Override

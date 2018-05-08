@@ -25,8 +25,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.song.Song;
@@ -64,17 +62,11 @@ public class MainMenuScreen implements Screen {
     TextButton calibrateButton;
     TextField nameField;
 
-
-    private Viewport viewport;
-
     public MainMenuScreen(AudioRyder game) {
         this.game = game;
 
         game.cam2D.setToOrtho(false, game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
         game.batch.setProjectionMatrix(game.cam2D.combined);
-
-        viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
-        viewport.apply();
 
         Texture backgroundTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "menubackground.jpg"));
         TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
@@ -147,7 +139,7 @@ public class MainMenuScreen implements Screen {
      * MainMenuScreen.
      */
     private void setupBackgroundStage() {
-        backgroundStage = new Stage(viewport, game.batch);
+        backgroundStage = new Stage(game.viewport, game.batch);
 
         backgroundStage.addActor(background);
     }
@@ -158,7 +150,7 @@ public class MainMenuScreen implements Screen {
      * only for readability purposes.
      */
     private void setupMainStage() {
-        mainStage = new Stage(viewport, game.batch);
+        mainStage = new Stage(game.viewport, game.batch);
 
         Table mainMenuTable = new Table();
         mainMenuTable.setFillParent(true);
@@ -251,7 +243,7 @@ public class MainMenuScreen implements Screen {
      * that can be selected and played from here.
      */
     private void setupSelectSongStage() {
-        selectSongStage = new Stage(viewport, game.batch);
+        selectSongStage = new Stage(game.viewport, game.batch);
 
         //final TextButton returnButton = new TextButton(Properties.returnText, testSkin);
         final TextButton playButtonn = new TextButton(Properties.playText, game.skin);
@@ -350,7 +342,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private void setupSettingsStage() {
-        settingsStage = new Stage(viewport, game.batch);
+        settingsStage = new Stage(game.viewport, game.batch);
 
         /* Add all texts: */
         sensitivityText = new Label(Properties.sensitivityText, game.skin, "xolonium", Color.WHITE);

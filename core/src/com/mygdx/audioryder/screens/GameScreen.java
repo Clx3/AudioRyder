@@ -21,8 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.objects.BackgroundObject;
 import com.mygdx.audioryder.objects.GameObject;
@@ -111,7 +109,6 @@ public class GameScreen implements Screen {
 
     Stage pauseStage;
     Stage gameOverlay;
-    Viewport viewport;
 
     /**
      * This Label is the Score text on top of the screen in the game.
@@ -195,9 +192,6 @@ public class GameScreen implements Screen {
             SongHandler.setupSong(game, game.currentSong);
             SongHandler.gameMusic.play();
 
-            viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
-            viewport.apply();
-
             setupPauseStage();
             setupGameOverlay();
             GAME_PAUSED = false;
@@ -208,7 +202,7 @@ public class GameScreen implements Screen {
     }
 
     private void setupGameOverlay() {
-        gameOverlay = new Stage(viewport, game.batch);
+        gameOverlay = new Stage(game.viewport, game.batch);
 
         final TextButton pauseButton = new TextButton(Properties.pauseText, game.skin);
         pauseButton.setSize(150f,50f);
@@ -230,7 +224,7 @@ public class GameScreen implements Screen {
     }
 
     private void setupPauseStage() {
-        pauseStage = new Stage(viewport, game.batch);
+        pauseStage = new Stage(game.viewport, game.batch);
 
         Table pauseMenuTable = new Table();
         pauseMenuTable.setFillParent(true);

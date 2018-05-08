@@ -14,8 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.AudioRyder;
 
 /**
@@ -71,10 +69,8 @@ public class LoadingScreen implements Screen {
         game.cam2D.setToOrtho(false, game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
         game.batch.setProjectionMatrix(game.cam2D.combined);
 
-        /* Setting the Stage and Viewport: */
-        Viewport viewport = new FitViewport(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT, game.cam2D);
-        viewport.apply();
-        loadingStage = new Stage(viewport, game.batch);
+        /* Setting the Stage: */
+        loadingStage = new Stage(game.viewport, game.batch);
 
         Gdx.input.setInputProcessor(loadingStage);
 

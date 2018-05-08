@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 public class AudioRyder extends Game {
 
 	public AssetManager assets = new AssetManager();
+
 	public Preferences userSettings;
 
 	public static final String MODELS_PATH = "models/";
@@ -106,6 +108,9 @@ public class AudioRyder extends Game {
 
         cam2D = new OrthographicCamera();
         cam2D.setToOrtho(false, ORTHOCAM_VIEWPORT_WIDTH, ORTHOCAM_VIEWPORT_HEIGHT);
+
+		viewport = new FitViewport(ORTHOCAM_VIEWPORT_WIDTH, ORTHOCAM_VIEWPORT_HEIGHT, cam2D);
+		viewport.apply();
 
         batch = new SpriteBatch();
         font = new BitmapFont();
