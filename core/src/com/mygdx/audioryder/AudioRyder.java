@@ -23,6 +23,7 @@ import com.mygdx.audioryder.screens.GameScreen;
 import com.mygdx.audioryder.screens.LevelLoadingScreen;
 import com.mygdx.audioryder.screens.LoadingScreen;
 import com.mygdx.audioryder.screens.MainMenuScreen;
+import com.mygdx.audioryder.screens.PauseScreen;
 import com.mygdx.audioryder.song.Song;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class AudioRyder extends Game {
 	public MainMenuScreen mainMenuScreen;
 	public LoadingScreen loadingScreen;
 	public LevelLoadingScreen levelLoadingScreen;
+	public PauseScreen pauseScreen;
 	public EndScreen endScreen;
 
 	public Environment environment;
@@ -106,8 +108,6 @@ public class AudioRyder extends Game {
 
 	@Override
 	public void create () {
-
-
 
         cam2D = new OrthographicCamera();
         cam2D.setToOrtho(false, ORTHOCAM_VIEWPORT_WIDTH, ORTHOCAM_VIEWPORT_HEIGHT);
@@ -192,6 +192,7 @@ public class AudioRyder extends Game {
 	public void dispose () {
 		batch.dispose();
 		font.dispose();
+		assets.dispose();
 	}
 
 }

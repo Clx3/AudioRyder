@@ -515,7 +515,7 @@ public class MainMenuScreen implements Screen {
                 game.userSettings.flush();
 
                 if(game.GAME_IS_ON) {
-                    game.setScreen(game.gameScreen);
+                    game.setScreen(game.pauseScreen);
                 } else {
                     setCurrentStage(mainStage);
                 }
