@@ -91,11 +91,10 @@ public class PauseScreen implements Screen {
                 game.gameScreen.gameObjectsToRemove.clear();
                 game.gameScreen.notes.removeAll(game.gameScreen.notesToRemove);
                 game.gameScreen.notesToRemove.clear();
-                game.gameScreen.songTimer = 0f;
+                game.gameScreen.songTimer = -3f;
                 game.gameScreen.score = 0;
                 SongHandler.setupSong(game, game.currentSong);
                 Gdx.input.setInputProcessor(game.gameScreen.gameOverlay);
-                SongHandler.gameMusic.play();
                 game.gameScreen.GAME_PAUSED = false;
                 game.setScreen(game.gameScreen);
             }

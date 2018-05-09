@@ -184,8 +184,8 @@ public class GameScreen implements Screen {
             //Using the songhandler now, this will become usefull when we add multiple levels and
             //a loading screen from main menu to game.
             SongHandler.setupSong(game, game.currentSong);
-            SongHandler.gameMusic.play();
-            songTimer = 0f;
+            //SongHandler.gameMusic.play();
+            songTimer = -3f;
 
             setupGameOverlay();
             GAME_PAUSED = false;
@@ -266,7 +266,11 @@ public class GameScreen implements Screen {
      * and song name.
      */
     private void checkSongStatus() {
-        if (!(SongHandler.gameMusic.isPlaying())) {
+        if(songTimer >= 0f && !(SongHandler.musicIsStarted)){
+            SongHandler.gameMusic.play();
+            SongHandler.musicIsStarted = true;
+        }
+        if (!(SongHandler.gameMusic.isPlaying()) && SongHandler.musicIsStarted) {
             game.GAME_IS_ON = false;
             //dispose();
             SongHandler.gameMusic.stop();

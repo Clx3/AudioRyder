@@ -37,10 +37,17 @@ public class SongHandler {
      * @param game
      * @param song
      */
+
+    /**
+     * True if the music has started playing, used to prevent premature end screen
+     */
+    public static boolean musicIsStarted;
+
     public static void setupSong(AudioRyder game, Song song) {
         songPointer = 0;
         gameMusic = game.assets.get(AudioRyder.SONGS_PATH + song.getSongFileString());
         gameMusic.stop();
+        musicIsStarted = false;
         currentNoteFile = song.getNoteFile();
 
         String noteData = currentNoteFile.readString();
