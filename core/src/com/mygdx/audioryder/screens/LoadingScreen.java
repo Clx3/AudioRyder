@@ -73,8 +73,8 @@ public class LoadingScreen implements Screen {
 
         /* Creating the Images & Actors: */
         Texture backgroundTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "menubackground.jpg"));
-        TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
-        Image background = new Image(backgroundRegion);
+        Image background = new Image(backgroundTexture);
+        background.setSize(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
 
         Texture audioRyderTextTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "audioryder.png"));
         TextureRegion audioRyderTextRegion = new TextureRegion(audioRyderTextTexture);
@@ -163,7 +163,7 @@ public class LoadingScreen implements Screen {
         loadingStage.draw();
 
         /* Please no hate, at least it works :--D : -Teemu */
-        if(actionRunning == false) {
+        if(!actionRunning) {
             actionRunning = true;
             if (actionStage == 0) {
                 tamkLogo.addAction(createFadeInOutAction());

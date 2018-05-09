@@ -170,8 +170,9 @@ public class MainMenuScreen implements Screen {
         backgroundStage = new Stage(game.viewport, game.batch);
 
         Texture backgroundTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "menubackground.jpg"));
-        TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
-        Image background = new Image(backgroundRegion);
+        //TextureRegion backgroundRegion = new TextureRegion(backgroundTexture,0,0, game.WINDOW_WIDTH, game.WINDOW_HEIGHT);
+        Image background = new Image(backgroundTexture);
+        background.setSize(game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
 
         backgroundStage.addActor(background);
     }
