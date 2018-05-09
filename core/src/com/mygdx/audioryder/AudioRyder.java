@@ -119,7 +119,6 @@ public class AudioRyder extends Game {
 
 
         /* Creating songs: */
-		songList.add(new Song("Marssilaulu","erika.mp3", "erika.txt"));
 		songList.add(new Song("Nopee hatanen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt"));
 		songList.add(new Song("Chinese Song","chinese.mp3","chinese.txt"));
 		songList.add(new Song("Reverie","reverie.mp3","reverie.txt"));
