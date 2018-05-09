@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -629,24 +630,32 @@ public class MainMenuScreen implements Screen {
         guidePic1.setSize(300f,300f);
         guidePic1.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH - guidePic1.getWidth(),0f);
         Image guidePic2 = new Image(new Texture(Gdx.files.internal(game.SPRITES_PATH + "guide2.png")));
-        guidePic2.setSize(390f,230f);
+        guidePic2.setSize(300f,170f);
         guidePic2.setPosition(0,game.ORTHOCAM_VIEWPORT_HEIGHT - guidePic2.getHeight());
         Image guidePic3 = new Image(new Texture(Gdx.files.internal(game.SPRITES_PATH + "guide3.png")));
-        guidePic3.setSize(390f,200f);
+        guidePic3.setSize(300f,150f);
         guidePic3.setPosition(guidePic2.getX(),guidePic2.getY() - guidePic3.getHeight());
 
-        Label guideText1 = new Label(Properties.tutorialText1,game.skin,"xolonium",Color.WHITE);
-        guideText1.setPosition(guidePic2.getX() + guideText1.getWidth(),game.ORTHOCAM_VIEWPORT_HEIGHT - guideText1.getHeight());
+        game.fontParameter.size = 30;
+        game.fontParameter.borderWidth = 4;
+        game.fontParameter.borderColor = Color.BLACK;
+        BitmapFont font = game.fontGenerator.generateFont(game.fontParameter);
+        Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
+
+
+        Label guideText1 = new Label(Properties.tutorialText1,style);
+        guideText1.setPosition((game.ORTHOCAM_VIEWPORT_WIDTH / 2) - (guideText1.getWidth() / 2),game.ORTHOCAM_VIEWPORT_HEIGHT - guideText1.getHeight() - 70f);
         guideText1.setAlignment(2);
-        Label guideText2 = new Label(Properties.tutorialText2,game.skin,"xolonium",Color.WHITE);
+        Label guideText2 = new Label(Properties.tutorialText2,style);
         guideText2.setAlignment(2);
-        guideText2.setPosition(guidePic1.getX() - guideText2.getWidth() + guidePic1.getWidth(),guidePic1.getY() + guidePic1.getHeight());
+        guideText2.setPosition((game.ORTHOCAM_VIEWPORT_WIDTH / 2) - (guideText2.getWidth() / 2),(game.ORTHOCAM_VIEWPORT_HEIGHT / 2) - guideText2.getHeight() - 50f);
 
         guideStage.addActor(guidePic1);
         guideStage.addActor(guidePic2);
         guideStage.addActor(guidePic3);
         guideStage.addActor(guideText1);
         guideStage.addActor(guideText2);
+        guideStage.addActor(createReturnButton(mainStage,20f,20f));
     }
 
     /**
