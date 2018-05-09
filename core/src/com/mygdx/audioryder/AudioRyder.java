@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
@@ -43,6 +44,7 @@ public class AudioRyder extends Game {
 	public static final String SONGS_PATH = "songs/";
 	public static final String SOUNDS_PATH = "sounds/";
 	public static final String SPRITES_PATH = "sprites/";
+	public static final String SKINS_PATH = "skins/";
 	public static final String EFFECTS_PATH = "effects/";
 
 	/** Width of the application window. */
@@ -59,6 +61,9 @@ public class AudioRyder extends Game {
 
 	public SpriteBatch batch;
 	public BitmapFont font;
+
+	public FreeTypeFontGenerator fontGenerator;
+	public FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
 
 	public Skin skin;
 	public TextureAtlas textureAtlas;
@@ -114,9 +119,11 @@ public class AudioRyder extends Game {
         batch = new SpriteBatch();
         font = new BitmapFont();
 
-		skin = new Skin(Gdx.files.internal("skins/jarno/AudioRyderUI.json"));
-		textureAtlas = new TextureAtlas("skins/jarno/AudioRyderUI.atlas");
+		skin = new Skin(Gdx.files.internal(SKINS_PATH + "AudioRyderUI.json"));
+		textureAtlas = new TextureAtlas(SKINS_PATH + "AudioRyderUI.atlas");
 
+		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(SKINS_PATH + "Xolonium.ttf"));
+		fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         /* Creating songs: */
 		songList.add(new Song("Nopee hatanen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt"));
@@ -173,6 +180,10 @@ public class AudioRyder extends Game {
 		batch.dispose();
 		font.dispose();
 		assets.dispose();
+		fontGenerator.dispose();
+
+		if(gameScreen != null)
+			gameScreen.dispose();
 	}
 
 

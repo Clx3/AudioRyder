@@ -539,11 +539,28 @@ public class MainMenuScreen implements Screen {
         infoStage.addActor(createReturnButton(mainStage, 20f, 20f));
     }
 
+    /**
+     * This method setups the Artists Stage
+     * that you can go to from the infoStage.
+     * This Stage contains all the artists that helped
+     * us with the game and buttons for each one of them to
+     * link to their SoundCloud page.
+     */
     private void setupInfoArtistsStage() {
         infoArtistsStage = new Stage(game.viewport, game.batch);
 
-        Label artistStageTitle = new Label("Special thanks to these artists for letting\n us to use their music in AudioRyder.", game.skin, "xolonium", Color.WHITE);
-        artistStageTitle.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - (artistStageTitle.getWidth() + artistStageTitle.getFontScaleX()) / 2, game.ORTHOCAM_VIEWPORT_HEIGHT - artistStageTitle.getHeight() - 50f);
+        game.fontParameter.size = 38;
+        game.fontParameter.borderWidth = 2;
+        game.fontParameter.borderColor = new Color(0.41f, 0.56f, 0.71f, 1);
+        game.font = game.fontGenerator.generateFont(game.fontParameter);
+
+        Label.LabelStyle style = new Label.LabelStyle(game.font, Color.WHITE);
+
+        Label artistStageTitle = new Label(Properties.artistsStageTitleText1, style);
+        artistStageTitle.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - artistStageTitle.getWidth() / 2, game.ORTHOCAM_VIEWPORT_HEIGHT - artistStageTitle.getHeight() - 50f);
+
+        Label artistStageTitle2 = new Label(Properties.artistsStageTitleText2, style);
+        artistStageTitle2.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 -artistStageTitle2.getWidth() / 2, artistStageTitle.getY() - artistStageTitle2.getHeight());
 
         Window artist1 = createArtistWindow("SS-Berger", "http://soundcloud.com/ss-berger");
         artist1.setPosition(44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist1.getHeight() / 2);
@@ -558,6 +575,7 @@ public class MainMenuScreen implements Screen {
         artist4.setPosition(artist3.getX() + artist4.getWidth() + 44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist4.getHeight() / 2);
 
         infoArtistsStage.addActor(artistStageTitle);
+        infoArtistsStage.addActor(artistStageTitle2);
         infoArtistsStage.addActor(artist1);
         infoArtistsStage.addActor(artist2);
         infoArtistsStage.addActor(artist3);
