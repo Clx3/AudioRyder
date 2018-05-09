@@ -14,7 +14,11 @@ import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.song.SongHandler;
 
 /**
- * Created by Teemu on 9.5.2018.
+ * Screen for when the game is paused. Simple menu, where you can access settings, continue,
+ * restart or exit the game.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
  */
 
 public class PauseScreen implements Screen {

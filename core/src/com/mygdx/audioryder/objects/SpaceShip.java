@@ -218,7 +218,8 @@ public class SpaceShip extends GameObject {
     }
 
     /**
-     * Handles movement of the player model. Uses accelerometer values to determine speed of the spaceship.
+     * Handles movement of the player model. Uses accelerometer
+     * values to determine speed of the spaceship.
      */
     public void accelMovement(){
 

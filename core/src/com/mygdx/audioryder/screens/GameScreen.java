@@ -40,7 +40,6 @@ import java.util.ArrayList;
  */
 public class GameScreen implements Screen {
 
-    //TODO: PARTICLE FUCKING EFFECTS VOI VITTU I FUCK EMMI :---D
 
     AudioRyder game;
 
@@ -234,15 +233,7 @@ public class GameScreen implements Screen {
         }
 
 
-        /*
-        //FIXME: nopee hätänen testausosio ending-screenille
-        if(levelTimer > 2f){
-            game.GAME_IS_ON = false;
-            dispose();
-            SongHandler.gameMusic.stop();
-            game.endScreen = new EndScreen(game,1234567897, game.gameMusic);
-            game.setScreen(game.endScreen);
-        }*/
+
 
     }
 

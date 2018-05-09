@@ -9,7 +9,11 @@ import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.song.Song;
 
 /**
- * Created by Teemu on 28.3.2018.
+ * This class is called when a song is selected and the game is started.
+ * This loading screen handles loading the song only.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
  */
 
 public class LevelLoadingScreen implements Screen {
@@ -17,6 +21,11 @@ public class LevelLoadingScreen implements Screen {
     AudioRyder game;
     Song songToBeLoaded;
 
+    /**
+     *
+     * @param game
+     * @param songToBeLoaded
+     */
     public LevelLoadingScreen(AudioRyder game, Song songToBeLoaded) {
         this.game = game;
         this.songToBeLoaded = songToBeLoaded;

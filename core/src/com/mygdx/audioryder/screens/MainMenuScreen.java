@@ -607,6 +607,10 @@ public class MainMenuScreen implements Screen {
         setupSettingsStage();
     }
 
+    /**
+     * Called whenever the sliders are moved on the settings stage.
+     * Updates correct numbers next to the sliders.
+     */
     public void updateSensitivityTexts(){
         upSensText.setText(UserSettings.sensitivityUp + "");
         downSensText.setText(UserSettings.sensitivityDown + "");
