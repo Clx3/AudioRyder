@@ -13,6 +13,7 @@ import com.mygdx.audioryder.AudioRyder;
  * of the game, for example asteroids, planets etc. that
  * just float around to create a feeling that you're
  * flying in space. Simple as that nothing too hardcore here.
+ *
  */
 public class BackgroundObject extends GameObject {
 

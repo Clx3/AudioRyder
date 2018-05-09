@@ -17,7 +17,9 @@ import com.mygdx.audioryder.preferences.UserSettings;
  */
 public class SongHandler {
 
+
     public static Music gameMusic;
+
     public static FileHandle currentNoteFile;
 
     /**
@@ -26,7 +28,13 @@ public class SongHandler {
      */
     private static int songPointer = 0;
 
+
     private static String noteArray[];
+
+    /**
+     * True if the music has started playing, used to prevent premature end screen
+     */
+    public static boolean musicIsStarted;
 
     /**
      * Sets up the song before the game actually starts. Gets the raw
@@ -37,16 +45,11 @@ public class SongHandler {
      * @param game
      * @param song
      */
-
-    /**
-     * True if the music has started playing, used to prevent premature end screen
-     */
-    public static boolean musicIsStarted;
-
     public static void setupSong(AudioRyder game, Song song) {
         songPointer = 0;
         gameMusic = game.assets.get(AudioRyder.SONGS_PATH + song.getSongFileString());
         gameMusic.stop();
+        gameMusic.setVolume(0.7f);
         musicIsStarted = false;
         currentNoteFile = song.getNoteFile();
 

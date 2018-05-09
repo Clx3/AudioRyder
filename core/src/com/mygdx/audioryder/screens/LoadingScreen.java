@@ -123,7 +123,13 @@ public class LoadingScreen implements Screen {
         game.assets.load(AudioRyder.MODELS_PATH + "Planet1.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Planet2.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Planet3.g3db", Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Asteroid.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Asteroid1.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Asteroid2.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Asteroid3.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Asteroid4.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Asteroid5.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Asteroid6.g3db", Model.class);
+        game.assets.load(AudioRyder.MODELS_PATH + "Asteroid7.g3db", Model.class);
 
         /* Sounds */
         game.assets.load(AudioRyder.SOUNDS_PATH + "notehit.wav", Sound.class);

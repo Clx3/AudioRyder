@@ -161,7 +161,7 @@ public class GameScreen implements Screen {
 
             pyramids[1] = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_yellow.g3db");
 
-            pyramids[2] = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_red.g3db");
+            pyramids[2] = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_red.g3db", Model.class);
 
             groundModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
 
@@ -169,13 +169,13 @@ public class GameScreen implements Screen {
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
             skydome = new Skydome(game, tempModel);
 
-            for(int i = 0; i < MathUtils.random(3, 5); i++) {
+            for(int i = 0; i < MathUtils.random(3, 6); i++) {
                 int planetType = MathUtils.random(1, 3);
                 gameObjects.add(new BackgroundObject(game, game.assets.get(AudioRyder.MODELS_PATH + "Planet" + planetType + ".g3db", Model.class)));
             }
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Asteroid.g3db", Model.class);
-            for(int i = 0; i < MathUtils.random(5, 10); i++) {
+            for(int i = 0; i < MathUtils.random(10, 15); i++) {
+                tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Asteroid" + MathUtils.random(1, 7) +".g3db", Model.class);
                 gameObjects.add(new BackgroundObject(game, tempModel));
             }
 
