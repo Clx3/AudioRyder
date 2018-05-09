@@ -55,11 +55,10 @@ public class SongHandler {
      * song pointer, it doesn't need to go through whole array every time.
      * @param game
      */
-    public static void addNotesToGame(AudioRyder game) {
+    public static void addNotesToGame(AudioRyder game, float songTimer) {
         char notePosition;
         char noteHeight;
-        game.songTimer += Gdx.graphics.getDeltaTime();
-            if (songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[songPointer].replaceAll("[a-zA-Z]", "")) < game.songTimer + (5f / UserSettings.noteSpeed) + game.songOffset) {
+            if (songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[songPointer].replaceAll("[a-zA-Z]", "")) < songTimer + (5f / UserSettings.noteSpeed) + game.songOffset) {
                 notePosition = noteArray[songPointer].replaceAll("[0-9]", "").charAt(1);
                 noteHeight = noteArray[songPointer].replaceAll("[0-9]", "").charAt(2);
                 game.gameScreen.notes.add(new Note(game, notePosition, noteHeight, UserSettings.noteSpeed));

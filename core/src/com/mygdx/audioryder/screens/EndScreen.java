@@ -24,8 +24,17 @@ import com.mygdx.audioryder.screens.GameScreen;
 import com.mygdx.audioryder.song.Song;
 import com.mygdx.audioryder.song.SongHandler;
 
+/**
+ * Ending screen. Shown after the song has ended.
+ * Shows your score and local high scores. Does
+ * also the logic behind highscore checking.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
+ */
 public class EndScreen implements Screen {
 
+    /**This is a very simple variable */
     AudioRyder game;
 
     /**
@@ -60,6 +69,9 @@ public class EndScreen implements Screen {
         this.currentSong = currentSong;
     }
 
+    /**
+     * Sets up all actors for the main stage of this screen.
+     */
     private void setupActors() {
         returnButton = new TextButton(Properties.returnText, game.skin);
         returnButton.setSize(250f,80f);
@@ -69,7 +81,7 @@ public class EndScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 returnButton.setChecked(false);
-                game.score = 0;
+                //game.score = 0;
                 game.setScreen(game.mainMenuScreen);
             }
         });
@@ -133,6 +145,13 @@ public class EndScreen implements Screen {
 
     }
 
+    /**
+     * Logic behind checking high scores. Gets preferences and if empty, puts
+     * empty scores there. Then checks if the player got a score higher than
+     * any of the saved scores. If yes, moves all scores down on the list
+     * and puts player's score on the right spot.
+     *
+     */
     public void checkHighScore(){
         Preferences prefs = Gdx.app.getPreferences(game.currentSong.getName());
         for(int i = 1; i <= 6; i++) {

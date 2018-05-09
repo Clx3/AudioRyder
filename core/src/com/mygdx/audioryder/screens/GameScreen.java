@@ -6,8 +6,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
@@ -114,14 +117,35 @@ public class GameScreen implements Screen {
      */
     private SpaceShip spaceShip;
 
+    /** Default environment for rendering purposes */
+    public Environment environment;
+
+    /** Light to make everything a little brighter */
+    public PointLight light;
+    /** Light to make everything a little brighter */
+    public PointLight light2;
+
+    /** Player's score */
+    public int score;
+
+    /** Used to get real position of the song,
+     *  because music's getPosition method is bugged.
+     *  Value is increased by getDeltaTime() every
+     *  render.
+     */
+    public Float songTimer = 0f;
+
+
+    /** Boolean telling if the game is paused */
     boolean GAME_PAUSED;
 
+    /** Overlay for the game UI, like score and pause button */
     Stage gameOverlay;
 
     /**
      * This Label is the Score text on top of the screen in the game.
      */
-    private Label score;
+    private Label scoreLabel;
 
     //TODO: REMOVE THIS BEFORE GOOGLE PLAY
     ShapeRenderer shapeRenderer;
@@ -174,11 +198,28 @@ public class GameScreen implements Screen {
             //a loading screen from main menu to game.
             SongHandler.setupSong(game, game.currentSong);
             SongHandler.gameMusic.play();
-            game.songTimer = 0f;
+            songTimer = 0f;
 
             setupGameOverlay();
             GAME_PAUSED = false;
             game.GAME_IS_ON = true;
+
+            //set variables
+            score = 0;
+
+
+            environment = new Environment();
+            environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 2.0f));
+            light = new PointLight();
+            light.setIntensity(5000f);
+            light.setColor(Color.WHITE);
+            light.setPosition(0f,70f,-25f);
+            environment.add(light);
+            light2 = new PointLight();
+            light2.setIntensity(5000f);
+            light2.setColor(Color.WHITE);
+            light2.setPosition(0f,70f,-150f);
+            environment.add(light2);
         }
 
     }
@@ -201,10 +242,10 @@ public class GameScreen implements Screen {
             }
         });
         gameOverlay.addActor(pauseButton);
-        score = new Label(Properties.scoreText + "\n" + game.score, game.skin,"xolonium",Color.WHITE);
-        score.setAlignment(1);
-        score.setPosition((game.ORTHOCAM_VIEWPORT_WIDTH / 2f) - (score.getWidth() / 2),(game.ORTHOCAM_VIEWPORT_HEIGHT) - (score.getHeight()) - 10f);
-        gameOverlay.addActor(score);
+        scoreLabel = new Label(Properties.scoreText + "\n" + score, game.skin,"xolonium",Color.WHITE);
+        scoreLabel.setAlignment(1);
+        scoreLabel.setPosition((game.ORTHOCAM_VIEWPORT_WIDTH / 2f) - (scoreLabel.getWidth() / 2),(game.ORTHOCAM_VIEWPORT_HEIGHT) - (scoreLabel.getHeight()) - 10f);
+        gameOverlay.addActor(scoreLabel);
         Gdx.input.setInputProcessor(gameOverlay);
     }
 
@@ -214,7 +255,8 @@ public class GameScreen implements Screen {
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-            SongHandler.addNotesToGame(game);
+            songTimer += Gdx.graphics.getDeltaTime();
+            SongHandler.addNotesToGame(game, songTimer);
 
             updateCamera();
             renderGameObjects();
@@ -242,7 +284,7 @@ public class GameScreen implements Screen {
             game.GAME_IS_ON = false;
             //dispose();
             SongHandler.gameMusic.stop();
-            game.endScreen = new EndScreen(game,game.score, game.currentSong);
+            game.endScreen = new EndScreen(game,score, game.currentSong);
             game.setScreen(game.endScreen);
         }
     }
@@ -253,7 +295,7 @@ public class GameScreen implements Screen {
      */
     private void drawOverlay() {
         //Overlay:
-        score.setText(Properties.scoreText + "\n" + game.score);
+        scoreLabel.setText(Properties.scoreText + "\n" + score);
         gameOverlay.act();
         gameOverlay.draw();
     }
@@ -296,7 +338,7 @@ public class GameScreen implements Screen {
         modelBatch.begin(cam3D);
         for (GameObject object : gameObjects) {
             if (object.isActive())
-                object.renderAndUpdate(modelBatch, game.environment);
+                object.renderAndUpdate(modelBatch, environment);
             else
                 gameObjectsToRemove.add(object);
         }
@@ -373,9 +415,7 @@ public class GameScreen implements Screen {
      */
     public void drawTextAndSprites(){
         game.batch.begin();
-        game.font.draw(game.batch, "Score :" + game.score, 750, 170);
-        game.font.draw(game.batch, "Streak :" + game.streak, 750, 190);
-        game.font.draw(game.batch, "Multiplier " + game.multiplier + "X", 750, 210);
+        game.font.draw(game.batch, "Score :" + score, 750, 170);
         game.font.draw(game.batch, "X: " + Gdx.input.getAccelerometerX(), 750, 230);
         game.font.draw(game.batch, "Y: " + Gdx.input.getAccelerometerY(), 750, 250);
         game.font.draw(game.batch, "Z: " + Gdx.input.getAccelerometerZ(), 750, 270);

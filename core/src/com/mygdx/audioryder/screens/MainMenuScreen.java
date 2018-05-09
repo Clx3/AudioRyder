@@ -78,13 +78,18 @@ public class MainMenuScreen implements Screen {
 
     private Image audioRyderText;
 
+    /** Label for the numerical value of left sensitivity, used in the settings screen */
     private Label leftSensText;
+    /** Label for the numerical value of right sensitivity, used in the settings screen */
     private Label rightSensText;
+    /** Label for the numerical value of down sensitivity, used in the settings screen */
     private Label downSensText;
+    /** Label for the numerical value of up sensitivity, used in the settings screen */
     private Label upSensText;
+    /** Label for the numerical value of the game speed, used in the settings screen */
     private Label gameSpeedText;
 
-    /** This is the field where player enters his/hers name. */
+    /** This is the field where player enters his/hers/its name. */
     private TextField nameField;
 
     public MainMenuScreen(AudioRyder game) {
