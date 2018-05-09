@@ -128,6 +128,11 @@ public class GameScreen implements Screen {
     /** Player's score */
     public int score;
 
+    /** Used to get real position of the song,
+     *  because music's getPosition method is bugged.
+     *  Value is increased by getDeltaTime() every
+     *  render.
+     */
     public Float songTimer = 0f;
 
 
