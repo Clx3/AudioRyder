@@ -138,10 +138,8 @@ public class SpaceShip extends GameObject {
                 //game.assets.get(game.SOUNDS_PATH + "notehit.wav", Sound.class).play();
                 game.gameScreen.notesToRemove.add(note);
                 System.out.println("HITS");
-                game.score++;
-                game.hitOrMiss = true;
-                game.hitOrMissTimer = 0f;
-                game.streak++;
+                game.gameScreen.score++;
+
             }
         }
     }

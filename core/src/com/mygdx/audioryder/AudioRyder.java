@@ -83,16 +83,7 @@ public class AudioRyder extends Game {
 	public PauseScreen pauseScreen;
 	public EndScreen endScreen;
 
-	public Environment environment;
-    public PointLight light;
-    public PointLight light2;
 
-
-	public int score;
-	public int streak;
-	public int multiplier;
-	public float hitOrMissTimer;
-	public boolean hitOrMiss = true;
 
     /**
      * Determines if the game is currently playing. Used for correct menu navigation when changing
@@ -148,24 +139,7 @@ public class AudioRyder extends Game {
 		songList.add(new Song("Guardian","NoJustSe - The Guardian.mp3","NoJustSe - The Guardian.txt"));
 		songList.add(new Song("Frozen North","NoJustSe feat Chrysalid - Frozen north.mp3","NoJustSe feat Chrysalid - Frozen north.txt"));
 
-        //set variables
-        score = 0;
-        multiplier = 1;
-        streak = 0;
-        hitOrMissTimer = 0f;
 
-        environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 2.0f));
-        light = new PointLight();
-        light.setIntensity(5000f);
-        light.setColor(Color.WHITE);
-        light.setPosition(0f,70f,-25f);
-        environment.add(light);
-        light2 = new PointLight();
-        light2.setIntensity(5000f);
-        light2.setColor(Color.WHITE);
-        light2.setPosition(0f,70f,-150f);
-        environment.add(light2);
 
         UserSettings.loadPlayerSettings();
 

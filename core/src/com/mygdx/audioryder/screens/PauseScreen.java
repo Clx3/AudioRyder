@@ -92,6 +92,7 @@ public class PauseScreen implements Screen {
                 game.gameScreen.notes.removeAll(game.gameScreen.notesToRemove);
                 game.gameScreen.notesToRemove.clear();
                 game.songTimer = 0f;
+                game.gameScreen.score = 0;
                 SongHandler.setupSong(game, game.currentSong);
                 Gdx.input.setInputProcessor(game.gameScreen.gameOverlay);
                 SongHandler.gameMusic.play();
@@ -103,7 +104,7 @@ public class PauseScreen implements Screen {
         exit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.score = 0;
+                //game.score = 0;
                 game.setScreen(game.mainMenuScreen);
                 game.GAME_IS_ON = false;
             }

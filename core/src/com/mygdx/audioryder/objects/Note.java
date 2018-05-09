@@ -127,10 +127,7 @@ public class Note extends GameObject {
         if(getZ() >= 10f) {
             setActive(false);
             game.gameScreen.notesToRemove.add(this);
-            game.streak = 0;
-            game.multiplier = 1;
-            game.hitOrMiss = false;
-            game.hitOrMissTimer = 0f;
+
         }
     }
 }
