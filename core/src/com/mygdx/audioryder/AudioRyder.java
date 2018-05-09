@@ -81,9 +81,13 @@ public class AudioRyder extends Game {
 	public int multiplier;
 	public float hitOrMissTimer;
 	public boolean hitOrMiss = true;
+
+    /**
+     * Determines if the game is currently playing. Used for correct menu navigation when changing
+     * settings during gameplay.
+     */
 	public boolean GAME_IS_ON = false;
 
-	public Model box;
 	public Float songTimer = 0f;
 	public float songOffset;
 
@@ -151,7 +155,6 @@ public class AudioRyder extends Game {
         environment.add(light2);
 
         UserSettings.loadPlayerSettings();
-        //settings
 
         songOffset = -0.15f;
 
@@ -159,24 +162,7 @@ public class AudioRyder extends Game {
 		setScreen(loadingScreen);
 	}
 
-    /*private void loadSettings() {
-        userSettings = Gdx.app.getPreferences("userSettings");
-        playerName = userSettings.getString("playerName", "Guest");
-        String gameLanguage = userSettings.getString("language", "en");
-        if(gameLanguage.equals("en")){
-            Properties.currentLocale = Properties.localeEN;
-        } else if(gameLanguage.equals("fi")){
-            Properties.currentLocale = Properties.localeFI;
-        }
-        Properties.updateProperties();
-        noteSpeed = userSettings.getFloat("gameSpeed", 2f);
-        sensitivityLeft = userSettings.getFloat("sensitivityLeft", 1.5f);
-        sensitivityDown = userSettings.getFloat("sensitivityDown", 2f);
-        sensitivityRight = userSettings.getFloat("sensitivityRight", 1.5f);
-        sensitivityUp = userSettings.getFloat("sensitivityUp", 2f);
-        xCalib = userSettings.getFloat("xCalib",0f);
-        yCalib = userSettings.getFloat("yCalib",0f);
-    }*/
+
 
     @Override
 	public void render () {

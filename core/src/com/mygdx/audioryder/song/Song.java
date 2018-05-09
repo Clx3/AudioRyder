@@ -6,16 +6,28 @@ import com.badlogic.gdx.files.FileHandle;
 import com.mygdx.audioryder.AudioRyder;
 
 /**
- * Created by Teemu on 17.3.2018.
+ * Class which handles each songs variables, like names and filepaths.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
  */
 
 public class Song {
 
+    /**
+     * Name of the song
+     */
     private String name;
 
+    /**
+     * Path to the .mp3 file of the song
+     */
     private String songFileString;
     private String noteFileString;
 
+    /**
+     * The actual .txt file, which contains all the data for pyramid positioning
+     */
     private FileHandle noteFile;
 
     public Song(String name, String songFile, String noteFile) {
@@ -24,11 +36,7 @@ public class Song {
         this.noteFile = Gdx.files.internal(AudioRyder.SONGS_PATH + noteFile);
     }
 
-    //Temp thing (MAYBE) not sure if this is goiug to be needed:
 
-    /*public void loadSong(AudioRyder game) {
-        soundFile = game.assets.get(getSongFileString());
-    }*/
 
     public String getName() {
         return name;
