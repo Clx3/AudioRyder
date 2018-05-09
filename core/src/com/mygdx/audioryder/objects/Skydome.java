@@ -13,6 +13,7 @@ import com.mygdx.audioryder.AudioRyder;
  * rotates in the background. This class handles creating
  * and positioning of the skydome and rendering and rotating.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

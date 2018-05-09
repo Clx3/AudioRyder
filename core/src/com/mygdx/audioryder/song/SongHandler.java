@@ -12,6 +12,7 @@ import com.mygdx.audioryder.preferences.UserSettings;
  * Doesn't actually load the song, as it is loaded in the loading screen.
  * Gets the float time values from the .txt file and puts them in to array.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

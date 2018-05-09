@@ -38,6 +38,7 @@ import com.mygdx.audioryder.song.Song;
  * It contains all the logic and function that
  * the main menu needs.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

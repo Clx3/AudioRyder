@@ -11,6 +11,7 @@ import com.mygdx.audioryder.AudioRyder;
  * This class handles the moving ground level.
  * The ground level of the game consists of many of these.
  * Moving and rendering of ground is handled in this class.
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

@@ -9,6 +9,7 @@ import com.mygdx.audioryder.properties.Properties;
  * User settings are saved on the device's memory, and they survive
  * app updates.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

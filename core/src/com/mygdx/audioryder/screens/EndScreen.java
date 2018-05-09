@@ -29,6 +29,7 @@ import com.mygdx.audioryder.song.SongHandler;
  * Shows your score and local high scores. Does
  * also the logic behind highscore checking.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

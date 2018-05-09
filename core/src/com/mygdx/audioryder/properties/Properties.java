@@ -9,6 +9,7 @@ import java.util.Locale;
  * This class handles locale settings. Loads all
  * strings with selected language.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */
