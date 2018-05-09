@@ -563,23 +563,19 @@ public class MainMenuScreen implements Screen {
         artistStageTitle2.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 -artistStageTitle2.getWidth() / 2, artistStageTitle.getY() - artistStageTitle2.getHeight());
 
         Window artist1 = createArtistWindow("SS-Berger", "http://soundcloud.com/ss-berger");
-        artist1.setPosition(44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist1.getHeight() / 2);
+        artist1.setPosition(106f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist1.getHeight() / 2);
 
         Window artist2 = createArtistWindow("mNoise", "http://soundcloud.com/min-olenmikko");
-        artist2.setPosition(artist1.getX() + artist2.getWidth() + 44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist2.getHeight() / 2);
+        artist2.setPosition(artist1.getX() + artist2.getWidth() + 106f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist2.getHeight() / 2);
 
         Window artist3 = createArtistWindow("NoJustSe", "http://soundcloud.com/nojustse");
-        artist3.setPosition(artist2.getX() + artist3.getWidth() + 44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist3.getHeight() / 2);
-
-        Window artist4 = createArtistWindow("SS-Berger", "http:://google.fi");
-        artist4.setPosition(artist3.getX() + artist4.getWidth() + 44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist4.getHeight() / 2);
+        artist3.setPosition(artist2.getX() + artist3.getWidth() + 106f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist3.getHeight() / 2);
 
         infoArtistsStage.addActor(artistStageTitle);
         infoArtistsStage.addActor(artistStageTitle2);
         infoArtistsStage.addActor(artist1);
         infoArtistsStage.addActor(artist2);
         infoArtistsStage.addActor(artist3);
-        infoArtistsStage.addActor(artist4);
         infoArtistsStage.addActor(createReturnButton(infoStage, 20f, 20f));
     }
 

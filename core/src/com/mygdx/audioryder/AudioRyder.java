@@ -30,6 +30,16 @@ import com.mygdx.audioryder.song.Song;
 
 import java.util.ArrayList;
 
+/**
+ * This class is the main class of the game.
+ * It contains mostly all the global variables and
+ * tools etc. that the game will use in different classes.
+ * After the needed things are initialized here the,
+ * this class will switch the screen to LoadingScreen.
+ *
+ * @author Teemu Salminen
+ * @author Joonas Salojärvi
+ */
 public class AudioRyder extends Game {
 
     /**
