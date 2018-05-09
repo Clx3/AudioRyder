@@ -6,10 +6,6 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.mygdx.audioryder.AudioRyder;
 
-/**
- * Created by Teemu on 1.3.2018.
- */
-
 
 /**
  * This class is very simple. It contains only few
@@ -24,7 +20,9 @@ public abstract class GameObject {
 
     public AudioRyder game;
 
+    /** This boolean value tells if the object should be rendered / updated */
     private boolean isActive;
+    /** Coordinates */
     private float x, y, z;
 
     public GameObject(AudioRyder game) {

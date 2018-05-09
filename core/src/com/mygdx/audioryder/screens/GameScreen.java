@@ -128,6 +128,9 @@ public class GameScreen implements Screen {
     /** Player's score */
     public int score;
 
+    public Float songTimer = 0f;
+
+
     /** Boolean telling if the game is paused */
     boolean GAME_PAUSED;
 
@@ -196,7 +199,7 @@ public class GameScreen implements Screen {
             //a loading screen from main menu to game.
             SongHandler.setupSong(game, game.currentSong);
             SongHandler.gameMusic.play();
-            game.songTimer = 0f;
+            songTimer = 0f;
 
             setupGameOverlay();
             GAME_PAUSED = false;
@@ -253,7 +256,7 @@ public class GameScreen implements Screen {
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-            SongHandler.addNotesToGame(game);
+            SongHandler.addNotesToGame(game, songTimer);
 
             updateCamera();
             renderGameObjects();

@@ -16,9 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.audioryder.AudioRyder;
 
-/**
- * Created by Teemu on 1.3.2018.
- */
 
 /**
  * This class is the first Screen that the game
