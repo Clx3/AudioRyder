@@ -130,7 +130,7 @@ public class LoadingScreen implements Screen {
 
         /* Sounds */
         game.assets.load(AudioRyder.SOUNDS_PATH + "notehit.wav", Sound.class);
-
+        game.assets.load(AudioRyder.SOUNDS_PATH + "click.mp3", Sound.class);
     }
 
     /**

@@ -95,7 +95,7 @@ public class GameScreen implements Screen {
      * This Model is the road or ground
      * which the SpaceShip will fly on.
      */
-    private Model groundModel;
+    public Model groundModel;
 
     /**
      * This Model is the sky or space in the background
@@ -143,25 +143,19 @@ public class GameScreen implements Screen {
             cam3D.far = 1000.0f;
             modelBatch = new ModelBatch();
 
-            Model tempModel;
+            Model tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
             spaceShip = new SpaceShip(game, tempModel);
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_green.g3db");
-            pyramids[0] = tempModel;
+            pyramids[0] = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_green.g3db");
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_yellow.g3db");
-            pyramids[1] = tempModel;
+            pyramids[1] = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_yellow.g3db");
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_red.g3db");
-            pyramids[2] = tempModel;
+            pyramids[2] = game.assets.get(AudioRyder.MODELS_PATH + "Pyramid_red.g3db");
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
-            groundModel = tempModel;
+            groundModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
 
-            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
-            skyModel = tempModel;
+            skyModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
             skydome = new Skydome(game, skyModel);
 
             for(int i = 0; i < MathUtils.random(3, 5); i++) {
@@ -246,7 +240,7 @@ public class GameScreen implements Screen {
     private void checkSongStatus() {
         if (!(SongHandler.gameMusic.isPlaying())) {
             game.GAME_IS_ON = false;
-            dispose();
+            //dispose();
             SongHandler.gameMusic.stop();
             game.endScreen = new EndScreen(game,game.score, game.currentSong);
             game.setScreen(game.endScreen);
@@ -369,13 +363,7 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         modelBatch.dispose();
-        spaceShip.dispose();
-        groundModel.dispose();
-        skyModel.dispose();
-
-        for(int i = 0; i < pyramids.length-1; i++) {
-            pyramids[i].dispose();
-        }
+        gameOverlay.dispose();
     }
 
 
@@ -392,8 +380,6 @@ public class GameScreen implements Screen {
         game.font.draw(game.batch, "Y: " + Gdx.input.getAccelerometerY(), 750, 250);
         game.font.draw(game.batch, "Z: " + Gdx.input.getAccelerometerZ(), 750, 270);
         game.font.draw(game.batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 750, 290);
-
-
         game.batch.end();
     }
 }

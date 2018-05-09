@@ -61,10 +61,16 @@ public class AudioRyder extends Game {
 	public static final int WINDOW_HEIGHT = 600;
 
 	public OrthographicCamera cam2D;
+
+	/** Width of the OrthographicCamera viewport. */
 	public static final float ORTHOCAM_VIEWPORT_WIDTH = WINDOW_WIDTH;
+
+    /** Height of the OrthographicCamera viewport. */
 	public static final float ORTHOCAM_VIEWPORT_HEIGHT = WINDOW_HEIGHT;
 
+	/* Viewport that is used by Scene2D Stages. */
 	public Viewport viewport;
+
 
 	public SpriteBatch batch;
 	public BitmapFont font;
@@ -174,8 +180,6 @@ public class AudioRyder extends Game {
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
 	}
-
-
 
     @Override
 	public void render () {

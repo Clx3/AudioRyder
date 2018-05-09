@@ -3,6 +3,7 @@ package com.mygdx.audioryder.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -65,6 +66,8 @@ public class MainMenuScreen implements Screen {
     /** This is the settings Stage where user can change the settings of the game. */
     public Stage settingsStage;
 
+    /** This is the sound that will play when button is clicked. */
+    private Sound clickSound;
 
     /**
      * This is the Stage that is going to be rendered, so all
@@ -89,6 +92,8 @@ public class MainMenuScreen implements Screen {
 
         game.cam2D.setToOrtho(false, game.ORTHOCAM_VIEWPORT_WIDTH, game.ORTHOCAM_VIEWPORT_HEIGHT);
         game.batch.setProjectionMatrix(game.cam2D.combined);
+
+        clickSound = game.assets.get(game.SOUNDS_PATH + "click.mp3");
 
         Texture audioRyderTextTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "audioryder.png"));
         //TextureRegion audioRyderTextRegion = new TextureRegion(audioRyderTextTexture);
@@ -129,6 +134,7 @@ public class MainMenuScreen implements Screen {
             addListener(new ClickListener() {
                @Override
                 public void clicked(InputEvent event, float x, float y) {
+                   clickSound.play();
                    setChecked(true);
                    game.currentSong = getSong();
                    System.out.println(game.currentSong.getName());
@@ -196,26 +202,28 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //game.loadingScreen = new LoadingScreen(game);
-                //game.setScreen(game.loadingScreen);
+                clickSound.play();
                 setCurrentStage(selectSongStage);
             }
         });
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 setCurrentStage(settingsStage);
             }
         });
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 Gdx.app.exit();
             }
         });
         changeLanguangeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 Preferences userSettings = Gdx.app.getPreferences("userSettings");
                 if(Properties.currentLocale == Properties.localeEN) {
                     Properties.currentLocale = Properties.localeFI;
@@ -250,6 +258,7 @@ public class MainMenuScreen implements Screen {
         nameField.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
+                clickSound.play();
                 UserSettings.playerName = nameField.getText();
                 UserSettings.savePlayerSettings();
             }
@@ -281,6 +290,7 @@ public class MainMenuScreen implements Screen {
         infoButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 setCurrentStage(infoStage);
             }
         });
@@ -302,12 +312,10 @@ public class MainMenuScreen implements Screen {
     private void setupSelectSongStage() {
         selectSongStage = new Stage(game.viewport, game.batch);
 
-        //final TextButton returnButton = new TextButton(Properties.returnText, testSkin);
         final TextButton playButtonn = new TextButton(Properties.playText, game.skin);
         HorizontalGroup playAndReturn = new HorizontalGroup();
         playAndReturn.space(50f);
-        final TextButton returnButton = new MenuButton(Properties.returnText, game.skin);
-        playAndReturn.addActor(returnButton);
+        playAndReturn.addActor(createReturnButton(mainStage, 0f, 0f));
         playAndReturn.addActor(playButtonn);
 
         ButtonGroup songButtonGroup = new ButtonGroup();
@@ -342,15 +350,9 @@ public class MainMenuScreen implements Screen {
         playButtonn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 game.levelLoadingScreen = new LevelLoadingScreen(game, game.currentSong);
                 game.setScreen(game.levelLoadingScreen);
-            }
-        });
-
-        returnButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                setCurrentStage(mainStage);
             }
         });
 
@@ -422,15 +424,12 @@ public class MainMenuScreen implements Screen {
         upSensText = new Label(UserSettings.sensitivityUp + "", game.skin, "xolonium", Color.WHITE);
         upSensText.setPosition(360f,500f);
 
-
-
         settingsStage.addActor(sensitivityText);
         settingsStage.addActor(sensitivityText2);
         settingsStage.addActor(leftSensText);
         settingsStage.addActor(downSensText);
         settingsStage.addActor(rightSensText);
         settingsStage.addActor(upSensText);
-
 
         /* Add calibrate button: */
         TextButton calibrateButton = new TextButton(Properties.calibrateText, game.skin);
@@ -440,6 +439,7 @@ public class MainMenuScreen implements Screen {
         calibrateButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 super.clicked(event, x, y);
                 UserSettings.xCalib = Gdx.input.getAccelerometerY();
                 UserSettings.yCalib = Gdx.input.getAccelerometerZ();
@@ -498,8 +498,8 @@ public class MainMenuScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 UserSettings.savePlayerSettings();
-
 
                 if(game.GAME_IS_ON) {
                     game.setScreen(game.pauseScreen);
@@ -533,12 +533,14 @@ public class MainMenuScreen implements Screen {
         artistsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 setCurrentStage(infoArtistsStage);
             }
         });
         guideButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 setCurrentStage(guideStage);
             }
         });
@@ -598,15 +600,17 @@ public class MainMenuScreen implements Screen {
      */
     private Window createArtistWindow(String artistName, final String soundCloudURL) {
         Window outputWindow = new Window(artistName, game.skin);
+        outputWindow.getTitleLabel().setAlignment(2);
         outputWindow.setWidth(200f);
         outputWindow.setMovable(false);
 
-        ImageButton tempButton = new ImageButton(game.skin, "info");
+        ImageButton tempButton = new ImageButton(game.skin, "soundcloud");
         tempButton.setPosition(outputWindow.getWidth() / 2 - tempButton.getWidth() / 2, outputWindow.getHeight() / 2 - tempButton.getWidth() / 2 - 10f);
 
         tempButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x , float y) {
+                clickSound.play();
                 Gdx.net.openURI(soundCloudURL);
             }
         });
@@ -670,6 +674,7 @@ public class MainMenuScreen implements Screen {
         outputButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                clickSound.play();
                 setCurrentStage(goToThisStage);
             }
         });

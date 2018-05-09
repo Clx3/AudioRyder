@@ -22,9 +22,17 @@ import com.mygdx.audioryder.AudioRyder;
  */
 public abstract class GameObject {
 
+    /** Instance of the game. */
     public AudioRyder game;
 
+    /**
+     * This boolean checks if the object is active.
+     * If false, the object will not be rendered and will be
+     * removed gameObjects ArrayList.
+     */
     private boolean isActive;
+
+    /* X, Y, Z coordinates */
     private float x, y, z;
 
     public GameObject(AudioRyder game) {
@@ -44,6 +52,13 @@ public abstract class GameObject {
      */
     public abstract void renderAndUpdate(ModelBatch modelBatch, Environment environment);
 
+    /**
+     * This method will set the position of the GameObject.
+     *
+     * @param x X position of the object.
+     * @param y Y position of the object.
+     * @param z Z position of the object.
+     */
     public void setPosition(float x, float y, float z) {
         setX(x);
         setY(y);

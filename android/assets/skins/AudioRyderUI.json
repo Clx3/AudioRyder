@@ -129,6 +129,10 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
 		imageUp: info
 		imageDown: infodowni
 	}
+	soundcloud: {
+		imageUp: soundcloudup
+		imageDown: soundclouddown
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	default: {

@@ -146,10 +146,6 @@ public class SpaceShip extends GameObject {
         }
     }
 
-    public void dispose() {
-
-    }
-
     public ModelInstance getSpaceShipModel() {
         return spaceShipModel;
     }
