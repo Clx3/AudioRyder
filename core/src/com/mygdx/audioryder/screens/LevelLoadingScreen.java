@@ -53,7 +53,7 @@ public class LevelLoadingScreen implements Screen {
         }
         game.cam2D.update();
         game.batch.begin();
-        game.font.draw(game.batch, "Loading...", 230, 170);
+        game.font.draw(game.batch, "Loading...", 150, 175);
         game.batch.end();
     }
 
