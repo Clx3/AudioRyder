@@ -37,6 +37,8 @@ public class Properties {
     public static String playerText;
     public static String guideText;
     public static String artistsText;
+    public static String artistsStageTitleText1;
+    public static String artistsStageTitleText2;
     public static String tutorialText1;
     public static String tutorialText2;
 
@@ -64,6 +66,8 @@ public class Properties {
         artistsText = myBundle.get("artistsText");
         tutorialText1 = myBundle.get("tutorialText1");
         tutorialText2 = myBundle.get("tutorialText2");
+        artistsStageTitleText1 = myBundle.get("artistsStageTitle1");
+        artistsStageTitleText2 = myBundle.get("artistsStageTitle2");
     }
 
 }
