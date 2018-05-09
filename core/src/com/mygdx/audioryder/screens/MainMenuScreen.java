@@ -52,6 +52,8 @@ public class MainMenuScreen implements Screen {
     /** This is the info Stage of the main menu. */
     private Stage infoStage;
 
+    private Stage infoArtistsStage;
+
     /** This is the background Stage what is rendered behind all of the other Stages. */
     public Stage backgroundStage;
 
@@ -95,10 +97,8 @@ public class MainMenuScreen implements Screen {
 
         /* Initializing all the Stages: */
         setupBackgroundStage();
-        setupMainStage();
-        setupInfoStage();
-        setupSelectSongStage();
-        setupSettingsStage();
+
+        setupStages();
     }
 
     /**
@@ -516,14 +516,9 @@ public class MainMenuScreen implements Screen {
     private void setupInfoStage() {
         infoStage = new Stage(game.viewport, game.batch);
 
-        final Stage artistsStage = new Stage(game.viewport, game.batch);
-
         /* ----------- First info stage: ----------- */
         MenuButton guideButton = new MenuButton(Properties.guideText, game.skin);
         MenuButton artistsButton = new MenuButton(Properties.artistsText, game.skin);
-
-        final MenuButton returnButton = new MenuButton(Properties.returnText, game.skin);
-        returnButton.setPosition(20f, 20f);
 
         Table infoTable = new Table();
         infoTable.setFillParent(true);
@@ -535,25 +530,20 @@ public class MainMenuScreen implements Screen {
         artistsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                artistsStage.addActor(returnButton);
-                setCurrentStage(artistsStage);
-            }
-        });
-
-        returnButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                setCurrentStage(mainStage);
+                setCurrentStage(infoArtistsStage);
             }
         });
 
         /* Adding the actors to the Stage: */
         infoStage.addActor(infoTable);
-        infoStage.addActor(returnButton);
+        infoStage.addActor(createReturnButton(mainStage, 20f, 20f));
+    }
 
-        /* ----------- Artists stage: ----------- */
+    private void setupInfoArtistsStage() {
+        infoArtistsStage = new Stage(game.viewport, game.batch);
+
         Label artistStageTitle = new Label("Special thanks to these artists for letting\n us to use their music in AudioRyder.", game.skin, "xolonium", Color.WHITE);
-        artistStageTitle.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - artistStageTitle.getWidth() / 2, game.ORTHOCAM_VIEWPORT_HEIGHT - artistStageTitle.getHeight() - 50f);
+        artistStageTitle.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - (artistStageTitle.getWidth() + artistStageTitle.getFontScaleX()) / 2, game.ORTHOCAM_VIEWPORT_HEIGHT - artistStageTitle.getHeight() - 50f);
 
         Window artist1 = createArtistWindow("SS-Berger", "http://soundcloud.com/ss-berger");
         artist1.setPosition(44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist1.getHeight() / 2);
@@ -567,13 +557,22 @@ public class MainMenuScreen implements Screen {
         Window artist4 = createArtistWindow("SS-Berger", "http:://google.fi");
         artist4.setPosition(artist3.getX() + artist4.getWidth() + 44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist4.getHeight() / 2);
 
-        artistsStage.addActor(artistStageTitle);
-        artistsStage.addActor(artist1);
-        artistsStage.addActor(artist2);
-        artistsStage.addActor(artist3);
-        artistsStage.addActor(artist4);
+        infoArtistsStage.addActor(artistStageTitle);
+        infoArtistsStage.addActor(artist1);
+        infoArtistsStage.addActor(artist2);
+        infoArtistsStage.addActor(artist3);
+        infoArtistsStage.addActor(artist4);
+        infoArtistsStage.addActor(createReturnButton(infoStage, 20f, 20f));
     }
 
+    /**
+     * This method creates a Window object of an artist for
+     * the artistsStage.
+     *
+     * @param artistName Name of the artist(title).
+     * @param soundCloudURL Link to the artists SoundCloud(the link which the button will open).
+     * @return Returns the created window.
+     */
     private Window createArtistWindow(String artistName, final String soundCloudURL) {
         Window outputWindow = new Window(artistName, game.skin);
         outputWindow.setWidth(200f);
@@ -595,6 +594,31 @@ public class MainMenuScreen implements Screen {
 
 
     /**
+     * This method creates a simple "Return" button
+     * for you so you don't need to do it everytime you
+     * create a new Stage.
+     *
+     * @param goToThisStage This is the Stage which the Return button will switch to.
+     * @param x X position of the button.
+     * @param y Y position of the button.
+     * @return Returns the created button.
+     */
+    private MenuButton createReturnButton(final Stage goToThisStage, float x, float y) {
+        MenuButton outputButton = new MenuButton(Properties.returnText, game.skin);
+        outputButton.setPosition(x, y);
+
+        outputButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setCurrentStage(goToThisStage);
+            }
+        });
+
+        return outputButton;
+    }
+
+
+    /**
      * This method is used to setup all the
      * Stages that the main menu uses. The reason for this
      * having an own method is that this is called when the
@@ -605,6 +629,8 @@ public class MainMenuScreen implements Screen {
         setupInfoStage();
         setupSelectSongStage();
         setupSettingsStage();
+        setupInfoStage();
+        setupInfoArtistsStage();
     }
 
     /**
