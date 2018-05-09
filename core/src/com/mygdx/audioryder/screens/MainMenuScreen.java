@@ -53,7 +53,11 @@ public class MainMenuScreen implements Screen {
     /** This is the info Stage of the main menu. */
     private Stage infoStage;
 
+    /** This is the Artists Stage, which contains credits for the music artists of the game. */
     private Stage infoArtistsStage;
+
+    /** This is the Guide stage, which gives instruction on how to play the game */
+    private Stage guideStage;
 
     /** This is the background Stage what is rendered behind all of the other Stages. */
     public Stage backgroundStage;
@@ -61,8 +65,6 @@ public class MainMenuScreen implements Screen {
     /** This is the settings Stage where user can change the settings of the game. */
     public Stage settingsStage;
 
-    /** This is the Guide stage, which gives instruction on how to play the game */
-    private Stage guideStage;
 
     /**
      * This is the Stage that is going to be rendered, so all
@@ -73,16 +75,11 @@ public class MainMenuScreen implements Screen {
 
     private Image audioRyderText;
 
-
-    Label sensitivityText;
-    Label sensitivityText2;
-    Label leftSensText;
-    Label rightSensText;
-    Label downSensText;
-    Label upSensText;
-    Label gameSpeedText;
-    Label gameSpeedText2;
-    TextButton calibrateButton;
+    private Label leftSensText;
+    private Label rightSensText;
+    private Label downSensText;
+    private Label upSensText;
+    private Label gameSpeedText;
 
     /** This is the field where player enters his/hers name. */
     private TextField nameField;
@@ -94,8 +91,8 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(game.cam2D.combined);
 
         Texture audioRyderTextTexture = new Texture(Gdx.files.internal(game.SPRITES_PATH + "audioryder.png"));
-        TextureRegion audioRyderTextRegion = new TextureRegion(audioRyderTextTexture);
-        audioRyderText = new Image(audioRyderTextRegion);
+        //TextureRegion audioRyderTextRegion = new TextureRegion(audioRyderTextTexture);
+        audioRyderText = new Image(audioRyderTextTexture);
         audioRyderText.setSize(750f, 200f);
         audioRyderText.setPosition(game.WINDOW_WIDTH / 2 - audioRyderText.getWidth() / 2, game.WINDOW_HEIGHT - audioRyderText.getHeight());
 
@@ -405,12 +402,12 @@ public class MainMenuScreen implements Screen {
         settingsStage = new Stage(game.viewport, game.batch);
 
         /* Add all texts: */
-        sensitivityText = new Label(Properties.sensitivityText, game.skin, "xolonium", Color.WHITE);
+        Label sensitivityText = new Label(Properties.sensitivityText, game.skin, "xolonium", Color.WHITE);
         sensitivityText.setAlignment(1);
         sensitivityText.setSize(150f,50f);
         sensitivityText.setPosition(80f,520f);
 
-        sensitivityText2 = new Label(Properties.sensitivityText2, game.skin, "xolonium", Color.WHITE);
+        Label sensitivityText2 = new Label(Properties.sensitivityText2, game.skin, "xolonium", Color.WHITE);
         sensitivityText2.setAlignment(1);
         sensitivityText2.setFontScale(0.7f);
         sensitivityText2.setSize(150f,50f);
@@ -436,7 +433,7 @@ public class MainMenuScreen implements Screen {
 
 
         /* Add calibrate button: */
-        calibrateButton = new TextButton(Properties.calibrateText, game.skin);
+        TextButton calibrateButton = new TextButton(Properties.calibrateText, game.skin);
         calibrateButton.setPosition(650f, 400f);
         calibrateButton.getLabel().setStyle(new Label.LabelStyle(game.skin.getFont("xolonium"),Color.WHITE));
         calibrateButton.getLabel().setFontScale(1.2f);
@@ -483,7 +480,7 @@ public class MainMenuScreen implements Screen {
         gameSpeedText.setPosition(650f + (gameSpeed.getWidth() / 2f) - (gameSpeedText.getWidth() / 2),150f - gameSpeed.getHeight());
         settingsStage.addActor(gameSpeedText);
 
-        gameSpeedText2 = new Label(Properties.gameSpeedText, game.skin, "xolonium", Color.WHITE);
+        Label gameSpeedText2 = new Label(Properties.gameSpeedText, game.skin, "xolonium", Color.WHITE);
         gameSpeedText2.setPosition(650f + (gameSpeed.getWidth() / 2f) - (gameSpeedText2.getWidth() / 2),150f + gameSpeed.getHeight() + gameSpeed.getHeight());
         settingsStage.addActor(gameSpeedText2);
 
@@ -515,12 +512,14 @@ public class MainMenuScreen implements Screen {
         settingsStage.addActor(returnButton);
     }
 
-
-    //TODO: TÄMÄ. Voin jatkaa tätä kun tuun takasin mutta voit Joonas jatkaa ihan vapaasti kanssa jos haluat :--) t teemu.
+    /**
+     * This method setups the Info Stage
+     * of the main menu. This is just a simple Stage
+     * which only contains buttons for guide and artists.
+     */
     private void setupInfoStage() {
         infoStage = new Stage(game.viewport, game.batch);
 
-        /* ----------- First info stage: ----------- */
         MenuButton guideButton = new MenuButton(Properties.guideText, game.skin);
         MenuButton artistsButton = new MenuButton(Properties.artistsText, game.skin);
 

@@ -66,9 +66,7 @@ public class BackgroundObject extends GameObject {
 
     @Override
     public void renderAndUpdate(ModelBatch modelBatch, Environment environment) {
-
         setZ(getZ() + speed * Gdx.graphics.getDeltaTime());
-
 
         if(getZ() > 30)
             reset();
