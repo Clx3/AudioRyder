@@ -37,6 +37,8 @@ public class Properties {
     public static String playerText;
     public static String guideText;
     public static String artistsText;
+    public static String tutorialText1;
+    public static String tutorialText2;
 
     /**
      * Updates all strings with selected language.
@@ -60,6 +62,8 @@ public class Properties {
         playerText = myBundle.get("playerText");
         guideText = myBundle.get("guideText");
         artistsText = myBundle.get("artistsText");
+        tutorialText1 = myBundle.get("tutorialText1");
+        tutorialText2 = myBundle.get("tutorialText2");
     }
 
 }

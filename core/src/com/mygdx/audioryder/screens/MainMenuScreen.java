@@ -58,6 +58,9 @@ public class MainMenuScreen implements Screen {
     /** This is the settings Stage where user can change the settings of the game. */
     public Stage settingsStage;
 
+    /** This is the Guide stage, which gives instruction on how to play the game */
+    private Stage guideStage;
+
     /**
      * This is the Stage that is going to be rendered, so all
      * the Stages we have in this class will be given to this variable
@@ -99,6 +102,7 @@ public class MainMenuScreen implements Screen {
         setupInfoStage();
         setupSelectSongStage();
         setupSettingsStage();
+        setupGuideStage();
     }
 
     /**
@@ -540,6 +544,14 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        guideButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                guideStage.addActor(returnButton);
+                setCurrentStage(guideStage);
+            }
+        });
+
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -593,6 +605,35 @@ public class MainMenuScreen implements Screen {
         return outputWindow;
     }
 
+    /**
+     * Creates the guide stage, which gives instruction
+     * to the player on how to play. Called when this screen is created.
+     */
+    private void setupGuideStage() {
+        guideStage = new Stage(game.viewport,game.batch);
+        Image guidePic1 = new Image(new Texture(Gdx.files.internal(game.SPRITES_PATH + "guide1.png")));
+        guidePic1.setSize(300f,300f);
+        guidePic1.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH - guidePic1.getWidth(),0f);
+        Image guidePic2 = new Image(new Texture(Gdx.files.internal(game.SPRITES_PATH + "guide2.png")));
+        guidePic2.setSize(390f,230f);
+        guidePic2.setPosition(0,game.ORTHOCAM_VIEWPORT_HEIGHT - guidePic2.getHeight());
+        Image guidePic3 = new Image(new Texture(Gdx.files.internal(game.SPRITES_PATH + "guide3.png")));
+        guidePic3.setSize(390f,200f);
+        guidePic3.setPosition(guidePic2.getX(),guidePic2.getY() - guidePic3.getHeight());
+
+        Label guideText1 = new Label(Properties.tutorialText1,game.skin,"xolonium",Color.WHITE);
+        guideText1.setPosition(guidePic2.getX() + guideText1.getWidth(),game.ORTHOCAM_VIEWPORT_HEIGHT - guideText1.getHeight());
+        guideText1.setAlignment(2);
+        Label guideText2 = new Label(Properties.tutorialText2,game.skin,"xolonium",Color.WHITE);
+        guideText2.setAlignment(2);
+        guideText2.setPosition(guidePic1.getX() - guideText2.getWidth() + guidePic1.getWidth(),guidePic1.getY() + guidePic1.getHeight());
+
+        guideStage.addActor(guidePic1);
+        guideStage.addActor(guidePic2);
+        guideStage.addActor(guidePic3);
+        guideStage.addActor(guideText1);
+        guideStage.addActor(guideText2);
+    }
 
     /**
      * This method is used to setup all the
@@ -603,6 +644,7 @@ public class MainMenuScreen implements Screen {
     public void setupStages() {
         setupMainStage();
         setupInfoStage();
+        setupGuideStage();
         setupSelectSongStage();
         setupSettingsStage();
     }
