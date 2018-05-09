@@ -12,14 +12,16 @@ import com.mygdx.audioryder.preferences.UserSettings;
  * Doesn't actually load the song, as it is loaded in the loading screen.
  * Gets the float time values from the .txt file and puts them in to array.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */
 public class SongHandler {
 
-
+    /** Music file to be played */
     public static Music gameMusic;
 
+    /** The .txt file for note positioning */
     public static FileHandle currentNoteFile;
 
     /**
@@ -28,7 +30,7 @@ public class SongHandler {
      */
     private static int songPointer = 0;
 
-
+    /** Contains all the notes from the .txt file, including position and timing */
     private static String noteArray[];
 
     /**

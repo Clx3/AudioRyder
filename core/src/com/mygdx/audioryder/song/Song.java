@@ -8,6 +8,7 @@ import com.mygdx.audioryder.AudioRyder;
 /**
  * Class which handles each songs variables, like names and filepaths.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

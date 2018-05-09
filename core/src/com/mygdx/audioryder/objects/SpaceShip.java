@@ -20,6 +20,7 @@ import com.mygdx.audioryder.screens.GameScreen;
  * handles the movement and drawing of the spaceship, player
  * input, collision detection and animation.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

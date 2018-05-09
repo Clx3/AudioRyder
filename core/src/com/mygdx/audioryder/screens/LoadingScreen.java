@@ -23,6 +23,7 @@ import com.mygdx.audioryder.AudioRyder;
  * and it also splashes all of the three logos that are related
  * to this project(TAMK, Tiko and Exerium).
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

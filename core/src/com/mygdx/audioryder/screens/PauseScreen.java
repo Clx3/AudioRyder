@@ -17,6 +17,7 @@ import com.mygdx.audioryder.song.SongHandler;
  * Screen for when the game is paused. Simple menu, where you can access settings, continue,
  * restart or exit the game.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

@@ -38,6 +38,7 @@ import java.util.ArrayList;
  * game. It handles everything that is needed
  * in the gameplay view "GameScreen".
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

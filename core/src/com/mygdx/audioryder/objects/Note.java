@@ -16,6 +16,7 @@ import com.mygdx.audioryder.AudioRyder;
  * It contains their movement, spawning and logic etc.
  * Collision detection of the notes is done in SpaceShip.java
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

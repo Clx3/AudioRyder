@@ -12,6 +12,7 @@ import com.mygdx.audioryder.song.Song;
  * This class is called when a song is selected and the game is started.
  * This loading screen handles loading the song only.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */
@@ -52,7 +53,7 @@ public class LevelLoadingScreen implements Screen {
         }
         game.cam2D.update();
         game.batch.begin();
-        game.font.draw(game.batch, "Loading...", 230, 170);
+        game.font.draw(game.batch, "Loading...", 150, 175);
         game.batch.end();
     }
 

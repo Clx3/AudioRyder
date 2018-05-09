@@ -12,6 +12,7 @@ import com.mygdx.audioryder.AudioRyder;
  * and all of our rendered objects in our game
  * will extend this class.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */

@@ -29,6 +29,7 @@ import java.util.ArrayList;
  * After the needed things are initialized here the,
  * this class will switch the screen to LoadingScreen.
  *
+ * @version 2018.0509
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */
