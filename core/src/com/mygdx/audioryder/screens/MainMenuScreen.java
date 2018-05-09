@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.audioryder.AudioRyder;
@@ -553,7 +554,43 @@ public class MainMenuScreen implements Screen {
         /* ----------- Artists stage: ----------- */
         Label artistStageTitle = new Label("Special thanks to these artists for letting\n us to use their music in AudioRyder.", game.skin, "xolonium", Color.WHITE);
         artistStageTitle.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 - artistStageTitle.getWidth() / 2, game.ORTHOCAM_VIEWPORT_HEIGHT - artistStageTitle.getHeight() - 50f);
+
+        Window artist1 = createArtistWindow("SS-Berger", "http://soundcloud.com/ss-berger");
+        artist1.setPosition(44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist1.getHeight() / 2);
+
+        Window artist2 = createArtistWindow("mNoise", "http://soundcloud.com/min-olenmikko");
+        artist2.setPosition(artist1.getX() + artist2.getWidth() + 44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist2.getHeight() / 2);
+
+        Window artist3 = createArtistWindow("NoJustSe", "http://soundcloud.com/nojustse");
+        artist3.setPosition(artist2.getX() + artist3.getWidth() + 44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist3.getHeight() / 2);
+
+        Window artist4 = createArtistWindow("SS-Berger", "http:://google.fi");
+        artist4.setPosition(artist3.getX() + artist4.getWidth() + 44.8f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist4.getHeight() / 2);
+
         artistsStage.addActor(artistStageTitle);
+        artistsStage.addActor(artist1);
+        artistsStage.addActor(artist2);
+        artistsStage.addActor(artist3);
+        artistsStage.addActor(artist4);
+    }
+
+    private Window createArtistWindow(String artistName, final String soundCloudURL) {
+        Window outputWindow = new Window(artistName, game.skin);
+        outputWindow.setWidth(200f);
+        outputWindow.setMovable(false);
+
+        ImageButton tempButton = new ImageButton(game.skin, "info");
+        tempButton.setPosition(outputWindow.getWidth() / 2 - tempButton.getWidth() / 2, outputWindow.getHeight() / 2 - tempButton.getWidth() / 2 - 10f);
+
+        tempButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x , float y) {
+                Gdx.net.openURI(soundCloudURL);
+            }
+        });
+        outputWindow.addActor(tempButton);
+
+        return outputWindow;
     }
 
 
