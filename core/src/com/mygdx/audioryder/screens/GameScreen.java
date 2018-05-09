@@ -73,19 +73,19 @@ public class GameScreen implements Screen {
      * To be more precise GroundLines are the "roads" which the spaceship
      * will fly on.
      */
-    public ArrayList<GroundLine> groundLines = new ArrayList<GroundLine>();
+    private ArrayList<GroundLine> groundLines = new ArrayList<GroundLine>();
 
     /**
      * This PerspectiveCamera is used for our GameScreen to
      * render our 3D world and 3D objects.
      */
-    PerspectiveCamera cam3D;
+    private PerspectiveCamera cam3D;
 
     /**
      * This is the ModelBatch our game uses for our
      * models.
      */
-    ModelBatch modelBatch;
+    private ModelBatch modelBatch;
 
     /**
      * This Array of Model's contains all of the pyramid
@@ -98,13 +98,7 @@ public class GameScreen implements Screen {
      * This Model is the road or ground
      * which the SpaceShip will fly on.
      */
-    public Model groundModel;
-
-    /**
-     * This Model is the sky or space in the background
-     * of the game.
-     */
-    private Model skyModel;
+    private Model groundModel;
 
     /**
      * This is the background of the game that uses the
@@ -118,12 +112,7 @@ public class GameScreen implements Screen {
     private SpaceShip spaceShip;
 
     /** Default environment for rendering purposes */
-    public Environment environment;
-
-    /** Light to make everything a little brighter */
-    public PointLight light;
-    /** Light to make everything a little brighter */
-    public PointLight light2;
+    private Environment environment;
 
     /** Player's score */
     public int score;
@@ -146,9 +135,6 @@ public class GameScreen implements Screen {
      * This Label is the Score text on top of the screen in the game.
      */
     private Label scoreLabel;
-
-    //TODO: REMOVE THIS BEFORE GOOGLE PLAY
-    ShapeRenderer shapeRenderer;
 
     public GameScreen(AudioRyder game) {
         this.game = game;
@@ -179,8 +165,9 @@ public class GameScreen implements Screen {
 
             groundModel = game.assets.get(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
 
-            skyModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
-            skydome = new Skydome(game, skyModel);
+            /* Skydome */
+            tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
+            skydome = new Skydome(game, tempModel);
 
             for(int i = 0; i < MathUtils.random(3, 5); i++) {
                 int planetType = MathUtils.random(1, 3);
@@ -207,19 +194,21 @@ public class GameScreen implements Screen {
             //set variables
             score = 0;
 
-
             environment = new Environment();
             environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.8f, 0.8f, 0.8f, 2.0f));
-            light = new PointLight();
+
+            PointLight light = new PointLight();
             light.setIntensity(5000f);
             light.setColor(Color.WHITE);
             light.setPosition(0f,70f,-25f);
             environment.add(light);
-            light2 = new PointLight();
+
+            PointLight light2 = new PointLight();
             light2.setIntensity(5000f);
             light2.setColor(Color.WHITE);
             light2.setPosition(0f,70f,-150f);
             environment.add(light2);
+
         }
 
     }
@@ -267,9 +256,6 @@ public class GameScreen implements Screen {
 
             checkSongStatus();
         }
-
-
-
 
     }
 
@@ -376,38 +362,11 @@ public class GameScreen implements Screen {
     public void hide() {
     }
 
-    /**
-     * Draws the bounding box of two given vectors.
-     * Used for collision box debugging.
-     * @param vectorMin
-     * @param vectorMax
-     */
-    public void drawBoundingBox(Vector3 vectorMin, Vector3 vectorMax) {
-
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(cam3D.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLACK);
-
-        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMin.z, vectorMax.x, vectorMin.y, vectorMin.z);
-        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMin.z, vectorMin.x, vectorMin.y, vectorMax.z);
-        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMax.z, vectorMax.x, vectorMin.y, vectorMax.z);
-        shapeRenderer.line(vectorMax.x, vectorMin.y, vectorMin.z, vectorMax.x, vectorMin.y, vectorMax.z);
-
-        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMin.z, vectorMax.x, vectorMax.y, vectorMin.z);
-        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMin.z, vectorMin.x, vectorMax.y, vectorMax.z);
-        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMax.z, vectorMax.x, vectorMax.y, vectorMax.z);
-        shapeRenderer.line(vectorMax.x, vectorMax.y, vectorMin.z, vectorMax.x, vectorMax.y, vectorMax.z);
-
-        shapeRenderer.end();
-    }
-
     @Override
     public void dispose() {
         modelBatch.dispose();
         gameOverlay.dispose();
     }
-
 
     /**
      * Draws BitMapFont and textures.
