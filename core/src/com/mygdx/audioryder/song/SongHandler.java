@@ -58,7 +58,6 @@ public class SongHandler {
     public static void addNotesToGame(AudioRyder game, float songTimer) {
         char notePosition;
         char noteHeight;
-        songTimer += Gdx.graphics.getDeltaTime();
             if (songPointer < noteArray.length - 1 && Float.parseFloat(noteArray[songPointer].replaceAll("[a-zA-Z]", "")) < songTimer + (5f / UserSettings.noteSpeed) + game.songOffset) {
                 notePosition = noteArray[songPointer].replaceAll("[0-9]", "").charAt(1);
                 noteHeight = noteArray[songPointer].replaceAll("[0-9]", "").charAt(2);

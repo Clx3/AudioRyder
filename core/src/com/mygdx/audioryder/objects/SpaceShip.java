@@ -50,6 +50,11 @@ public class SpaceShip extends GameObject {
      */
     AnimationController controller;
 
+    /**
+     *
+     * @param game Instance of the game
+     * @param model The model of the spaceship
+     */
     public SpaceShip(AudioRyder game, Model model){
         super(game);
 

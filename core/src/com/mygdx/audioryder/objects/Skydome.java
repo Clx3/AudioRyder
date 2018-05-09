@@ -25,7 +25,7 @@ public class Skydome extends GameObject {
     ModelInstance model;
 
     /**
-     * @param game
+     * @param game Instance of the game.
      * @param model The model that should be used as background (dome)
      */
     public Skydome(AudioRyder game, Model model) {

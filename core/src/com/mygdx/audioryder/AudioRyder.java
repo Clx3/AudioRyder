@@ -77,6 +77,7 @@ public class AudioRyder extends Game {
 	public FreeTypeFontGenerator fontGenerator;
 	public FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
 
+	/** Default skin style for the game, mostly used by actors on menus */
 	public Skin skin;
 	public TextureAtlas textureAtlas;
 
