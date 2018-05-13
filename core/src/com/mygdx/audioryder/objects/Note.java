@@ -40,7 +40,7 @@ public class Note extends GameObject {
     private float collisionboxWidth = 1.5f;
 
     /** Height of the collisionBox when it is created. */
-    private float collisionboxHeight = 2.3f;
+    private float collisionboxHeight = 1f;
 
     /** Depth of the collisionBox when it is created. */
     private float collisionboxDepth = 0.7f;
@@ -78,22 +78,22 @@ public class Note extends GameObject {
 
         switch(height) {
             case 'H':
-                setY(2.2f);
+                setY(3f);
                 this.noteModel = new ModelInstance(game.gameScreen.pyramids[2], getX(), getY(), getZ());
                 break;
 
             case 'M':
-                setY(0.5f);
+                setY(1.5f);
                 this.noteModel = new ModelInstance(game.gameScreen.pyramids[1], getX(), getY(), getZ());
                 break;
 
             case 'L':
-                setY(-1f);
+                setY(0f);
                 this.noteModel = new ModelInstance(game.gameScreen.pyramids[0], getX(), getY(), getZ());
                 break;
 
             default:
-                setY(-1f);
+                setY(0f);
                 this.noteModel = new ModelInstance(game.gameScreen.pyramids[0], getX(), getY(), getZ());
                 break;
         }
@@ -104,7 +104,7 @@ public class Note extends GameObject {
 
         collisionBox = new BoundingBox();
         minPoint = new Vector3(getX() - collisionboxWidth/2, getY(), getZ() - collisionboxDepth);
-        maxPoint = new Vector3(getX() + collisionboxWidth/2, getY() + collisionboxHeight / 2, getZ() + collisionboxDepth);
+        maxPoint = new Vector3(getX() + collisionboxWidth/2, getY() + collisionboxHeight, getZ() + collisionboxDepth);
         collisionBox.set(minPoint, maxPoint);
 
     }

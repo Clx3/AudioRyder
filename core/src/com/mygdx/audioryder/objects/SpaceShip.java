@@ -96,8 +96,8 @@ public class SpaceShip extends GameObject {
         //rollingAverageMovement();
         keyboardInput();
 
-        minPointBox.set(getX() - collisionBox.getWidth() / 2, getY(), getZ() + collisionBox.getHeight() / 2);
-        maxPointBox.set(getX() + collisionBox.getWidth() / 2, getY() + collisionBox.getDepth(), getZ() - collisionBox.getHeight() / 2);
+        minPointBox.set(getX() - collisionBox.getWidth() / 2, getY() + 0.1f, getZ() - 1f);
+        maxPointBox.set(getX() + collisionBox.getWidth() / 2, getY() + 1.3f, getZ() + 1f);
         /*minPointBox.x = getX() - 1f;
         minPointBox.y = getY() - 1f;
         maxPointBox.x = getX() + 1f;
@@ -117,19 +117,19 @@ public class SpaceShip extends GameObject {
      */
     private void keyboardInput() {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            setX(getX() + (Gdx.graphics.getDeltaTime() * 25f));
+            setX(getX() + (Gdx.graphics.getDeltaTime() * 6f));
 
         } else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 
-            setX(getX() - (Gdx.graphics.getDeltaTime() * 25f));
+            setX(getX() - (Gdx.graphics.getDeltaTime() * 6f));
 
         }
         if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            setY(getY() + (Gdx.graphics.getDeltaTime() * 25f));
+            setY(getY() + (Gdx.graphics.getDeltaTime() * 6f));
 
         } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 
-            setY(getY() - (Gdx.graphics.getDeltaTime() * 25f));
+            setY(getY() - (Gdx.graphics.getDeltaTime() * 6f));
 
         }
     }

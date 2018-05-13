@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -137,6 +139,18 @@ public class GameScreen implements Screen {
      */
     private Label scoreLabel;
 
+    /**
+     * This image is used for height indication (solid white block)
+     * Class variable because position needs to be updated every render
+     */
+    private Image heightIndicator;
+
+    /**
+     * Bar with the colors to indicate different flying level.
+     * Behind heightIndicator on the overlay.
+     */
+    private Image heightBar;
+
     public GameScreen(AudioRyder game) {
         this.game = game;
     }
@@ -236,6 +250,23 @@ public class GameScreen implements Screen {
         scoreLabel.setAlignment(1);
         scoreLabel.setPosition((game.ORTHOCAM_VIEWPORT_WIDTH / 2f) - (scoreLabel.getWidth() / 2),(game.ORTHOCAM_VIEWPORT_HEIGHT) - (scoreLabel.getHeight()) - 10f);
         gameOverlay.addActor(scoreLabel);
+
+        heightBar = new Image(new Texture(Gdx.files.internal(game.SPRITES_PATH + "indicator.png")));
+        heightBar.setSize(8f,200f);
+        heightBar.setPosition(40f,(game.ORTHOCAM_VIEWPORT_HEIGHT / 2) - (heightBar.getHeight() / 2));
+        gameOverlay.addActor(heightBar);
+
+        heightIndicator = new Image(new Texture(Gdx.files.internal(game.SPRITES_PATH + "indicatorship.png")));
+        heightIndicator.setSize(16f,8f);
+        heightIndicator.setPosition(36f,heightBar.getY() + ((spaceShip.getY() + 0.5f) * 57.14f));
+        gameOverlay.addActor(heightIndicator);
+
+        Label heightText = new Label(Properties.heightText,game.skin,"xolonium",Color.WHITE);
+        heightText.setAlignment(1);
+        heightText.setPosition(5f,heightBar.getY() - 10f);
+        heightText.setFontScale(0.6f);
+        gameOverlay.addActor(heightText);
+
         Gdx.input.setInputProcessor(gameOverlay);
     }
 
@@ -286,6 +317,7 @@ public class GameScreen implements Screen {
      */
     private void drawOverlay() {
         //Overlay:
+        heightIndicator.setPosition(36f,heightBar.getY() + ((spaceShip.getY() + 0.5f) * 57.14f));
         scoreLabel.setText(Properties.scoreText + "\n" + score);
         gameOverlay.act();
         gameOverlay.draw();

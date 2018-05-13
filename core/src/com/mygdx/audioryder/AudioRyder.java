@@ -130,11 +130,11 @@ public class AudioRyder extends Game {
 		fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         /* Creating songs: */
-		songList.add(new Song("SS-Berger - Nopee hatanen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt"));
-		songList.add(new Song("SS-Berger - Chinese Beat","chinese.mp3","chinese.txt"));
-		songList.add(new Song("SS-Berger - Reverie","reverie.mp3","reverie.txt"));
-		songList.add(new Song("SS-Berger - Z Z Z","zzz.mp3","zzz.txt"));
-		songList.add(new Song("SS-Berger - Heatenings","Äss Berger - Heatenings.mp3","Heatenings.txt"));
+		songList.add(new Song("Äss Berger - Nopee hätänen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt"));
+		songList.add(new Song("Äss Berger - Chinese Beat","chinese.mp3","chinese.txt"));
+		songList.add(new Song("Äss Berger - Reverie","reverie.mp3","reverie.txt"));
+		songList.add(new Song("Äss Berger - Z Z Z","zzz.mp3","zzz.txt"));
+		songList.add(new Song("Äss Berger - Heatenings","Äss Berger - Heatenings.mp3","Heatenings.txt"));
 		songList.add(new Song("mNoise - Octopus","mNoise - Octopus.mp3","mNoise - Octopus.txt"));
 		songList.add(new Song("NoJustSe - Light in the dark","NoJustSe - Light in the dark.mp3","NoJustSe - Light In The Dark.txt"));
 		songList.add(new Song("mNoise - Melroom","mNoise - Melroom.mp3","mNoise - Melroom.txt"));

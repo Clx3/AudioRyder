@@ -43,6 +43,7 @@ public class Properties {
     public static String tutorialText1;
     public static String tutorialText2;
     public static String musicVolText;
+    public static String heightText;
 
     /**
      * Updates all strings with selected language.
@@ -71,6 +72,7 @@ public class Properties {
         artistsStageTitleText1 = myBundle.get("artistsStageTitle1");
         artistsStageTitleText2 = myBundle.get("artistsStageTitle2");
         musicVolText = myBundle.get("musicVolText");
+        heightText = myBundle.get("heightText");
     }
 
 }
