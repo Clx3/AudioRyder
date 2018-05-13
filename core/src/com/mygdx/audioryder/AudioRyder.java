@@ -130,20 +130,20 @@ public class AudioRyder extends Game {
 		fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
         /* Creating songs: */
-		songList.add(new Song("Nopee hatanen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt"));
-		songList.add(new Song("Chinese Song","chinese.mp3","chinese.txt"));
-		songList.add(new Song("Reverie","reverie.mp3","reverie.txt"));
-		songList.add(new Song("Z Z Z","zzz.mp3","zzz.txt"));
-		songList.add(new Song("Heatenings","Äss Berger - Heatenings.mp3","Heatenings.txt"));
-		songList.add(new Song("Octopus","mNoise - Octopus.mp3","mNoise - Octopus.txt"));
-		songList.add(new Song("Light in the dark","NoJustSe - Light in the dark.mp3","NoJustSe - Light In The Dark.txt"));
-		songList.add(new Song("Melroom","mNoise - Melroom.mp3","mNoise - Melroom.txt"));
-		songList.add(new Song("Turmoil","NoJustSe - Turmoil.mp3","NoJustSe - Turmoil.txt"));
-		songList.add(new Song("Continuum","NoJustSe feat Chrysalid - Continuum.mp3","NoJustSe feat Chrysalid - Continuum.txt"));
-		songList.add(new Song("Sunrise","N-Tech - Sunrise.mp3","N-Tech - Sunrise.txt"));
-		songList.add(new Song("Sleepless Hours","N-Tech - Sleepless Hours.mp3","N-Tech - Sleepless Hours.txt"));
-		songList.add(new Song("Guardian","NoJustSe - The Guardian.mp3","NoJustSe - The Guardian.txt"));
-		songList.add(new Song("Frozen North","NoJustSe feat Chrysalid - Frozen north.mp3","NoJustSe feat Chrysalid - Frozen north.txt"));
+		songList.add(new Song("SS-Berger - Nopee hatanen","Äss Berger - Nopee ja hätäne.mp3", "nopeehatane.txt"));
+		songList.add(new Song("SS-Berger - Chinese Beat","chinese.mp3","chinese.txt"));
+		songList.add(new Song("SS-Berger - Reverie","reverie.mp3","reverie.txt"));
+		songList.add(new Song("SS-Berger - Z Z Z","zzz.mp3","zzz.txt"));
+		songList.add(new Song("SS-Berger - Heatenings","Äss Berger - Heatenings.mp3","Heatenings.txt"));
+		songList.add(new Song("mNoise - Octopus","mNoise - Octopus.mp3","mNoise - Octopus.txt"));
+		songList.add(new Song("NoJustSe - Light in the dark","NoJustSe - Light in the dark.mp3","NoJustSe - Light In The Dark.txt"));
+		songList.add(new Song("mNoise - Melroom","mNoise - Melroom.mp3","mNoise - Melroom.txt"));
+		songList.add(new Song("NoJustSe - Turmoil","NoJustSe - Turmoil.mp3","NoJustSe - Turmoil.txt"));
+		songList.add(new Song("NoJustSe feat Chrysalid - Continuum","NoJustSe feat Chrysalid - Continuum.mp3","NoJustSe feat Chrysalid - Continuum.txt"));
+		songList.add(new Song("NoJustSe - Sunrise","N-Tech - Sunrise.mp3","N-Tech - Sunrise.txt"));
+		songList.add(new Song("NoJustSe - Sleepless Hours","N-Tech - Sleepless Hours.mp3","N-Tech - Sleepless Hours.txt"));
+		songList.add(new Song("NoJustSe - Guardian","NoJustSe - The Guardian.mp3","NoJustSe - The Guardian.txt"));
+		songList.add(new Song("NoJustSe - Frozen North","NoJustSe feat Chrysalid - Frozen north.mp3","NoJustSe feat Chrysalid - Frozen north.txt"));
 
         UserSettings.loadPlayerSettings();
 
