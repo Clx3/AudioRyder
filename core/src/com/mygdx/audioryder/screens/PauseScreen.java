@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.objects.Note;
+import com.mygdx.audioryder.preferences.UserSettings;
 import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.song.SongHandler;
 
@@ -65,6 +66,7 @@ public class PauseScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 game.gameScreen.GAME_PAUSED = false;
                 Gdx.input.setInputProcessor(game.gameScreen.gameOverlay);
+                SongHandler.gameMusic.setVolume(UserSettings.musicVol);
                 SongHandler.gameMusic.play();
                 game.setScreen(game.gameScreen);
             }

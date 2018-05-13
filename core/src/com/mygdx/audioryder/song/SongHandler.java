@@ -51,7 +51,7 @@ public class SongHandler {
         songPointer = 0;
         gameMusic = game.assets.get(AudioRyder.SONGS_PATH + song.getSongFileString());
         gameMusic.stop();
-        gameMusic.setVolume(0.7f);
+        gameMusic.setVolume(UserSettings.musicVol);
         musicIsStarted = false;
         currentNoteFile = song.getNoteFile();
 

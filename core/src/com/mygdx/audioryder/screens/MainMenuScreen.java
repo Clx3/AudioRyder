@@ -89,6 +89,8 @@ public class MainMenuScreen implements Screen {
     private Label upSensText;
     /** Label for the numerical value of the game speed, used in the settings screen */
     private Label gameSpeedText;
+    /** Label for the numerical value of music volume, used in the settings screen */
+    private Label musicVolText;
 
     /** This is the field where player enters his/hers/its name. */
     private TextField nameField;
@@ -440,7 +442,7 @@ public class MainMenuScreen implements Screen {
 
         /* Add calibrate button: */
         TextButton calibrateButton = new TextButton(Properties.calibrateText, game.skin);
-        calibrateButton.setPosition(650f, 400f);
+        calibrateButton.setPosition(650f, 50f);
         calibrateButton.getLabel().setStyle(new Label.LabelStyle(game.skin.getFont("xolonium"),Color.WHITE));
         calibrateButton.getLabel().setFontScale(1.2f);
         calibrateButton.addListener(new ClickListener(){
@@ -448,8 +450,7 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 clickSound.play();
                 super.clicked(event, x, y);
-                UserSettings.xCalib = Gdx.input.getAccelerometerY();
-                UserSettings.yCalib = Gdx.input.getAccelerometerZ();
+                UserSettings.calibrate();
             }
         });
         settingsStage.addActor(calibrateButton);
@@ -473,7 +474,7 @@ public class MainMenuScreen implements Screen {
         final Slider gameSpeed = new Slider(1f,3f,0.5f,false, game.skin);
         gameSpeed.setWidth(230f);
         gameSpeed.setWidth(calibrateButton.getWidth());
-        gameSpeed.setPosition(650f,150f);
+        gameSpeed.setPosition(650f,450f);
         settingsStage.addActor(gameSpeed);
         gameSpeed.addListener(new ChangeListener() {
             @Override
@@ -484,12 +485,36 @@ public class MainMenuScreen implements Screen {
         });
 
         gameSpeedText = new Label(UserSettings.noteSpeed + "", game.skin, "xolonium", Color.WHITE);
-        gameSpeedText.setPosition(650f + (gameSpeed.getWidth() / 2f) - (gameSpeedText.getWidth() / 2),150f - gameSpeed.getHeight());
+        gameSpeedText.setPosition(650f + (gameSpeed.getWidth() / 2f) - (gameSpeedText.getWidth() / 2),450f - gameSpeed.getHeight());
+        gameSpeedText.setAlignment(2);
         settingsStage.addActor(gameSpeedText);
 
         Label gameSpeedText2 = new Label(Properties.gameSpeedText, game.skin, "xolonium", Color.WHITE);
-        gameSpeedText2.setPosition(650f + (gameSpeed.getWidth() / 2f) - (gameSpeedText2.getWidth() / 2),150f + gameSpeed.getHeight() + gameSpeed.getHeight());
+        gameSpeedText2.setPosition(650f + (gameSpeed.getWidth() / 2f) - (gameSpeedText2.getWidth() / 2),450f + gameSpeed.getHeight());
         settingsStage.addActor(gameSpeedText2);
+
+        /* Music volume slider */
+        final Slider musicVol = new Slider(0f,1f,0.10f,false, game.skin);
+        musicVol.setWidth(230f);
+        musicVol.setWidth(gameSpeed.getWidth());
+        musicVol.setPosition(650f,320f);
+        settingsStage.addActor(musicVol);
+        musicVol.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                UserSettings.musicVol = musicVol.getValue();
+                updateSensitivityTexts();
+            }
+        });
+
+        musicVolText = new Label(UserSettings.musicVol + "", game.skin, "xolonium", Color.WHITE);
+        musicVolText.setPosition(650f + (musicVol.getWidth() / 2f) - (musicVolText.getWidth() / 2),320f - musicVol.getHeight());
+        musicVolText.setAlignment(2);
+        settingsStage.addActor(musicVolText);
+
+        Label musicVolText2 = new Label(Properties.musicVolText, game.skin, "xolonium", Color.WHITE);
+        musicVolText2.setPosition(650f + (musicVol.getWidth() / 2f) - (musicVolText2.getWidth() / 2),320f + musicVol.getHeight());
+        settingsStage.addActor(musicVolText2);
 
         /* Set values for sliders */
         left.setValue(UserSettings.sensitivityLeft * -1f);
@@ -497,6 +522,7 @@ public class MainMenuScreen implements Screen {
         right.setValue(UserSettings.sensitivityRight);
         up.setValue(UserSettings.sensitivityUp);
         gameSpeed.setValue(UserSettings.noteSpeed);
+        musicVol.setValue(UserSettings.noteSpeed);
 
         /* Adding buttons: */
         final MenuButton returnButton = new MenuButton(Properties.returnText, game.skin);
@@ -715,7 +741,8 @@ public class MainMenuScreen implements Screen {
         downSensText.setText(UserSettings.sensitivityDown + "");
         leftSensText.setText(UserSettings.sensitivityLeft + "");
         rightSensText.setText(UserSettings.sensitivityRight + "");
-        gameSpeedText.setText(UserSettings.noteSpeed + "");
+        gameSpeedText.setText(String.format("%.2g%n", UserSettings.noteSpeed));
+        musicVolText.setText(String.format("%.1g%n", UserSettings.musicVol));
     }
     /**
      * This method is used to set what Stage

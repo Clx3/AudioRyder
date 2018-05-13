@@ -25,10 +25,15 @@ public class UserSettings {
     public static float sensitivityDown;
     public static float sensitivityUp;
 
-    /** Calibration for y-accelerometer */
+    /** Calibration for x-axis */
     public static float xCalib;
-    /** Calibration for z-accelerometer */
+    /** Calibration for y-axis */
     public static float yCalib;
+
+    /** Defines if X-accelerometer should be used instead */
+    public static boolean useXAccelMeter;
+
+    public static float musicVol;
 
     /**
      * Loads all user settings from preferences.
@@ -50,6 +55,8 @@ public class UserSettings {
         sensitivityUp = userSettings.getFloat("sensitivityUp", 2f);
         xCalib = userSettings.getFloat("xCalib",0f);
         yCalib = userSettings.getFloat("yCalib",0f);
+        useXAccelMeter = userSettings.getBoolean("useXAccelMeter",false);
+        musicVol = userSettings.getFloat("musicVol",0.7f);
     }
 
     /**
@@ -61,10 +68,24 @@ public class UserSettings {
         userSettings.putFloat("sensitivityRight",sensitivityRight);
         userSettings.putFloat("sensitivityUp",sensitivityUp);
         userSettings.putFloat("sensitivityDown",sensitivityDown);
-        userSettings.putFloat("xCalib",xCalib);
-        userSettings.putFloat("yCalib",yCalib);
         userSettings.putFloat("gameSpeed",noteSpeed);
         userSettings.putString("playerName",playerName);
+        userSettings.putFloat("musicVol",musicVol);
+        userSettings.flush();
+    }
+    public static void calibrate(){
+        Preferences userSettings = Gdx.app.getPreferences("userSettings");
+        xCalib = Gdx.input.getAccelerometerY();
+        if(Gdx.input.getAccelerometerZ() < 5 && Gdx.input.getAccelerometerZ() > -5){
+            yCalib = Gdx.input.getAccelerometerZ();
+            useXAccelMeter = false;
+        } else {
+            yCalib = Gdx.input.getAccelerometerX();
+            useXAccelMeter = true;
+        }
+        userSettings.putFloat("xCalib",xCalib);
+        userSettings.putFloat("yCalib",yCalib);
+        userSettings.putBoolean("useXAccelMeter",useXAccelMeter);
         userSettings.flush();
     }
 

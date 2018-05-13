@@ -229,12 +229,19 @@ public class SpaceShip extends GameObject {
             setX(getX() - (2f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityLeft / 1.5f) *-(Gdx.input.getAccelerometerY() - UserSettings.xCalib)));
         }
 
-        if(Gdx.input.getAccelerometerZ() - UserSettings.yCalib >  1f && getY() > -0.5f){
-            setY(getY() - (1f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityDown / 1.5f) * (Gdx.input.getAccelerometerZ() - UserSettings.yCalib)));
-        } else if (Gdx.input.getAccelerometerZ() - UserSettings.yCalib < 1f && getY() < 3f) {
-            setY(getY() + (1f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityUp / 1.5f) * -(Gdx.input.getAccelerometerZ() - UserSettings.yCalib)));
+        if(UserSettings.useXAccelMeter){
+            if(Gdx.input.getAccelerometerX() - UserSettings.yCalib >  1f && getY() < 3f){
+                setY(getY() + (1f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityDown / 1.5f) * (Gdx.input.getAccelerometerX() - UserSettings.yCalib)));
+            } else if (Gdx.input.getAccelerometerX() - UserSettings.yCalib < 1f && getY() > -0.5f) {
+                setY(getY() - (1f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityUp / 1.5f) * -(Gdx.input.getAccelerometerX() - UserSettings.yCalib)));
+            }
+        } else {
+            if (Gdx.input.getAccelerometerZ() - UserSettings.yCalib > 1f && getY() > -0.5f) {
+                setY(getY() - (1f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityDown / 1.5f) * (Gdx.input.getAccelerometerZ() - UserSettings.yCalib)));
+            } else if (Gdx.input.getAccelerometerZ() - UserSettings.yCalib < 1f && getY() < 3f) {
+                setY(getY() + (1f * Gdx.graphics.getDeltaTime() * (UserSettings.sensitivityUp / 1.5f) * -(Gdx.input.getAccelerometerZ() - UserSettings.yCalib)));
+            }
         }
-
         if(getY() < -0.5f){
             setY(-0.5f);
         } else if(getY() > 3f){
