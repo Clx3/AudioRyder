@@ -323,37 +323,9 @@ public class GameScreen implements Screen {
             removeNonActive();
             drawOverlay();
 
-            drawBoundingBox(spaceShip.minPointBox, spaceShip.maxPointBox);
-
             checkSongStatus();
         }
 
-    }
-
-    /**
-     * Draws the bounding box of two given vectors.
-     * Used for collision box debugging.
-     * @param vectorMin
-     * @param vectorMax
-     */
-    public void drawBoundingBox(Vector3 vectorMin, Vector3 vectorMax) {
-
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(cam3D.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLACK);
-
-        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMin.z, vectorMax.x, vectorMin.y, vectorMin.z);
-        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMin.z, vectorMin.x, vectorMin.y, vectorMax.z);
-        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMax.z, vectorMax.x, vectorMin.y, vectorMax.z);
-        shapeRenderer.line(vectorMax.x, vectorMin.y, vectorMin.z, vectorMax.x, vectorMin.y, vectorMax.z);
-
-        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMin.z, vectorMax.x, vectorMax.y, vectorMin.z);
-        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMin.z, vectorMin.x, vectorMax.y, vectorMax.z);
-        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMax.z, vectorMax.x, vectorMax.y, vectorMax.z);
-        shapeRenderer.line(vectorMax.x, vectorMax.y, vectorMin.z, vectorMax.x, vectorMax.y, vectorMax.z);
-
-        shapeRenderer.end();
     }
 
     /**
