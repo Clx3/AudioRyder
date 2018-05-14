@@ -11,6 +11,9 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.decals.CameraGroupStrategy;
+import com.badlogic.gdx.graphics.g3d.decals.Decal;
+import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -19,7 +22,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.audioryder.AudioRyder;
@@ -27,12 +29,14 @@ import com.mygdx.audioryder.objects.BackgroundObject;
 import com.mygdx.audioryder.objects.GameObject;
 import com.mygdx.audioryder.objects.GroundLine;
 import com.mygdx.audioryder.objects.Note;
+import com.mygdx.audioryder.objects.NoteHitDecal;
 import com.mygdx.audioryder.objects.Skydome;
 import com.mygdx.audioryder.objects.SpaceShip;
 import com.mygdx.audioryder.properties.Properties;
 import com.mygdx.audioryder.song.SongHandler;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * This class contains the logic and rendering
@@ -40,7 +44,7 @@ import java.util.ArrayList;
  * game. It handles everything that is needed
  * in the gameplay view "GameScreen".
  *
- * @version 2018.0509
+ * @version 2018.0514
  * @author Teemu Salminen
  * @author Joonas Salojärvi
  */
@@ -72,6 +76,17 @@ public class GameScreen implements Screen {
     public ArrayList<Note> notesToRemove = new ArrayList<Note>();
 
     /**
+     * This ArrayList contains all the sprites that are drawn into the game screen.
+     */
+    public ArrayList<NoteHitDecal> gameDecals = new ArrayList<NoteHitDecal>();
+
+    /**
+     * This ArrayList contains all the sprites that are going to be removed
+     * from the gameSprites ArrayList and thus not being rendered anymore.
+     */
+    public ArrayList<NoteHitDecal> gameDecalsToRemove = new ArrayList<NoteHitDecal>();
+
+    /**
      * This ArrayList contains all the GroundLine objects of our game.
      * To be more precise GroundLines are the "roads" which the spaceship
      * will fly on.
@@ -89,6 +104,12 @@ public class GameScreen implements Screen {
      * models.
      */
     private ModelBatch modelBatch;
+
+    /**
+     * This is the DecalBatch our game uses for our
+     * decals.
+     */
+    private DecalBatch decalBatch;
 
     /**
      * This Array of Model's contains all of the pyramid
@@ -127,7 +148,6 @@ public class GameScreen implements Screen {
      */
     public Float songTimer = 0f;
 
-
     /** Boolean telling if the game is paused */
     boolean GAME_PAUSED;
 
@@ -151,6 +171,8 @@ public class GameScreen implements Screen {
      */
     private Image heightBar;
 
+    public Texture scoreTexture;
+
     public GameScreen(AudioRyder game) {
         this.game = game;
     }
@@ -166,7 +188,22 @@ public class GameScreen implements Screen {
             cam3D.lookAt(0f, 1f, 0f);
             cam3D.near = 0.1f;
             cam3D.far = 1000.0f;
+            cam3D.update();
+
+            //decalBatch = new DecalBatch(new CameraGroupStrategy(cam3D));
+
+            decalBatch = new DecalBatch(new CameraGroupStrategy(cam3D, new Comparator<Decal>()
+            {
+                @Override
+                public int compare(Decal o1, Decal o2)
+                {
+                    return Float.compare(o1.getZ(),o2.getZ());
+                }
+            }));
+
             modelBatch = new ModelBatch();
+
+            scoreTexture = game.assets.get(AudioRyder.SPRITES_PATH + "score1.png", Texture.class);
 
             Model tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Spaceship.g3db");
 
@@ -184,8 +221,8 @@ public class GameScreen implements Screen {
             tempModel = game.assets.get(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
             skydome = new Skydome(game, tempModel);
 
-            for(int i = 0; i < MathUtils.random(3, 6); i++) {
-                int planetType = MathUtils.random(1, 3);
+            for(int i = 0; i < MathUtils.random(4, 6); i++) {
+                int planetType = MathUtils.random(1, 9);
                 gameObjects.add(new BackgroundObject(game, game.assets.get(AudioRyder.MODELS_PATH + "Planet" + planetType + ".g3db", Model.class)));
             }
 
@@ -282,13 +319,41 @@ public class GameScreen implements Screen {
             updateCamera();
             renderGameObjects();
             removeAndSpawnLevel();
-            //drawTextAndSprites(); //debug
+            drawDecals();
             removeNonActive();
             drawOverlay();
+
+            drawBoundingBox(spaceShip.minPointBox, spaceShip.maxPointBox);
 
             checkSongStatus();
         }
 
+    }
+
+    /**
+     * Draws the bounding box of two given vectors.
+     * Used for collision box debugging.
+     * @param vectorMin
+     * @param vectorMax
+     */
+    public void drawBoundingBox(Vector3 vectorMin, Vector3 vectorMax) {
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(cam3D.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.BLACK);
+
+        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMin.z, vectorMax.x, vectorMin.y, vectorMin.z);
+        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMin.z, vectorMin.x, vectorMin.y, vectorMax.z);
+        shapeRenderer.line(vectorMin.x, vectorMin.y, vectorMax.z, vectorMax.x, vectorMin.y, vectorMax.z);
+        shapeRenderer.line(vectorMax.x, vectorMin.y, vectorMin.z, vectorMax.x, vectorMin.y, vectorMax.z);
+
+        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMin.z, vectorMax.x, vectorMax.y, vectorMin.z);
+        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMin.z, vectorMin.x, vectorMax.y, vectorMax.z);
+        shapeRenderer.line(vectorMin.x, vectorMax.y, vectorMax.z, vectorMax.x, vectorMax.y, vectorMax.z);
+        shapeRenderer.line(vectorMax.x, vectorMax.y, vectorMin.z, vectorMax.x, vectorMax.y, vectorMax.z);
+
+        shapeRenderer.end();
     }
 
     /**
@@ -333,6 +398,9 @@ public class GameScreen implements Screen {
 
         notes.removeAll(notesToRemove);
         notesToRemove.clear();
+
+        gameDecals.removeAll(gameDecalsToRemove);
+        gameDecalsToRemove.clear();
     }
 
     /**
@@ -370,6 +438,22 @@ public class GameScreen implements Screen {
     }
 
     /**
+     * This method draws and updates all the Decals that
+     * are in the gameDecals ArrayList and are ACTIVE.
+     */
+    public void drawDecals(){
+        game.batch.begin();
+        for(NoteHitDecal tempDecal : gameDecals) {
+            if(tempDecal.isActive()) {
+                decalBatch.add(tempDecal.getDecal());
+                tempDecal.renderAndUpdate();
+            }
+        }
+        decalBatch.flush();
+        game.batch.end();
+    }
+
+    /**
      * Sets camera to correct position, which is behind the spaceship.
      */
     private void updateCamera() {
@@ -403,6 +487,7 @@ public class GameScreen implements Screen {
     public void dispose() {
         modelBatch.dispose();
         gameOverlay.dispose();
+        scoreTexture.dispose();
     }
 
     /**

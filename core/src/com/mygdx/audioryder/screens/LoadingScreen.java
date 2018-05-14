@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -121,9 +122,10 @@ public class LoadingScreen implements Screen {
         game.assets.load(AudioRyder.MODELS_PATH + "Pyramid_red.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "TrackRE.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Skydome_WIP.g3db", Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Planet1.g3db", Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Planet2.g3db", Model.class);
-        game.assets.load(AudioRyder.MODELS_PATH + "Planet3.g3db", Model.class);
+
+        for(int i = 0; i < 9; i++) {
+            game.assets.load(AudioRyder.MODELS_PATH + "Planet" + (i+1) + ".g3db", Model.class);
+        }
         game.assets.load(AudioRyder.MODELS_PATH + "Asteroid1.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Asteroid2.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Asteroid3.g3db", Model.class);
@@ -131,6 +133,9 @@ public class LoadingScreen implements Screen {
         game.assets.load(AudioRyder.MODELS_PATH + "Asteroid5.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Asteroid6.g3db", Model.class);
         game.assets.load(AudioRyder.MODELS_PATH + "Asteroid7.g3db", Model.class);
+
+        /* Sprites */
+        game.assets.load(AudioRyder.SPRITES_PATH + "score1.png", Texture.class);
 
         /* Sounds */
         game.assets.load(AudioRyder.SOUNDS_PATH + "notehit.wav", Sound.class);

@@ -606,7 +606,7 @@ public class MainMenuScreen implements Screen {
         Label artistStageTitle2 = new Label(Properties.artistsStageTitleText2, style);
         artistStageTitle2.setPosition(game.ORTHOCAM_VIEWPORT_WIDTH / 2 -artistStageTitle2.getWidth() / 2, artistStageTitle.getY() - artistStageTitle2.getHeight());
 
-        Window artist1 = createArtistWindow("SS-Berger", "http://soundcloud.com/ss-berger");
+        Window artist1 = createArtistWindow("Berger", "http://soundcloud.com/ss-berger");
         artist1.setPosition(106f, game.ORTHOCAM_VIEWPORT_HEIGHT / 2f - artist1.getHeight() / 2);
 
         Window artist2 = createArtistWindow("mNoise", "http://soundcloud.com/min-olenmikko");

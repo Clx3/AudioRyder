@@ -2,8 +2,7 @@ package com.mygdx.audioryder.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 import com.mygdx.audioryder.AudioRyder;
 import com.mygdx.audioryder.preferences.UserSettings;
-import com.mygdx.audioryder.screens.GameScreen;
 
 /**
  * Players game object, which is a spaceship. This class
@@ -142,8 +140,8 @@ public class SpaceShip extends GameObject {
             if(collisionBox.intersects(note.collisionBox) && note.isActive()) {
                 note.setActive(false);
                 //game.assets.get(game.SOUNDS_PATH + "notehit.wav", Sound.class).play();
+                game.gameScreen.gameDecals.add(new NoteHitDecal(game, note.getX(), note.getY(), note.getZ(), new TextureRegion(game.gameScreen.scoreTexture)));
                 game.gameScreen.notesToRemove.add(note);
-                System.out.println("HITS");
                 game.gameScreen.score++;
 
             }
